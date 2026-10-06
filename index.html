@@ -1,0 +1,833 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Tatra Hut Trek</title>
+<meta name="theme-color" content="#1E4535">
+<meta name="description" content="Offline trail map, packing list and trip costs for a hut-to-hut trek in the Western Tatras.">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="default">
+<meta name="apple-mobile-web-app-title" content="Tatra Trek">
+<link rel="manifest" href="manifest.webmanifest">
+<link rel="icon" href="icons/icon-192.png" type="image/png">
+<link rel="apple-touch-icon" href="icons/apple-touch-icon.png">
+<style>
+@font-face{font-family:"Barlow";font-style:normal;font-weight:400;font-display:swap;src:url(fonts/barlow-latin-ext-400-normal.woff2) format("woff2");unicode-range:U+0100-02BA,U+02BD-02C5,U+02C7-02CC,U+02CE-02D7,U+02DD-02FF,U+0304,U+0308,U+0329,U+1D00-1DBF,U+1E00-1E9F,U+1EF2-1EFF,U+2020,U+20A0-20AB,U+20AD-20C0,U+2113,U+2C60-2C7F,U+A720-A7FF}
+@font-face{font-family:"Barlow";font-style:normal;font-weight:400;font-display:swap;src:url(fonts/barlow-latin-400-normal.woff2) format("woff2");unicode-range:U+0000-00FF,U+0131,U+0152-0153,U+02BB-02BC,U+02C6,U+02DA,U+02DC,U+0304,U+0308,U+0329,U+2000-206F,U+20AC,U+2122,U+2191,U+2193,U+2212,U+2215,U+FEFF,U+FFFD}
+@font-face{font-family:"Barlow";font-style:normal;font-weight:500;font-display:swap;src:url(fonts/barlow-latin-ext-500-normal.woff2) format("woff2");unicode-range:U+0100-02BA,U+02BD-02C5,U+02C7-02CC,U+02CE-02D7,U+02DD-02FF,U+0304,U+0308,U+0329,U+1D00-1DBF,U+1E00-1E9F,U+1EF2-1EFF,U+2020,U+20A0-20AB,U+20AD-20C0,U+2113,U+2C60-2C7F,U+A720-A7FF}
+@font-face{font-family:"Barlow";font-style:normal;font-weight:500;font-display:swap;src:url(fonts/barlow-latin-500-normal.woff2) format("woff2");unicode-range:U+0000-00FF,U+0131,U+0152-0153,U+02BB-02BC,U+02C6,U+02DA,U+02DC,U+0304,U+0308,U+0329,U+2000-206F,U+20AC,U+2122,U+2191,U+2193,U+2212,U+2215,U+FEFF,U+FFFD}
+@font-face{font-family:"Barlow";font-style:normal;font-weight:600;font-display:swap;src:url(fonts/barlow-latin-ext-600-normal.woff2) format("woff2");unicode-range:U+0100-02BA,U+02BD-02C5,U+02C7-02CC,U+02CE-02D7,U+02DD-02FF,U+0304,U+0308,U+0329,U+1D00-1DBF,U+1E00-1E9F,U+1EF2-1EFF,U+2020,U+20A0-20AB,U+20AD-20C0,U+2113,U+2C60-2C7F,U+A720-A7FF}
+@font-face{font-family:"Barlow";font-style:normal;font-weight:600;font-display:swap;src:url(fonts/barlow-latin-600-normal.woff2) format("woff2");unicode-range:U+0000-00FF,U+0131,U+0152-0153,U+02BB-02BC,U+02C6,U+02DA,U+02DC,U+0304,U+0308,U+0329,U+2000-206F,U+20AC,U+2122,U+2191,U+2193,U+2212,U+2215,U+FEFF,U+FFFD}
+@font-face{font-family:"Barlow";font-style:normal;font-weight:700;font-display:swap;src:url(fonts/barlow-latin-ext-700-normal.woff2) format("woff2");unicode-range:U+0100-02BA,U+02BD-02C5,U+02C7-02CC,U+02CE-02D7,U+02DD-02FF,U+0304,U+0308,U+0329,U+1D00-1DBF,U+1E00-1E9F,U+1EF2-1EFF,U+2020,U+20A0-20AB,U+20AD-20C0,U+2113,U+2C60-2C7F,U+A720-A7FF}
+@font-face{font-family:"Barlow";font-style:normal;font-weight:700;font-display:swap;src:url(fonts/barlow-latin-700-normal.woff2) format("woff2");unicode-range:U+0000-00FF,U+0131,U+0152-0153,U+02BB-02BC,U+02C6,U+02DA,U+02DC,U+0304,U+0308,U+0329,U+2000-206F,U+20AC,U+2122,U+2191,U+2193,U+2212,U+2215,U+FEFF,U+FFFD}
+@font-face{font-family:"Barlow Condensed";font-style:normal;font-weight:500;font-display:swap;src:url(fonts/barlow-condensed-latin-ext-500-normal.woff2) format("woff2");unicode-range:U+0100-02BA,U+02BD-02C5,U+02C7-02CC,U+02CE-02D7,U+02DD-02FF,U+0304,U+0308,U+0329,U+1D00-1DBF,U+1E00-1E9F,U+1EF2-1EFF,U+2020,U+20A0-20AB,U+20AD-20C0,U+2113,U+2C60-2C7F,U+A720-A7FF}
+@font-face{font-family:"Barlow Condensed";font-style:normal;font-weight:500;font-display:swap;src:url(fonts/barlow-condensed-latin-500-normal.woff2) format("woff2");unicode-range:U+0000-00FF,U+0131,U+0152-0153,U+02BB-02BC,U+02C6,U+02DA,U+02DC,U+0304,U+0308,U+0329,U+2000-206F,U+20AC,U+2122,U+2191,U+2193,U+2212,U+2215,U+FEFF,U+FFFD}
+@font-face{font-family:"Barlow Condensed";font-style:normal;font-weight:600;font-display:swap;src:url(fonts/barlow-condensed-latin-ext-600-normal.woff2) format("woff2");unicode-range:U+0100-02BA,U+02BD-02C5,U+02C7-02CC,U+02CE-02D7,U+02DD-02FF,U+0304,U+0308,U+0329,U+1D00-1DBF,U+1E00-1E9F,U+1EF2-1EFF,U+2020,U+20A0-20AB,U+20AD-20C0,U+2113,U+2C60-2C7F,U+A720-A7FF}
+@font-face{font-family:"Barlow Condensed";font-style:normal;font-weight:600;font-display:swap;src:url(fonts/barlow-condensed-latin-600-normal.woff2) format("woff2");unicode-range:U+0000-00FF,U+0131,U+0152-0153,U+02BB-02BC,U+02C6,U+02DA,U+02DC,U+0304,U+0308,U+0329,U+2000-206F,U+20AC,U+2122,U+2191,U+2193,U+2212,U+2215,U+FEFF,U+FFFD}
+@font-face{font-family:"Barlow Condensed";font-style:normal;font-weight:700;font-display:swap;src:url(fonts/barlow-condensed-latin-ext-700-normal.woff2) format("woff2");unicode-range:U+0100-02BA,U+02BD-02C5,U+02C7-02CC,U+02CE-02D7,U+02DD-02FF,U+0304,U+0308,U+0329,U+1D00-1DBF,U+1E00-1E9F,U+1EF2-1EFF,U+2020,U+20A0-20AB,U+20AD-20C0,U+2113,U+2C60-2C7F,U+A720-A7FF}
+@font-face{font-family:"Barlow Condensed";font-style:normal;font-weight:700;font-display:swap;src:url(fonts/barlow-condensed-latin-700-normal.woff2) format("woff2");unicode-range:U+0000-00FF,U+0131,U+0152-0153,U+02BB-02BC,U+02C6,U+02DA,U+02DC,U+0304,U+0308,U+0329,U+2000-206F,U+20AC,U+2122,U+2191,U+2193,U+2212,U+2215,U+FEFF,U+FFFD}
+:root{
+  --paper:#E8ECE3; --panel:#F6F8F3; --ink:#17221C; --ink-2:#4B5A51; --line:#C6CFBD;
+  --grid:rgba(23,34,28,.07); --casing:#17221C; --gps:#1E5EFF; --warn:#B3261E; --accent:#23503D; --on-accent:#fff; --halo:#E8ECE3;
+  --sans:"Barlow","Segoe UI",Roboto,system-ui,sans-serif;
+  --cond:"Barlow Condensed","Arial Narrow","Roboto Condensed",sans-serif-condensed,sans-serif;
+  box-sizing:border-box;
+  padding-top:env(safe-area-inset-top,0px);
+  padding-bottom:env(safe-area-inset-bottom,0px);
+}
+@media (prefers-color-scheme:dark){
+  :root:not([data-theme="light"]){
+    --paper:#111714; --panel:#1A221D; --ink:#E6ECE4; --ink-2:#9DAAA1; --line:#2F3B34;
+    --grid:rgba(230,236,228,.06); --casing:#000; --gps:#5C8DFF; --warn:#FF6B5E; --accent:#86C7A3; --on-accent:#0F1A14; --halo:#111714;
+  }
+}
+:root[data-theme="dark"]{
+  --paper:#111714; --panel:#1A221D; --ink:#E6ECE4; --ink-2:#9DAAA1; --line:#2F3B34;
+  --grid:rgba(230,236,228,.06); --casing:#000; --gps:#5C8DFF; --warn:#FF6B5E; --accent:#86C7A3; --on-accent:#0F1A14; --halo:#111714;
+}
+*,*::before,*::after{box-sizing:inherit}
+[hidden]{display:none!important}
+html{height:100%;scroll-padding-top:env(safe-area-inset-top,0px)}
+body{margin:0;height:100%;background:var(--paper);color:var(--ink);font-family:var(--sans);font-size:16px;line-height:1.45;-webkit-font-smoothing:antialiased;overflow:hidden}
+button,input,select{font:inherit;color:inherit}
+button{cursor:pointer}
+:focus-visible{outline:3px solid var(--gps);outline-offset:2px}
+.app{position:relative;height:100%;display:flex;flex-direction:column}
+.panels{position:relative;flex:1;min-height:0}
+.panel{position:absolute;inset:0;display:none}
+.panel.on{display:block}
+
+.tabs{display:flex;background:var(--panel);border-top:1px solid var(--line);flex:none}
+.tabs button{flex:1;border:0;background:none;padding:10px 4px 12px;display:flex;flex-direction:column;align-items:center;gap:2px;font-family:var(--cond);font-weight:600;font-size:15px;letter-spacing:.02em;color:var(--ink-2)}
+.tabs button svg{width:24px;height:24px}
+.tabs button[aria-selected="true"]{color:var(--ink)}
+.tabs button[aria-selected="true"] .ico-bar{opacity:1}
+.ico-bar{width:22px;height:4px;border-radius:2px;background:var(--accent);opacity:0;margin-top:2px}
+
+/* Map */
+#map{position:absolute;inset:0;touch-action:none;overflow:hidden;background:var(--paper)}
+#map canvas{display:block;width:100%;height:100%}
+.ctrls{position:absolute;right:12px;top:12px;display:flex;flex-direction:column;gap:8px;z-index:3}
+.ctrl{width:48px;height:48px;border-radius:12px;border:1px solid var(--line);background:var(--panel);display:grid;place-items:center;box-shadow:0 2px 6px rgba(0,0,0,.15)}
+.ctrl svg{width:22px;height:22px}
+.ctrl.active{background:var(--gps);color:#fff;border-color:var(--gps)}
+.sosbtn{position:absolute;left:12px;top:12px;z-index:3;height:48px;min-width:64px;padding:0 16px;border-radius:12px;border:0;background:var(--warn);color:#fff;font-family:var(--cond);font-weight:700;font-size:22px;letter-spacing:.06em;box-shadow:0 2px 8px rgba(0,0,0,.25)}
+.pill{position:absolute;left:12px;top:70px;right:72px;z-index:3;display:flex;flex-direction:column;gap:6px;pointer-events:none}
+.pill > div{pointer-events:auto;align-self:flex-start;background:var(--panel);border:1px solid var(--line);border-radius:10px;padding:6px 10px;font-size:14px;box-shadow:0 2px 6px rgba(0,0,0,.12)}
+.pill .warn{background:var(--warn);color:#fff;border-color:var(--warn);font-weight:600}
+
+.sheet{position:absolute;left:0;right:0;bottom:0;z-index:4;background:var(--panel);border-top:1px solid var(--line);border-radius:16px 16px 0 0;box-shadow:0 -4px 16px rgba(0,0,0,.12);padding:4px 14px 12px;max-width:640px;margin:0 auto;max-height:78%;display:flex;flex-direction:column}
+.sheet-scroll{overflow-y:auto;min-height:0}
+.handle{display:block;margin:0 auto 4px;width:64px;height:22px;border:0;background:none;position:relative;flex:none}
+.handle::after{content:"";position:absolute;left:14px;right:14px;top:8px;height:5px;border-radius:3px;background:var(--line)}
+.chips{display:flex;gap:6px;overflow-x:auto;padding-bottom:2px;scrollbar-width:none}
+.chips::-webkit-scrollbar{display:none}
+.chip{flex:none;border:1px solid var(--line);background:transparent;border-radius:999px;padding:6px 12px;display:flex;align-items:center;gap:7px;font-family:var(--cond);font-weight:600;font-size:16px;min-height:38px}
+.chip[aria-pressed="true"]{background:var(--ink);color:var(--paper);border-color:var(--ink)}
+.blaze{display:inline-flex;flex-direction:column;width:10px;height:18px;border-radius:2px;overflow:hidden;border:1px solid rgba(0,0,0,.35);flex:none}
+.blaze b{flex:1;background:#fff}
+.sheet h2{font-family:var(--cond);font-weight:700;font-size:21px;line-height:1.1;margin:8px 0 2px}
+.sub{color:var(--ink-2);font-size:14px;margin:0}
+.stats{display:grid;grid-template-columns:repeat(4,1fr);gap:4px;margin:10px 0 4px}
+.stat strong{display:block;font-family:var(--cond);font-weight:700;font-size:20px;line-height:1.05;white-space:nowrap}
+.stat span{font-size:13px;color:var(--ink-2)}
+.profile svg{width:100%;height:56px;display:block}
+.proflab{display:flex;justify-content:space-between;font-size:12px;color:var(--ink-2)}
+.gpsline{font-size:14px;margin:8px 0 0;color:var(--ink-2);min-height:20px}
+.gpsline b{color:var(--ink)}
+.row-btns{display:flex;gap:8px;margin-top:10px;flex-wrap:wrap}
+.btn{border:1px solid var(--line);background:transparent;border-radius:10px;padding:9px 14px;font-weight:600;font-size:15px;display:inline-flex;align-items:center;justify-content:center;gap:8px;min-height:44px;text-decoration:none;color:inherit}
+.btn.primary{background:var(--accent);border-color:var(--accent);color:var(--on-accent)}
+.btn.danger{background:var(--warn);border-color:var(--warn);color:#fff}
+.sheet.collapsed .more{display:none}
+details.route{margin-top:12px;border-top:1px solid var(--line);padding-top:8px}
+details.route summary{font-weight:600;cursor:pointer;min-height:36px;display:flex;align-items:center}
+.stops{list-style:none;margin:8px 0 12px;padding:0 0 0 14px;border-left:3px solid var(--line)}
+.stops li{position:relative;padding:3px 0 3px 12px;display:flex;justify-content:space-between;gap:12px;font-size:15px}
+.stops li::before{content:"";position:absolute;left:-21px;top:9px;width:11px;height:11px;border-radius:50%;background:var(--panel);border:3px solid var(--ink-2)}
+.stops li.hut::before{border-radius:2px;background:var(--ink);border-color:var(--ink)}
+.stops .km{color:var(--ink-2);font-variant-numeric:tabular-nums;white-space:nowrap}
+.notes{margin:0;padding-left:18px;font-size:15px}
+.notes li{margin:4px 0}
+.filebtn{position:relative;overflow:hidden}
+.filebtn input{position:absolute;inset:0;opacity:0;cursor:pointer}
+
+/* SOS overlay */
+.overlay{position:fixed;inset:0;z-index:20;background:rgba(0,0,0,.45);display:none;align-items:flex-end;justify-content:center}
+.overlay.on{display:flex}
+.dialog{background:var(--panel);width:100%;max-width:560px;max-height:92%;overflow-y:auto;border-radius:18px 18px 0 0;padding:18px 16px calc(18px + env(safe-area-inset-bottom,0px))}
+.dialog h2{font-family:var(--cond);font-size:30px;line-height:1;margin:0 0 12px;color:var(--warn)}
+.coords{border:2px solid var(--ink);border-radius:12px;padding:12px;margin-bottom:12px}
+.coords .big{font-family:var(--cond);font-weight:700;font-size:30px;line-height:1.05;font-variant-numeric:tabular-nums;user-select:all}
+.coords .small{font-size:14px;color:var(--ink-2);margin-top:4px}
+.sosgrid{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.sosgrid .btn{min-height:56px;font-size:16px}
+.sosgrid .wide{grid-column:1/-1}
+.contact{margin-top:16px;border-top:1px solid var(--line);padding-top:12px}
+.contact .row{display:flex;gap:8px;flex-wrap:wrap}
+.contact input{flex:1;min-width:130px}
+
+/* Pages */
+.scroll{position:absolute;inset:0;overflow-y:auto;-webkit-overflow-scrolling:touch}
+.wrap{max-width:680px;margin:0 auto;padding:16px 16px 48px}
+.pagehead{font-family:var(--cond);font-weight:700;font-size:34px;line-height:1.05;margin:6px 0 4px}
+.lede{color:var(--ink-2);margin:0 0 16px;max-width:60ch}
+.inp{padding:9px 10px;border:1px solid var(--line);border-radius:10px;background:var(--panel);font-size:16px;color:var(--ink);min-height:44px;min-width:0}
+.addbox{display:grid;grid-template-columns:1fr auto;gap:8px;border:1px solid var(--line);background:var(--panel);border-radius:14px;padding:12px;margin-bottom:14px}
+.addbox .full{grid-column:1/-1}
+.addbox label{font-size:14px;color:var(--ink-2);display:flex;flex-direction:column;gap:4px}
+.summary{display:flex;gap:18px;flex-wrap:wrap;margin:4px 0 14px}
+.summary div strong{font-family:var(--cond);font-size:26px;font-weight:700;display:block;line-height:1}
+.summary div span{font-size:13px;color:var(--ink-2)}
+.progress{height:10px;border-radius:5px;background:var(--line);overflow:hidden;margin-bottom:14px}
+.progress i{display:block;height:100%;background:var(--accent)}
+.cat{margin-top:16px}
+.cat h3{display:flex;justify-content:space-between;align-items:baseline;font-family:var(--cond);font-size:21px;margin:0 0 4px;border-bottom:2px solid var(--ink);padding-bottom:3px}
+.cat h3 span{font-size:16px;color:var(--ink-2);font-weight:600}
+.pitem{display:grid;grid-template-columns:32px 1fr 36px;gap:2px 6px;align-items:center;padding:6px 0;border-bottom:1px solid var(--line)}
+.pitem input[type=checkbox]{width:24px;height:24px;accent-color:var(--accent);margin:0 4px}
+.pitem .name{width:100%;padding:7px 8px;border:1px solid transparent;border-radius:8px;background:transparent;font-size:16px;font-weight:600;min-width:0}
+.pitem.packed .name{text-decoration:line-through;color:var(--ink-2);font-weight:500}
+.pitem .name:hover,.pitem .name:focus{border-color:var(--line);background:var(--panel)}
+.pdetail{grid-column:2/-1;display:flex;gap:8px;align-items:center;flex-wrap:wrap;font-size:14px;color:var(--ink-2)}
+.pdetail input,.pdetail select{padding:5px 6px;border:1px solid var(--line);border-radius:8px;background:var(--panel);font-size:14px;color:var(--ink)}
+.pdetail input{width:64px;text-align:right}
+.del{border:0;background:none;width:36px;height:36px;border-radius:8px;color:var(--ink-2);font-size:22px;line-height:1}
+.empty{border:1px dashed var(--line);border-radius:14px;padding:18px;color:var(--ink-2);text-align:center}
+.people{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:8px}
+.person{display:flex;align-items:center;border:1px solid var(--line);border-radius:999px;background:var(--panel);padding:2px 4px 2px 12px}
+.person input{border:0;background:transparent;width:96px;font-weight:600;padding:6px 0}
+.person button{border:0;background:none;width:30px;height:30px;color:var(--ink-2);font-size:18px}
+.splitchips{display:flex;flex-wrap:wrap;gap:6px}
+.splitchips button{border:1px solid var(--line);border-radius:999px;background:transparent;padding:6px 12px;font-weight:600;min-height:36px}
+.splitchips button[aria-pressed="true"]{background:var(--ink);color:var(--paper);border-color:var(--ink)}
+.seg{display:inline-flex;border:1px solid var(--line);border-radius:10px;overflow:hidden}
+.seg button{border:0;background:transparent;padding:8px 14px;font-weight:600;min-height:42px}
+.seg button[aria-pressed="true"]{background:var(--ink);color:var(--paper)}
+.total{border:1px solid var(--line);background:var(--panel);border-radius:14px;padding:14px;margin:14px 0}
+.total .big{font-family:var(--cond);font-weight:700;font-size:40px;line-height:1}
+.total .small{color:var(--ink-2);font-size:15px;margin-top:4px}
+.bar{display:flex;height:12px;border-radius:6px;overflow:hidden;margin:12px 0 8px;background:var(--line)}
+.bar i{display:block;height:100%}
+.keys{display:flex;flex-wrap:wrap;gap:6px 14px;font-size:14px;color:var(--ink-2)}
+.keys span{display:inline-flex;align-items:center;gap:6px}
+.keys b{width:10px;height:10px;border-radius:2px;display:inline-block}
+.table{width:100%;border-collapse:collapse;font-size:15px;margin-top:6px}
+.table th{text-align:left;font-weight:600;color:var(--ink-2);font-size:13px;padding:4px 6px;border-bottom:1px solid var(--line)}
+.table td{padding:7px 6px;border-bottom:1px solid var(--line);font-variant-numeric:tabular-nums}
+.table td.num,.table th.num{text-align:right}
+.pos{color:var(--accent);font-weight:600}.neg{color:var(--warn);font-weight:600}
+.settle{list-style:none;padding:0;margin:8px 0}
+.settle li{padding:8px 10px;border:1px solid var(--line);border-radius:10px;margin-bottom:6px;background:var(--panel);font-weight:600}
+.exp{display:grid;grid-template-columns:1fr auto;gap:2px 10px;padding:9px 0;border-bottom:1px solid var(--line);cursor:pointer}
+.exp .d{font-weight:600}
+.exp .a{font-family:var(--cond);font-weight:700;font-size:20px;text-align:right}
+.exp .m{grid-column:1/-1;font-size:14px;color:var(--ink-2)}
+.exp:focus-visible{outline-offset:-2px}
+.fine{font-size:14px;color:var(--ink-2);margin-top:20px}
+.dialog h3{font-family:var(--cond);font-size:22px;margin:18px 0 4px}
+.dialog .sub{margin-bottom:8px}
+.field{display:flex;flex-direction:column;gap:4px;font-size:14px;color:var(--ink-2);margin:8px 0}
+.status{font-size:15px;margin:8px 0;padding:10px 12px;border-radius:10px;background:var(--paper);border:1px solid var(--line)}
+.meter{height:8px;border-radius:4px;background:var(--line);overflow:hidden;margin-top:6px}
+.meter i{display:block;height:100%;background:var(--accent);width:0}
+.toast{position:fixed;left:50%;bottom:90px;transform:translateX(-50%);background:var(--ink);color:var(--paper);padding:10px 16px;border-radius:10px;font-weight:600;z-index:30;display:none}
+</style>
+</head>
+<body>
+<div class="app">
+  <div class="panels">
+    <!-- MAP -->
+    <section class="panel on" id="p-map" aria-label="Map">
+      <div id="map" aria-label="Trail map. Drag to pan, pinch or use the buttons to zoom."><canvas id="cv"></canvas></div>
+      <button class="sosbtn" id="sos" aria-label="Emergency: show my coordinates and call for help">SOS</button>
+      <div class="pill" id="pill"></div>
+      <div class="ctrls">
+        <button class="ctrl" id="zin" aria-label="Zoom in"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="M12 5v14M5 12h14"/></svg></button>
+        <button class="ctrl" id="zout" aria-label="Zoom out"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="M5 12h14"/></svg></button>
+        <button class="ctrl" id="fit" aria-label="Show whole day"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 9V4h5M20 9V4h-5M4 15v5h5M20 15v5h-5"/></svg></button>
+        <button class="ctrl" id="setb" aria-label="Offline map and settings"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"><path d="M12 3l9 5-9 5-9-5z"/><path d="M3 13l9 5 9-5"/></svg></button>
+        <button class="ctrl" id="loc" aria-label="Show my location"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="4"/><path d="M12 2v3M12 19v3M2 12h3M19 12h3"/></svg></button>
+      </div>
+      <div class="sheet" id="sheet">
+        <button class="handle" id="handle" aria-label="Expand or collapse trip panel" aria-expanded="true"></button>
+        <div class="sheet-scroll">
+          <div class="chips" id="chips" role="group" aria-label="Choose day"></div>
+          <h2 id="s-title"></h2>
+          <p class="sub" id="s-sub"></p>
+          <p class="gpsline" id="s-gps">Tap the target button to show where you are.</p>
+          <div class="more">
+            <div class="stats" id="s-stats"></div>
+            <div class="profile" id="s-prof" aria-label="Elevation profile"></div>
+            <div class="row-btns">
+              <button class="btn primary" id="b-loc">Show my location</button>
+              <button class="btn" id="b-sim">Simulate a walk</button>
+            </div>
+            <details class="route" id="s-details"><summary>Route details</summary><div id="s-route"></div></details>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- PACKING -->
+    <section class="panel" id="p-pack" aria-label="Packing list">
+      <div class="scroll"><div class="wrap">
+        <h1 class="pagehead">Packing list</h1>
+        <p class="lede">Add what you're taking and tick things off as they go in the bag. Everything is saved on this phone.</p>
+        <div class="addbox">
+          <input class="inp" id="pk-name" placeholder="Add an item, e.g. waterproof jacket" aria-label="Item name" enterkeyhint="done">
+          <button class="btn primary" id="pk-add">Add</button>
+          <label class="full">Category
+            <select class="inp" id="pk-cat"></select>
+          </label>
+        </div>
+        <div id="pk-summary"></div>
+        <div id="pk-list"></div>
+        <div class="row-btns" id="pk-tools"></div>
+      </div></div>
+    </section>
+
+    <!-- COSTS -->
+    <section class="panel" id="p-cost" aria-label="Costs">
+      <div class="scroll"><div class="wrap">
+        <h1 class="pagehead">Trip costs</h1>
+        <p class="lede">Log each cost, who paid it and who it's for. The app works out who owes whom. One phone keeps the record.</p>
+
+        <h3 class="pagehead" style="font-size:22px;margin-top:4px">People</h3>
+        <div class="people" id="c-people"></div>
+        <div class="row-btns" style="margin-top:0"><button class="btn" id="c-addp">Add person</button></div>
+
+        <div class="addbox" style="margin-top:16px" id="c-form">
+          <input class="inp" id="e-desc" placeholder="What was it, e.g. Ornak hut" aria-label="Description">
+          <div class="seg" role="group" aria-label="Currency of this cost"><button id="e-pln" aria-pressed="true">zł</button><button id="e-gbp" aria-pressed="false">£</button></div>
+          <input class="inp full" id="e-amt" type="number" inputmode="decimal" min="0" step="0.01" placeholder="Amount" aria-label="Amount">
+          <label class="full">Paid by<select class="inp" id="e-paid"></select></label>
+          <label class="full">Category<select class="inp" id="e-cat"></select></label>
+          <div class="full"><div style="font-size:14px;color:var(--ink-2);margin-bottom:4px">Split between</div><div class="splitchips" id="e-split"></div></div>
+          <div class="full row-btns" style="margin-top:4px"><button class="btn primary" id="e-save">Add cost</button><button class="btn" id="e-cancel" hidden>Cancel</button><button class="btn" id="e-del" hidden>Delete cost</button></div>
+        </div>
+
+        <div id="c-summary"></div>
+        <div id="c-list"></div>
+        <div class="row-btns" id="c-tools"></div>
+        <p class="fine">Costs entered in pounds are converted with the rate below, so balances always add up in one currency.</p>
+        <label style="display:flex;align-items:center;gap:8px;font-size:15px">zł per £1 <input class="inp" id="c-rate" type="number" inputmode="decimal" min="0.1" step="0.01" style="width:96px"></label>
+      </div></div>
+    </section>
+  </div>
+
+  <nav class="tabs" role="tablist" aria-label="Sections">
+    <button role="tab" aria-selected="true" data-p="p-map"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"><path d="M3 6l6-2 6 2 6-2v14l-6 2-6-2-6 2z"/><path d="M9 4v14M15 6v14"/></svg>Map<span class="ico-bar"></span></button>
+    <button role="tab" aria-selected="false" data-p="p-pack"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round" stroke-linecap="round"><path d="M7 8V6a5 5 0 0110 0v2"/><rect x="4" y="8" width="16" height="13" rx="3"/><path d="M9 14h6"/></svg>Packing<span class="ico-bar"></span></button>
+    <button role="tab" aria-selected="false" data-p="p-cost"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><rect x="3" y="6" width="18" height="13" rx="2"/><path d="M3 10h18M7 15h4"/></svg>Costs<span class="ico-bar"></span></button>
+  </nav>
+</div>
+
+<!-- SOS -->
+<div class="overlay" id="sos-ov" role="dialog" aria-modal="true" aria-labelledby="sos-h">
+  <div class="dialog">
+    <h2 id="sos-h">Emergency</h2>
+    <div class="coords" id="sos-coords"></div>
+    <div class="sosgrid">
+      <a class="btn danger wide" href="tel:985">Call mountain rescue (TOPR) 985</a>
+      <a class="btn danger" href="tel:112">Call 112</a>
+      <a class="btn danger" href="tel:+48601100300">TOPR mobile</a>
+      <a class="btn primary" id="sos-sms" href="#">Text my location</a>
+      <button class="btn" id="sos-share">Share or copy</button>
+    </div>
+    <p class="fine" style="margin-top:12px">112 connects through any mobile network in range, not just your own. If a call won't go through, a text often will. Stay where you are once you've given your position.</p>
+    <div class="contact">
+      <div style="font-weight:600;margin-bottom:6px">Emergency contact for texts</div>
+      <div class="row"><input class="inp" id="ec-name" placeholder="Name" aria-label="Contact name"><input class="inp" id="ec-phone" type="tel" placeholder="Phone, e.g. +44 7700 900123" aria-label="Contact phone number"></div>
+    </div>
+    <div class="row-btns"><button class="btn" id="sos-close" style="width:100%">Close</button></div>
+  </div>
+</div>
+<div class="overlay" id="set-ov" role="dialog" aria-modal="true" aria-labelledby="set-h">
+  <div class="dialog">
+    <h2 id="set-h" style="color:var(--ink)">Offline map and settings</h2>
+    <h3>Offline map</h3>
+    <p class="sub">Download topographic map images for the whole route so they show with no signal. Do this on Wi-Fi a day or two before you leave.</p>
+    <label class="field">MapTiler key<input class="inp" id="t-key" autocomplete="off" spellcheck="false" placeholder="Paste your free key"></label>
+    <details><summary style="font-size:14px;color:var(--ink-2);cursor:pointer">Use a different map provider</summary>
+      <label class="field">Tile address (overrides the MapTiler key)<input class="inp" id="t-custom" autocomplete="off" spellcheck="false" placeholder="https://example.com/{z}/{x}/{y}.png?key=…"></label></details>
+    <div class="status" id="t-status">No map downloaded yet.</div>
+    <div class="row-btns"><button class="btn primary" id="t-dl">Download map for the route</button><button class="btn" id="t-del">Delete saved map</button></div>
+    <h3>Back up your data</h3>
+    <p class="sub">Your packing list, costs and contact are stored only on this phone. Save a backup file before the trip. You can also send it to a friend to load on their phone.</p>
+    <div class="row-btns"><button class="btn" id="bk-exp">Save backup</button><label class="btn filebtn">Restore backup<input type="file" id="bk-imp" accept=".json,application/json"></label></div>
+    <h3>Install on your phone</h3>
+    <p class="sub" id="inst"></p>
+    <div class="row-btns"><button class="btn primary" id="inst-btn" hidden>Install app</button></div>
+    <div class="row-btns"><button class="btn" id="set-close" style="width:100%">Close</button></div>
+  </div>
+</div>
+<div class="toast" id="toast" role="status"></div>
+
+<script>
+const NET={"black":[[4925596,1986786,-40,42,-30,75,-46,194,-30,-8,0,-34,-30,-9,-29,67,-29,-47,-45,-13,-84,70,-7,-63,-67,-75,-21,-59,-17,-14,-19,19,-45,-33,-26,-63,-81,-34,29,-85,-15,0,-37,-85,-35,-11,-17,8,1,-16,-26,-1,10,-53,-17,5,-8,-14],[4923946,1986382,-3,-28,10,10,30,-13,-25,-46,21,-7,-14,-22,21,-16,-15,-26,-1,-26,11,0],[4926468,1994208,15,31,-4,16,-75,-6,-29,27,-44,-5,-15,-17,-36,1],[4922973,1985982,-38,40,-19,-3,-49,-45,-37,3,-59,121,0,87,9,23,-27,79,-65,96,-72,49,-14,20,-6,36,-55,63,-54,98,-44,10,-81,-36],[4922292,1986521,-46,-78],[4927550,1986881,-45,435,-49,240,-2,211,-10,106,-78,311,14,140],[4927395,1988458,-16,298,-29,116,14,232,68,273,-2,33,-63,171,1,23,22,53],[4927443,1989773,32,70,51,52,80,200,132,-2,35,33,13,59,3,172,22,87,-54,38,-97,-22,0,45,17,205,37,94,21,126,23,272,-4,68,18,169,-7,180,13,186,-4,217,44,125,16,94,-16,105,9,130,-6,74,18,106,-21,131,-29,359,8,100,32,131,42,436,7,102,-8,49,7,67],[4927893,1994141,-7,239,20,150,-18,221,-5,225],[4927883,1995142,3,138,16,92,-27,188,-23,83,-60,28,-6,31,19,23,52,-30,47,31,34,79,1,142],[4927938,1996183,-4,66,16,15],[4928079,1996298,11,-40,7,-2],[4928153,1996419,5,16],[4924923,2003596,-27,-35,-53,-17,-19,-40,-34,-35,-18,2,-62,-52,-57,-7,-33,21,-48,-50,-26,-12,-95,15,-38,22,-84,-39],[4925260,1981528,27,41,68,15,13,33,7,71,65,88,77,157,75,96,27,111,33,262,22,61,2,29,-24,58,10,33,41,-18,59,13,76,80,22,99,54,96,9,54,-15,97,-44,50,-33,70],[4925757,1983218,-103,116,-34,11,-36,32,-44,3,-95,95,-11,134,52,154,25,117,-11,77,15,54,-7,72,18,13,20,-33,11,-2,27,97,-20,78,-63,72,-41,187,-16,50,-32,54,13,54,52,75,17,89,5,132,-5,45,-26,75],[4926408,1987004,-42,-36,-126,-39,-70,5,-67,21,-76,-16,-56,-61,-94,-136,-49,-44,-62,-11,-27,-21,-48,-83,-41,-218,-7,-85,-32,-98,10,-112,-15,-73,1,-113,-27,-168,-38,-115,-5,-52,-22,-72,-9,-136,-39,-172,1,-100],[4926408,1987004,-45,37,-24,38,-48,-7,-74,102,-14,59,-41,104,-9,97,-41,126,-7,58,26,157,-6,47,21,94,1,68,17,98,-3,99,-17,100,3,72,-25,117,-5,64,16,103,-8,52,16,131,-18,102,24,90,91,33,-28,187,12,111],[4926222,1989343,5,32,-34,303,-49,163,6,49,-17,79,16,43,5,62,-22,41,-8,71,-111,191,-31,27,-9,35,21,-14,61,18,26,93,-12,80,24,61,8,72,-16,46,-7,60,-31,58,-57,70,-55,102,-32,211,-47,203,-26,53,-5,39,7,14,100,-8],[4924491,2000639,-51,-8,-36,-21],[4925932,1991597,10,41,-8,61,8,12,-3,17,43,15,81,187,2,32,-19,95,-24,29,37,155,-2,60,40,156,84,185,81,140,9,49,37,98,-5,41],[4926280,1994255,-16,-145,1,-172,-6,-36,-34,-59,9,-43,-19,-140,4,-82,-22,-94,-6,-142,21,-81,-2,-50,12,-71,-34,-130,3,-12,98,-33,14,5],[4926280,1994255,-19,74,2,23,-64,155,4,60,-9,61,-23,52,7,30,-8,23,-32,45,1,31],[4926139,1994809,19,50,1,16,-15,9,0,12,11,33,5,102,-12,68,-34,51,-14,56,-38,30,-31,4,-17,35,-77,2,-29,32,26,100,-15,30,33,84,4,44,-17,89,14,54,-26,95,24,68,43,43,77,13,21,16,-9,145,64,168,13,140,18,17,62,-4,18,12,6,22,-25,42,48,33,-17,37,48,39,22,88,-28,136,-29,-108,-13,-10,-69,48,28,14,-44,20,26,22,-5,13,-61,-9,-39,-40,-13,3],[4924404,2000610,-17,-27,-13,-76,-76,-109,-40,-36,-83,-165,-28,-21,-62,-94,-152,-172,-40,-54,-42,-86,-114,-106,-25,-4],[4923712,1999660,-31,17,-238,-81,-138,14,-59,29,-109,97,-18,43,-27,28,-49,3,-17,92,-47,88,-3,26,-34,35,-56,22,3,20,-32,33,-17,52,-58,62],[4922782,2000240,-64,65,-22,50,-24,26,-16,58,-76,56,-7,-5,0,23,-9,-7,-9,20,-14,-11,-14,17,-32,3,-31,-15,-39,45,-38,-36,-13,12,-36,-10,-3,-29,-25,-55,-1,-33,-23,-27,13,-22,-22,-21,-55,-28,-28,16,-6,-11,-38,21,-14,23,-15,-1,-17,20,-11,-6],[4924327,2000693,9,86,47,67,68,179,101,94,34,3,57,-30,43,7,102,133,62,111,72,17,21,17,3,57,-63,46,-25,32,-1,26,61,14,73,63,34,50],[4925089,2001792,33,76,41,144,24,57,83,60,76,33,42,0,48,34,80,-21,120,95,98,33,81,63,34,-1,86,29,60,41,88,-27,27,25,37,11,29,31,32,64,27,18,78,94,17,102,119,223,49,73,41,106,23,153,98,178,85,66,68,95,42,29,77,0,44,-19],[4926976,2003657,42,-30,68,-15,103,-3,45,-52,103,-74,123,-51,42,8,34,-8,46,-42,63,-109,98,-23,123,25,67,36,177,21,64,55,58,-19,22,6,23,30,18,92,57,132,79,35,56,3,27,-70,25,-26,126,35,69,-47],[4929837,1994560,-8,-8,198,-496,79,-172,161,-243,19,-1],[4930538,1993378,56,-65,0,-39,44,-33,34,72,9,-10,-72,-236],[4930569,1992945,-64,-219,-26,-151],[4930462,1992432,-6,-29],[4930422,1992248,-49,-287,-9,-133],[4930369,1991693,1,-17],[4930376,1991550,-6,-395,48,-229],[4930443,1990805,14,-102,42,-99,14,-113,88,-171,10,-66,42,-122],[4930661,1990015,-3,-120,10,-189],[4930674,1989565,2,-53],[4930656,1989403,-12,-111,9,-51,-8,-113,8,-89,25,-92,40,-70,54,-59,46,-90,23,-51,20,-75,32,-55,41,-142,62,-93,11,-42,7,-142,9,-30,-14,-56,14,-148,-21,-220,10,-128,-16,-81],[4930978,1987346,-52,-268,-51,-54,-109,-159,-66,-174,-7,-104,18,-48,40,-214,0,-34,29,-73,1,-187,-10,-100,20,-151,-9,-76,-63,-75,-68,-107,-44,-83,-11,-43,-135,-164,-46,-126,19,-58,71,-85,42,-78,184,-448,42,-136,58,-255,34,-89],[4930914,1983835,23,-54,40,-210,39,-99,128,-221,42,-46,103,-57,115,-45,28,4,44,-39,42,-3,43,25,70,16,57,38,286,7,94,28,20,-104,48,-83,50,-49,-22,-53,-14,-87],[4932133,1982665,-3,-20,-45,6,-134,-53,-31,-1,-33,24,-78,94,-146,113,-147,19,-110,-162,-39,-15,-36,-36,-72,-21,-111,-70,-77,-31,-45,-76,-82,-78,-35,-149,-20,-32,-24,-3,-29,16,-55,47,-54,24,-45,51,-54,21,-206,-88,-44,-32,-45,-84,-24,-14],[4930139,1982109,-67,-24,-76,-47,-85,-90],[4929850,1981856,-63,-95,-39,-97,-39,-71,-87,-132,0,-61,-36,-102,-51,-245,11,-71],[4929560,1980870,1,-233],[4929560,1980513,3,-238],[4929572,1980164,17,-232,-13,-97,27,-134,0,-84,-12,-77,5,-95],[4921832,2002871,2,67,-7,18,-24,8,-1,93,-41,-53,-32,-17,-9,18,-37,-17,6,42,-26,-9,-3,31,-29,-15,-9,16,-36,5,-5,18,-12,1,-16,22,-49,5,-2,26,-13,-4,-3,15,-48,-3,-8,12,-7,-11,-6,43,-21,-5,-4,19,-12,4,-18,-10,-16,24,-36,6,-14,26,-13,-8,-14,28,-39,21,-17,30,-1,45,-12,2,-6,37,-30,19,-31,68,-47,16,-26,24],[4930681,1993303,82,295,10,62,-4,57,11,145,-17,43,-99,33,14,104,-2,73,19,86,-8,144,19,55,41,56,16,59,41,-4,30,23,24,380,135,268,80,211,16,82,52,94,14,77,17,6,-19,61,6,39,-61,70,23,100,-3,93,-127,121],[4920500,1983329,104,-23,119,-53,134,14,81,-63,31,-37,23,-45,34,-24,12,-67,12,-12,9,19,11,2,19,-22,14,-62,15,-18,9,-116,19,-44,1,-56,17,-76,43,-75,21,-17,19,-68,46,-29,35,-64,22,-5,31,-52,35,-23,19,-32,111,-83,87,-110,38,-21,44,-44,70,-18,175,-107,88,-30,48,-38,97,17,56,-31,50,-7,19,-28,25,-6,42,-38,69,-23,58,-40,87,11,51,44,135,-33,54,11,44,-26,130,-10,56,-15,106,-59,150,0,61,-23,86,3,120,-22,72,-37,67,-88,120,-26,56,36,33,0,149,-92,98,-32,43,-30,69,-80,38,3,62,-21,31,-26],[4924327,2000693,9,86,40,56],[4923271,2001463,-33,-60,13,-23,5,-66,-75,-28,9,-24,-10,-21,22,-19,15,-43,-3,-23,-19,2,-6,18,-18,-32,-9,15,-5,-20,-8,10,-33,-4,4,-11,-10,-9,-49,-32,-90,63,-20,6,-30,-14,-40,23,-7,36,-27,32,-11,35,-14,-11,-31,26,-34,3,-27,-38,-2,34,-9,5,10,44,-16,-5,-17,-28,-2,35,-40,45,-2,-24,-12,16,-4,-17,-5,10,-17,-28,-28,-14,-6,19,14,74,-15,-10,-6,15,-10,-6,-10,33,-7,-10,-28,16],[4922220,2002719,-39,99,-15,17,-10,62,-32,90,2,77,-33,63,15,35],[4921820,2005116,-8,25,-25,-9,-39,6,-26,-28,-8,14,-10,-12,-1,28,-10,-8,0,16,-7,-6,-3,11,-25,-21,-1,22,-11,-4,-3,27,-39,-26,1,51,-17,-8,-4,29,-17,15,-5,20,-12,-5,-6,28,-15,-28,-21,-131,-32,-92,-25,-31,-51,-122,-26,-29,-16,1],[4925820,2008957,-7,-22,-59,-66,-83,-52,-49,-66,-14,-64,-40,-24,-83,-140,-42,-52,-71,-60,-25,-43,-27,-14,-42,89,-50,-27,-37,128,-44,70,-18,5,-42,-16,-64,9,-152,-38,-153,38,-23,-8],[4923640,1979376,14,-4],[4923726,1979338,125,-45,20,-24,-2,-18,-11,-28,-15,-136,-25,-52,-64,-100,-102,-82]],"blue":[[4918606,1981660,57,117,46,164,-4,63,-27,73,18,181,-5,156,29,127,113,172,44,39,21,2,81,87,202,75,63,100],[4919320,1983072,55,132,-1,20,51,151,-11,55,-36,25,34,73,20,86,42,55],[4919532,1983768,16,17,33,97,13,81,-10,2,-15,32,-53,-22,-61,-5,-181,7,-55,35,-41,5,-28,52,-27,28,-49,26,-57,69,-48,18,-44,-2,-63,51],[4930532,1978784,-36,84,-36,37,-94,25],[4930291,1978947,-99,19,-107,-5,-33,42],[4929951,1979105,-47,94,-80,-2],[4929747,1979203,-54,14,-66,82,-31,146],[4927205,1994282,-11,-3,2,-28,86,-64,67,-31,28,-34,37,-15,80,-2,85,17,70,45,85,73,67,41,47,70,38,29],[4923658,1976678,7,99,-15,75,90,120,10,35,15,14,6,55,18,18,3,23,12,0,5,35,54,103,-14,52,-66,89,-27,10,-6,20],[4923722,1977560,-8,68,-19,57,-56,57,-37,20,147,-5],[4923831,1977737,110,36,93,-14,44,13,34,25,17,45],[4927660,1990460,-28,-6,-61,-51,-18,-93,-61,-99,-26,-26,-54,-21,-47,-65,-40,-19],[4927242,1990060,-90,-8,-55,27,-26,-17,-52,-7,-98,37,-190,23,-61,-15,-38,-53,-119,-89,-85,8,-57,-72,-25,-15,25,-80,-1,-49,-17,-71,-18,-15,-24,-56,-13,-5,-27,-83,-28,-36,-21,-141],[4926222,1989343,-87,-22,-28,66,-383,337,-72,9,-59,40,-101,-1],[4925407,1989781,-21,6,-83,-15,-56,60,-92,131,-23,54,-60,235,-32,-16,-27,70,-28,40,-102,101,-47,93,-22,24,-34,-16,-73,-99,-53,-27,-48,-45,-133,216,-63,61,-25,11,-36,98,2,40,5,30,13,12,3,55,14,44,25,22,-13,66,0,110,29,58,9,-9,14,54,-10,39,6,8,-16,47,16,39,-21,34,-40,23,-48,-15,-16,41,-24,10,-56,62,-30,60,-144,83,-188,42,-113,70,-40,46,-57,23,-74,57],[4931448,1994091,-72,40,-141,12,-173,-16,-32,21,-31,-1,-139,81,-119,106,-78,42,-47,-50,-63,-24,-81,-65,-51,-15,-34,12,-40,-8,-17,-134,-53,-43,-150,225,-87,8,-36,28,-32,94,-63,126,-21,75,-51,-45],[4926450,1997449,244,342,101,56,31,116,124,89],[4926450,1997449,-125,-147,-41,-84,-50,-62,-33,-95,-13,-118,-15,-45,-64,-86,-31,-82,-28,-33,-96,-43,-17,23,-3,25,-74,-31,-47,13,-62,96,-48,46,-70,41],[4925633,1996867,37,37,28,69,32,29,84,37,130,-44],[4926029,1997019,13,11],[4926247,1997269,45,66,101,39,57,75],[4926320,2011614,-1,-79,14,-46,-20,-60,-228,-66,-222,-154,-39,-55],[4925767,2011060,-140,-204,-73,-45,-104,-212,-102,-160,-50,-46,-89,-121,-87,-81,-128,-49,-93,31,-114,2,-115,32,-143,-49,-43,-32,-61,-2],[4924335,2010126,-105,23,-201,-13,-92,-84,-139,34,-153,-74,-180,-22,-117,34,-57,38,-37,9,-352,-2,-193,113,-174,63,-81,-38,-146,-26,-55,-1,-32,25,-90,7,-92,-68,-64,-89,-35,-13,-55,3,-82,-44,-104,1,-107,19,-95,51,-93,118,-14,44,3,63,-12,49,-17,18,-41,-2,-98,-130,-19,5,-45,88,-23,124,-38,87,-104,113,-45,79,-52,67,-79,2,-81,43,-165,18,-18,38,-30,13,-33,-7,-101,102,-28,7,-65,-14,-25,20,-13,33,-39,27,-54,110,-129,78,-54,-1,-32,85,-90,57,-31,7,-99,103,-42,10,-14,-43,-39,23,-33,38,-65,-14,-27,59,-78,17,-97,72,-78,16,-97,-46,-72,27,-33,31,-39,6,-70,-25,-37,-41,-66,-43,-113,-7,-42,-37,-21,21,-35,12,-42,-15,-27,-28,-5,36,-34,-19,-6,32,-16,10,-20,-9,-5,36,-32,9,-33,-12,-15,15,3,26,-47,-13,-12,22,-44,15,-38,-35,-6,19,-9,2,-71,-36,-28,25,21,70,-18,11,6,33,-12,16,-17,-12,-26,8,11,22,-13,3,0,24,16,34,-64,-16,14,61,-28,-28,-26,10,-39,-16,-16,6,0,48,47,55,19,43,-22,75,9,85,-34,169,15,50,-12,110,17,84,-41,30,-34,119,-7,43,5,70,-18,12,2,33,-14,28,-3,99,-15,3,-46,-100,-19,3,-17,21,-7,34,16,117,-10,37,-4,83,-18,33,33,36,-6,20,20,75,29,55,1,23,-16,21,-35,-20,-37,60,-8,49,-28,30,-13,39,-102,52,-105,100,-41,66,-2,48,-46,18,25,105,98,189,48,59,43,12,15,25,26,0,-12,42,37,62,7,32,-5,30,7,54,-6,16,8,13,-9,25,14,20,19,89,-6,18,-39,21,26,41,0,26,-67,64,-21,49,3,153,12,43,-12,83,-34,87,-14,98,9,57,-9,74,5,105,-6,57,10,73,44,161,31,41,16,62,79,83,17,5,9,29,-8,21,19,87,-11,91,-18,2,-3,51,-27,57,-1,81,-12,79,-14,3,-17,49,-4,80,-19,2,-1,45,-9,16,5,48,-34,58,-61,64,-41,191,-29,45,-54,160,-15,91,1,57,4,21,19,17,-7,10,6,25,12,0,12,19,2,71,8,17,29,-17,22,70,18,15,19,40,29,30,19,-4,55,38,44,2,-2,67,-26,58,-25,119,29,98,66,131,5,39,26,58,13,98,-52,-61,12,143,-75,89,-65,100,3,54,-5,31,-12,2,-5,85,12,82,-40,118,-12,16,-24,1,-16,28,-34,112,-57,106,-26,92,-5,68,-30,47,-12,44,-70,114,-95,126,-17,10,-18,45,19,67,7,91,-19,40,-27,117,-40,62,-6,54,11,56,-12,36,6,46,-6,38,-20,54,-20,99,-25,48,-31,138,-37,97,-16,15,-4,39,-19,24,-56,164,-46,240,-60,116,4,40,-22,42,-21,98,3,65,26,32,16,135,-15,16,-35,-33,-74,-2,-19,35,-27,9,-3,11,11,8,-21,22,-37,14,-50,46,-4,31,20,-21,-10,48,17,19,-3,70,-40,44,-13,45,-35,67,-32,34,-18,53,5,101,42,204,-24,50,-12,81,-15,31,67,228,61,102,18,154,34,98,22,29,43,104,91,10,39,-27,38,34,20,41,48,25,25,69,52,27,12,18,56,168,29,32,22,3,123,146,68,35,60,-17,16,14,34,275,17,62,-8,24,-14,9,-4,27,9,36,43,61,-17,52],[4917341,2024982,-55,262,-28,77,-5,161,16,65,28,46,36,104,16,129,27,7,10,19,34,119,-3,26,-19,49,-34,33,-26,51,-59,31,-17,31,-45,-21,-37,25,-63,79,-16,40,-2,41,-29,28,-5,25,-50,32,-112,118,-17,-23,-42,-7,-32,-120,-105,120,-79,168,-19,67,8,52,-38,58,-11,42,15,62,16,28,50,32,16,140,1,89,65,28,-8,34,7,7,-31,135,-36,44,-95,313,-30,-29,-34,114],[4924965,1995173,43,73,24,170,67,204,2,177,56,242,27,81,18,142,0,56,44,168,105,134,73,65,80,21,65,109,64,52],[4924636,1993234,105,38,46,72,15,43,56,7,34,19,48,-11,46,-28,8,2,8,33,28,-22,22,42,12,6,3,-29,17,20,13,-3,-1,-42,-23,1,-23,-19,-10,11,-7,-9,-3,22],[4924965,1995173,-23,-41,1,-33,-14,-52,-55,-129,-66,-104,-26,-90,-46,-57,-43,-120,-12,-228,-41,-52,-12,-60,-3,-80,-19,-32,-27,-104,0,-56,-14,-77,4,-101,18,-86,-2,-72,12,-70,-3,-23,-27,-26,4,-28,32,-45,77,38,7,-58,-24,-99,-27,-54],[4926950,1998052,-16,50,-34,45,4,83,40,104,15,252,48,48,15,33],[4927022,1998667,-37,4,-95,63,-62,12,-32,-12,-45,107,-14,8,-96,4,-44,-10,-48,-74,-20,-97,-1,-94,-12,-15,-36,161,5,83,-10,251,-38,108,-5,84,-43,119,-65,36,-33,-7,-74,29,-70,117,-98,132,-52,118,-93,162,-44,114,-143,221,-52,42,-36,-5,-30,15,-86,-4,-21,-17],[4925492,2000322,-63,74,-45,76,-123,59,-35,35,-67,104,-60,30],[4925025,2000711,-92,14,-30,14,-40,40,-81,1,-159,-114,-115,-38,-17,11,-51,-8,-135,-71],[4924799,2000783,-32,-10,-144,-107,-115,-38,-17,11],[4924491,2000639,-30,63,-78,18,-26,-35,-30,8,-22,-133],[4924305,2000560,-11,-18,-34,-3,-57,68,-15,71,-62,174,-42,60,-10,68,-108,12,-70,-17,-59,15,-71,57,-65,93,-64,35,-26,33,-69,22,-93,63,-15,76,-85,31,-78,63],[4923271,2001463,-11,14,-1,79,13,129,14,38,36,48,-5,17,-23,13,-1,19,38,77,-18,29,-40,12,-9,46,-27,20,-20,36,-50,-28,-55,-6,-38,25,-25,56],[4923049,2002087,-154,112,-99,138,-17,-21,-16,19,-77,-48,-14,8,-15,-11,-4,-30,-24,45,-14,-10,0,-26,-34,13,-39,-17,-11,9],[4919626,1985627,-54,-62,-50,8,-51,41,-37,14,-43,52,-57,6,-37,24,-90,98],[4919143,1985869,-20,23,-5,-18,-74,36,-47,54,-28,-15,7,60,-43,13,-36,48,-37,4,-51,32,-23,-33,-124,-21,-20,-22,-21,5,-66,-23,-6,10,-10,-21,-34,21,-52,0,-33,39,-140,69,-44,85,-53,29,-5,27,-22,33,-70,50,-38,7,-41,58,-67,118,-22,17,-43,94,-33,48,-28,79,-1,34,-34,63,-20,66,-112,114,-92,137,-40,77,-33,30,-16,49,-62,65,-88,20,-57,-22,-68,59,-63,20,-81,64,-24,-6,-52,18,-30,27,-44,7,-34,27,-148,66,-54,74,-120,65,-69,134,-161,96,-63,6,-99,159,-40,-6,-23,39,-56,35,-139,160,-48,30,-167,15,-140,65,-62,10,-86,41,-89,-38],[4915148,1988528,-71,15,-42,-26,-127,-29,-198,17,-49,35,-30,57,-17,151,-122,71,-85,89,-30,69,-83,124,-45,51,-35,15,8,60,-17,54,-52,80,-4,55,15,110,35,94,7,46,-33,163,59,59,79,320,-35,14,-8,46],[4921909,2001639,19,12,50,101,28,-8,28,25,36,-8,-4,13,17,-11,6,29,22,19,23,55,32,-16,10,26,16,-10,17,26,12,-14,7,25,14,9,4,48,24,9,7,24,35,8,67,76,19,8,48,78,48,53,19,0,1,40,17,12],[4921237,2004230,17,-15,-2,-44,-28,-48,-11,-46,32,-17,20,-36,-7,-59,-47,-47,-21,-47,-48,-154,-97,-220,-24,-111,1,-56,-8,-31,5,-67,-28,-78,-1,-103,-18,-52,4,-204,10,-36,6,-90],[4920118,2007083,23,-2,17,15,35,-38,110,-46,28,19,51,72,45,22,71,-8,108,-56,81,-69,23,7,47,-16,22,13,80,3,64,-23,31,9,33,-10,35,14,1,-28,28,8,34,-53,23,43,13,-1,38,-37,70,-25,58,-77,14,6,20,37,66,37,21,4,1,-20,68,9,68,-76,24,-55,44,-45,19,-46,5,-19,-33,-76,7,-86,-26,-60,-49,-64,-15,-64,9,-21,4,-68,-20,-67,24,-23,-23,-18,10,-16,-43,-47,-84,-59,-23,-42,-7,-117,13,2,36,45,20,5,25,-23,-22,-54,109,-8,63,-39,7,-16,-49,-58,-51,-86,-57,-44,-26,-51,-19,-60,-10,-177,-18,-61,-26,-17,-24,-39,-1,-38,27,-61,-9,-31,9,-28,-23,-36,-5,-26,0,-32,21,-49,-36,-33,-90,-124,-10,-112,-36,-90,-4,-62,16,-111,26,-68,13,-11],[4928220,2008771,-30,15],[4928114,2008853,-66,42,-169,-17,-63,24,-98,8,-89,-86,-55,-1,-24,-18,-29,-59,-60,-183,-54,-73,-77,-20,-113,79,-39,15,-26,49,-126,61,-112,1,-76,-44,-83,-11,-54,-46,-56,-5,-21,-23,-31,-10,-6,16,17,61,-4,14,-32,13,-59,-21,-33,16,-44,0,-42,43,-64,9,-5,51,-32,79,-9,53,6,159],[4925454,2010298,-6,-62,-45,-68,-97,-217,-4,-85,59,-125,28,-40,33,-131,17,-149,34,-138,16,5,38,50,36,-8,-11,-43,11,-79,-18,-61,3,-46,59,-18,67,14,59,-38,56,-88,31,-14,23,60,33,49,247,157,60,-21,50,-55,53,-118],[4922782,2000240,15,121,32,92,-4,33,13,80,15,20,38,12,7,30,-6,54,11,57,-12,62,-31,35,-9,30,24,39,1,75,-8,28,17,74,-37,66,33,23],[4920992,2002669,-12,-34,-6,-86,33,-222,-12,-53,-22,-38,56,-60,10,-24,9,-28,-21,-19,15,-46,26,0,-6,-37,80,-27,5,-18,26,21,22,1,40,-24,20,9,16,36,19,13,34,-31,46,-80,35,-18,10,-25,44,-44,39,-15,62,34,73,79,44,22,62,-57,29,-53,9,-58,61,-13,52,-30,19,-38,0,-67],[4925545,1986744,-24,-166,-36,-137,-14,-219,-37,-41,-32,91,-12,10,-9,0,-7,-60,-11,14,-28,-4,-56,65,-41,-3,-32,-31,-3,-36,39,-49,14,-36,-13,-65,-37,12,3,-54,-75,15,-21,-13,-8,-121,13,-35,-2,-31,-20,-19,-15,-45,-68,-22,-54,-47,-34,-120,-15,-32,-35,-36,-12,-43,-18,-80,23,-55],[4924129,1977842,63,-183,24,-45],[4929982,2007301,-99,18,-50,29,-30,34,-26,37,-45,98,-89,86,-74,121,-30,70,-160,204,-34,20,-50,5,-275,-23],[4929732,1974647,-53,-19,-49,2,-108,12,-113,31],[4929329,1974690,-119,31,-109,9,-212,-148,-96,-115,-37,-1,-143,202,-58,102,-45,198,-84,241,-41,83],[4928245,1975511,-45,68,-29,23,-302,70,-81,71,-65,89,-58,42,-115,43,-227,53,-175,12,-170,-15,-201,-60,-57,2],[4926634,1975900,-200,-7,-130,-67,-49,-10,-20,-42,-59,-46,-90,-5,-102,19,-152,-69,-99,9,-89,56,-68,89,-31,25,-125,29,-188,159,-64,106,-141,134,-170,114,-34,75,-86,120,-41,88,-134,197,-2,23,-70,84,-14,35,10,24,-21,50,-45,65,9,13,-7,16,-98,140,-8,35,14,15,-19,28,13,13,-12,24,13,28,-8,38,-38,60,-35,13,-38,51,-77,213,-17,-45,-34,-25,-44,-13,-93,14,-110,-36],[4923749,1977757,-147,5,37,-20,56,-57,19,-57,8,-68],[4923750,1977426,6,-20,27,-10,66,-89,14,-52,-54,-103,-5,-35,-12,0,-3,-23,-18,-18,-6,-55,-15,-14,-10,-35,-90,-120,15,-75,-7,-99,-202,-43,-209,136,-35,5,-147,112,-60,12,-131,-52,-24,6,-119,-81,-137,-39,-87,-18,-120,28,-48,-20,-26,4,-17,-38,-58,-36,-64,-70,-139,-108,-193,-275,-79,-136,-7,-31,-19,-8,-138,-184,-184,47,-103,41,-133,27,-50,26,-115,79,-49,54,-20,42,-43,9,-15,67,-5,-7,-49,40,-9,28,-18,14,-12,-8,-7,12,-36,-2,-76,-64,-57,-88,-94,-68,-23,-50,-26,-19,-26,-45,-34,-3,-12,-24,-52,-28,-48,28,-16,21,30,20,11,30,10,101,-20,34,-7,149,43,181,-19,102,15,33,-19,18,-5,27,-14,-2,9,69,-22,24,32,77,4,25,-12,76,22,97,-28,88,-4,99,-13,53,-96,81,-38,61,-39,37,-106,29,-104,-8,-3,18,-36,5,7,15,-10,34,-44,53,-31,69,-31,-13,-10,24,-21,9,-3,20,-10,-3,-76,106,-76,41,-69,60,-41,18,-28,-4,-18,19,-70,6,12,-77,-45,-17,-3,-27,-44,-23,-48,-80,-31,1,13,-49,-19,-31,-2,-25,-46,-16,-5,-24,-167,-45,-150,23,-67,-12,-104,-34,-53,-66,-86,-79,-103,20],[4918310,1977426,-122,19,-80,-44,-82,-27,-43,-40,-58,-22,-62,-4,-48,35,-58,-60,-24,-11,-99,57,-90,23,-52,31,-52,-5,-211,152,-94,10,-61,-22,-40,6,-91,83,-60,25,-42,36,-100,120,-105,-3,-38,12,-130,134,-143,70,-192,127,-50,48,-31,57,-47,22,-34,-1],[4915847,1978311,-93,104],[4915668,1978501,-94,112,-117,76,-51,56,-30,49,-38,132,-48,90,-61,37,-49,62,-168,138,-27,62,-209,95,-64,115,-44,-2,-127,61,-44,36,-19,34,-40,28,-38,-4,-76,-46,-285,-40,-84,-63],[4913880,1979450,-90,-73,-44,-101,-105,-142,-76,-14,-106,47],[4913994,1996631,37,75,58,-13,99,-71,53,-152,48,-68,6,-40,-5,-107,17,-83,39,-50,70,-59,26,-39,39,-174,87,-177,31,-33,18,8,53,48,53,71],[4914779,1995864,54,23,31,83,17,20,8,-84,-12,-71,-3,-132,91,150],[4915016,1995959,11,27,83,59,25,36],[4915202,1996135,128,56,151,165,47,17,53,-4,27,19,63,104,57,132,43,53,34,14,72,-9,34,9,177,-19],[4916288,1996683,91,41],[4916452,1996765,26,6],[4916564,1996769,45,15],[4916729,1996865,70,45,107,135,10,27,13,111,64,84,12,31,3,137,47,51],[4917143,1997540,41,18],[4917267,1997587,55,34,65,83,108,64,54,170,26,30,89,40,129,3,134,166,43,12,119,120,94,151,37,46,40,28,48,74,96,41,50,52,50,86,39,43,50,158,31,38,48,21,33,-4,85,52,173,242,36,97,-1,74,14,97,-18,124,26,80,-16,151,3,51,27,56,7,96,74,330,-41,73,-62,-4,-16,14,-68,18,-16,-7,-4,15,-15,-1,-24,49,0,71,-14,9,-31,-13,-25,18,-26,149,6,52,-32,64,-31,10,-48,75,-21,59,-13,149,-43,104,-34,25,-6,16,9,30,-4,16,25,33,2,25,-12,34,-39,67,-17,53,-37,15,-46,58,-55,79,-30,66,-122,143,-42,77,-110,156,-34,90,-65,115,-9,47,-66,156,-6,76,-16,21,-5,171,-11,92,26,66,-13,55,0,56,-19,36,-12,83,-27,47,-13,106,-28,70,-8,41,11,63,-18,25,-19,60,-13,95,-41,106,-26,140,-19,172,-26,68,-15,118,-20,49,-34,47,-18,76,-24,42,1,24,-14,36,6,22,-18,60,9,11,-7,16,6,9,-4,20,11,14,2,58,15,7,4,16,-2,50,18,5,2,15,11,-10,4,30,10,-16,11,8,16,76,35,38,51,-17,27,29,57,118,-27,2,29,35,-20,10,6,7,-20,4,6,9,-6,9,-46,-4,7,15,-14,-5,8,15,-34,1,22,31,-25,3,34,29,-14,16,17,9,-10,9,10,9,-1,24,-8,16,7,6,-41,56,0,56,10,27,-11,84,4,56,-19,81,-22,37,-60,32,-1,37,-92,21,-51,29,-85,-12,-16,8,-8,22,-39,39,-12,39,-48,70,-41,4,-32,-12,-33,15,-13,11,1,27,-13,-2,-22,33,-19,4,-23,54,-56,18,-53,41,-51,67,-25,-12,2,36,-44,-21,2,-20,-16,12,7,-15,-12,-4,4,-21,-28,18,3,-24,-17,8,-5,-46,-19,5,-30,40,-23,67,-15,8,-22,-11,-2,21,-32,25,-12,51,13,35,-5,29,20,-4,-13,77,-58,70,-49,89,-27,22,-37,77,-43,40,-26,55,-16,5,-53,61,-3,21,-28,-2,-72,60,-23,1,-94,79,-40,4,-57,30,-63,114,-126,95,-171,46,-57,77,-79,41,-18,34,-37,-27,-47,-10],[4915258,2007690,-112,-39,-40,-1,-178,51],[4914848,2007704,-164,-7,-160,28,-83,-45,-82,27,-102,-5,-97,66,-4,37,29,47,-15,12,-45,-27,-20,-55,17,-82,48,-100,-10,-2,-55,80],[4914040,2007766,-26,56,-5,33,0,87,16,53,-14,37,-58,40,-87,16,-72,-10,-35,56,-72,-36,-116,-9,-68,-46,-69,-4,-31,-18,-105,-154,-28,-75,-60,-56],[4913134,2007699,-80,-36,-13,-16,-1,-28,26,-95,-1,-24,-15,-19,-84,17,-60,-16,-55,-49,-93,3,-14,17,-28,7],[4912610,2007465,-2,0]],"green":[[4923585,1978963,10,111,38,100,-10,89,25,176,58,125,41,137,86,180,16,144,29,140,46,118,51,326],[4923215,1983642,-30,-22,-124,8,-58,-21,-24,4,-32,-27,-125,-6,13,-66,-2,-46,-60,-6,-1,-16,-45,37,-39,13,-25,28,-46,5,-63,-185,-55,-30,-33,-47,-22,21,-11,-15,-53,-19,-23,28,-50,14,-49,69,-59,6,-58,-17,-131,3,-51,-18,-35,5,-72,-34,43,-14,64,43],[4921852,1983308,-50,4,-65,-16,-172,141,-137,-4,-138,107,-59,14,-37,23,-23,-6,-47,29,-66,-9,-82,-17,-80,-39,-142,-14,-74,-53,-79,-24,-72,-69,-74,-127,-74,-82,-66,-24,-54,18,-6,-10,12,-33,-106,-71,-18,-35,-31,-21],[4924965,1995173,-62,-19,-82,-128,-206,-275,-163,-152,-48,-15,-45,-32,-162,-162,-31,-9,1,46,-58,-11,-53,-47,-47,5,-76,-59,-53,-23,-36,-38,-12,-70,-41,-11,-38,-77,-47,-28,-18,-38,-44,-30,-18,22,-4,-18,-11,7,-21,-23,-25,14,-9,-15,-7,14,-11,-22,-4,-55,-15,9,1,-55,-28,19,-2,-26,-13,-4,-20,22,-10,-9],[4927159,1991720,40,-42,32,-10,25,-26,120,-35,99,58,73,63,83,145,38,87,61,53,44,9],[4929686,1975283,-324,654],[4929306,1976049,-64,136,-38,119],[4929170,1976417,-23,72],[4929114,1976599,-75,248,-68,98,-95,272,-31,45,-33,33,-15,-12,-12,-46,-254,-39],[4928384,1977201,-211,-50],[4928104,1977118,-107,98,-32,54,-72,21,-54,66,-134,-19,-68,-45,-68,-15,-83,-55,-47,-59,-46,-87,-56,-34,-43,-67,-96,-61,-195,-53,-111,-63,-65,-94,2,-29,-45,-180,-23,-56,0,-26,29,-25,132,-277,39,-29,170,-69,17,-32,194,-16,208,-49,115,-43,58,-42,65,-89,81,-71,302,-70,29,-23,45,-68],[4928385,1975292,41,-83,84,-241,45,-198,58,-102,143,-202,37,1,96,115,212,148,109,-9,119,-31],[4929409,1974673,113,-31,108,-12,49,-2,53,19,10,37,-10,28,2,30,62,107,8,54,-22,98,3,131,-99,151],[4914852,1979381,106,103,42,77,15,2,45,-33,32,31,30,0,14,20,24,-18,18,44,32,-55,6,57,14,31,30,-72,37,41,29,80,16,2,88,-59,54,92,15,-9,11,-35,19,2,-13,-32,36,-79,15,18,13,-18,39,48,19,1,22,-26,55,-8,6,-71,187,-57,62,21,15,-13,24,9,22,-9,8,26,34,-9,81,40,44,-16,28,36,40,-26,11,-31,77,-23,44,4,93,35,47,-3,75,88,42,8,27,-16,85,5,85,-40,42,15,30,-5,14,-85,20,37,49,-1,18,-15,69,40,54,-23,8,-14,12,27,25,15,51,1,43,-38,76,-37,61,-65,28,-46,38,-12,49,-40,191,10,81,20,64,63,24,-12,155,15,70,-39,86,21,106,5,54,31,38,51,71,59,22,1,186,127,76,11,85,-26,7,20,42,22,37,68,53,53,38,67,64,73,116,172,112,24,51,-53,2,-27,46,-30,92,-186,77,-87,52,-119,75,-107,18,-16,56,11,53,-18,1,-34,39,-108,4,-71,11,-10,-8,-17,20,-98,-4,-32,17,-81,1,-54,-16,-4,-11,-59,-39,-83,-26,-127,-29,-92,-75,-140,-94,-138,-23,-60,-27,-31,-8,-69,-51,-80,-21,-17,-38,-88,-42,-30,-3,-36,-70,6,12,-77,-45,-17,-3,-27,-44,-23,-48,-80,-31,1,13,-49,-31,-64,-36,-8,-5,-24,-16,-6,-127,-36,-174,20,-54,-11,39,-33,-1,-31,17,-10,-5,-30,43,-29,0,-23,27,-61,5,-33,92,-33,41,-70,100,-88,35,-86,31,-55,9,1,-8,-51,17,-14,-9,-51,33,-17,1,-34,13,-20,13,-77,38,-114,20,-30,84,-63,43,-113,19,-81,0,-162,-15,-23,-21,-8,-28,-66,2,-41,-43,-41,-17,-39,-3,-67,-46,-181,-11,-109,22,-90,-3,-59,34,-119,-4,-59,71,-33,-29,-56,-48,-47,12,-14,8,-36,-16,-23,9,-62,-14,-195,-31,-30,-36,-119,-7,-74,7,-27,-48,-157,-60,-138,-22,-31,-23,9,-64,-152,-3,-47,16,-59,-21,-15,-7,-76,-97,40,-27,-21,-91,-126,0,-21,-66,-121,-52,-58,-22,-72,-19,-25,-22,-60,-37,-208,-35,-134,-36,-351,-17,-84,-141,-231,-117,-246,-33,-13,-32,-114,-14,3,16,-112,20,-307,7,-9,26,17,62,-29,-12,-49,-49,-50,-70,-112,-35,-74,-3,-35,38,22,48,8,-7,-68,27,-186,17,-39,4,-40,8,16,10,-31,20,-80,23,13,9,-24,7,-20,-11,-39,23,-96,8,19,1,-22,7,13,5,-36,6,4,2,-43,-18,-13,-5,-26,-32,-54,15,0,-24,-57,18,-2,4,-14,-20,-92,27,-10,-19,-62,15,-21,-18,-43,47,-45,74,7,91,40,25,-15,42,2,25,-19,61,0,31,14,52,123,42,33,21,35,92,67,44,7,45,107,47,40,35,56,139,109,41,16,35,58,17,65,83,114,21,16,19,-8,-8,-9,18,-11,79,-3,42,-13,10,-15,28,7,50,-24,33,4,43,-16,33,10,15,18,8,-41,25,-20,7,-59,66,-68,17,-72,-5,-11,9,-9,0,-36,13,-14,-1,-18,20,-54,-4,-17,77,-25,13,2,-20,35,25,-6,-12,66,49,-26,-15,58,15,-12,29,10,66,-19,76,55,-78,22,7,85,47,73,38,16,2,42,30,77],[4920312,1971149,81,76,8,43,16,14,59,154,138,183,5,134,-13,28,9,26,15,12,14,44,4,109,8,21,27,21,9,32,-3,42,-21,50,23,26,10,78,-33,102,-13,76,-3,119,-11,75,8,29,60,80,-12,92,-7,-11,-2,10,8,89,-13,-4,25,114,-27,-9,-4,37,-16,32,-15,-11,-29,5,10,28,-1,32,-15,-23,-25,1,13,30,-1,38,18,73,3,68,-16,47,-30,21,0,13,20,32,26,-16,9,21,31,-5,87,24,80,60,69,118,27,130,-43,58,-23,108,12,87,28,53,-24,13,-30,60,-60,10,-26,77,-38,-19,-19,12,15,37,3,61,11,31,-15,50,0,107,-5,15,-40,21,-29,70,1,31,-12,6,-8,30,-46,40,-16,69,-46,74,-16,88,2,33,-38,91,13,71,49,36,76,10,38,20,58,-33,67,9,114,-38,45,13,54,-19,22,13,53,-12,27,-21,29,10,192,-93,41,-73,46,-186,63,-15,36,-39,46,7,29,-33,33,-12,62,5,24,35,-7,50,-39,31,-13,24,20,15,75,6,-31,67,60,2,-4,29,55,-24,-17,41,72,-27,62,37,30,-60,51,2,-28,31,-5,46,18,-26,140,36],[4924430,1981162,118,123,81,5,38,20],[4924747,1981373,41,28,82,22,106,53,88,1,85,22],[4925232,1981522,28,6],[4923975,1980609,38,49,128,100,76,138,17,49,76,120,120,97],[4925260,1981528,157,-5],[4925611,1981541,114,4],[4925817,1981517,61,-3,295,141,111,-12],[4926447,1981617,62,-9],[4926597,1981595,151,35,101,73,95,100],[4927004,1981869,183,206,79,134],[4927423,1982471,58,90,26,124,71,148,51,215,37,91],[4927666,1983139,-4,123,61,143,15,112,-11,143,14,100,-20,92,62,190,66,101,56,56,4,70,-37,120],[4927825,1984538,-13,59,-1,125,-16,126,-23,61,5,42,-3,27,-8,5,16,23,5,121],[4927797,1985269,37,411,73,116,11,82,32,61,-19,43,-20,13,-12,39,-10,150,-24,162,5,30,-159,217],[4927642,1986685,-63,103,-32,105],[4927547,1986893,41,15],[4927668,1986951,47,36,28,93,52,36],[4928249,1987205,128,36,132,57,36,30,86,5,31,45,52,32,40,124,43,66,90,-1,150,122,41,146,64,107,38,34,31,70,45,62,78,38,80,116,117,102,74,99,23,97,42,33,-14,65,5,46,81,155,82,97,93,59,28,60,40,41,86,65,63,16,28,35,80,132,14,8,48,146,47,74,28,81,19,16,63,111,41,-33,41,-99,39,-35,23,87,54,125,2,138],[4930653,1990132,-42,122,-10,66,-88,171,-14,113,-42,99,-14,102],[4930418,1990926,-48,229],[4927550,1986881,-78,-17,-109,18],[4927232,1986897,-74,10,-55,-9],[4926775,1986941,-114,13],[4926486,1986988,-78,16],[4926408,1987004,-42,-36,-126,-39,-70,5,-67,21,-99,-18,-76,15,-46,-15,-34,-51,-37,-30,-166,-42,-100,-70],[4925545,1986744,-58,-7,-81,-32,-69,-65,-129,-57,-46,-70,-132,21,-94,-24,-101,39,-110,21,-231,-118,-89,4,-143,-87,-49,9],[4924213,1986378,-103,71,-71,-13,-113,-74,-60,-103,-99,-48,-85,-64,-78,-83,-184,-104,-27,-49,-23,-18,-57,3,-99,-32,-59,9,-89,93,-98,24],[4922968,1985990,-38,184],[4922897,1986292,-68,125,-20,120,-111,154,-31,81,-56,37,-51,94,-29,160,-46,127,-3,36,-70,218,4,110,32,166,-7,232,29,226,-14,105,-11,189,-14,73,10,30,-20,157,-24,74,-25,172,-70,90,-60,184,-36,63,-14,70,-21,41,-13,107,4,55],[4922162,1989588,88,-103,34,-23,55,145,35,67,74,10],[4922521,1989710,14,-1,58,120,70,9,40,-49,8,-126,20,-30,93,-75,33,-55,30,-19,41,-94,1,-26,25,-30,19,37,1,46,45,1,59,37,95,-78,75,-26,11,21,2,55,26,27,55,160,61,-45,149,66,56,7,61,-21,102,-63,32,3],[4923112,1990322,1,-32,28,-69,91,-89,29,0,104,-57,39,-9,120,-85,80,-15,22,-45,3,-66,10,-4,3,-35,32,-27,-1,-14,19,-19,9,-34,83,-118,19,-43],[4926950,1998052,-16,50,-34,45,4,83,40,104,15,252,48,48,52,90,17,139,-19,118,52,33,87,31,27,26,15,31,48,26,8,17],[4927294,1999145,77,-19,73,-83,79,-39,73,-21,12,13,36,3,-3,-30,52,-26,37,-52,22,-70,24,-26,17,-63,7,-95,31,-38,4,-52,12,-37,22,-10,-1,-36,15,-9,19,-80,28,-25,-33,-35,-39,-2,-15,-42,-28,-14,57,-81],[4925174,1997417,-12,2,-51,55,-30,48,-15,52,-87,72,-93,-7,-78,-49,-119,25,-17,26,-36,-18,-5,13,-65,-74,-12,61,-35,-43,-24,-1,-12,6,9,24,-2,30,-26,-11,-52,7,-9,9,19,19,0,12,-91,40,-26,-14,-43,-67,-61,-37,-40,-7,-62,26,-9,21,-78,71,-16,55,-31,-10,-18,-40,-96,-87,-9,6,-1,17,16,29,21,11,24,76,-37,-46,-43,6,-14,-14,-48,64,-45,-51,21,70,-17,19,-17,-24,-17,-3,-64,89,-18,46,-97,21,-7,8,10,13,-7,16,-183,79,-74,73,-9,45],[4929211,1988078,56,74,67,26],[4928450,2011300,-1,-11,-47,-10,-98,13,-153,-145,-49,-26,-40,-10,-52,1,-38,19,-18,-8,-117,-197,-85,-50,-65,-90,-62,-25,-91,-216,-35,-51,-68,-67,-54,-94,-58,-26,-47,-44,-39,-65,-94,-66,-139,-22,-53,11,-32,-32,-36,-10,-43,-91,-33,-192,-5,-164,-35,-45,-43,-33,-24,-40,-2,-23,-38,-86,-132,-185,-106,-82,-18,-31,-77,-75,-37,-3],[4926286,2009029,-147,-153,-44,-64,-15,-1,-16,-27,-12,-2,0,-18,-49,-99,-13,-80,-49,-115,-61,-252,26,-124,52,-179,8,-56,-2,-89,-59,-116,-12,-116,-64,-87,-6,-71,-22,-80,-17,-168,-121,-195],[4925613,2006851,-25,-66,-56,-77,3,-151],[4925535,2006557,6,-61,37,-145,-4,-32,14,-71,-16,-264,6,-240,-18,-98,-6,-110,-25,-88,-81,-182,-68,-84,-38,-101,0,-53,27,-73,12,-78,14,-185,-50,-137,-63,-111,-63,-71,-28,-117,-10,-4,-20,-61,-61,-55,-13,-43,4,-49,-31,-85,6,-45,-13,-47,-25,-49,-76,-89,-14,-49,-21,-34,6,-50],[4924327,2000693,9,86,40,56,-78,139,28,124,-6,39,13,14,-17,33,11,12,15,58,-3,64,57,99,24,102,8,47,-6,95,11,62,28,66,5,35,43,52,15,63,82,114,28,11,30,42,23,106,58,126,2,79,14,71,-11,119,8,41,47,68,9,37,70,131,2,81,52,90,86,101,7,47,118,162,31,58,37,114,2,29,-14,26,-78,-7,-67,-25,-57,7,-80,29],[4928386,1999865,-41,12,-60,-63,-51,-22,-89,-13,-46,-39,-29,-9,-153,-13,-90,-40,-123,40,-67,-33,-57,46,-72,28,-66,90,-32,84,-31,34,-61,99,-3,29,29,16,10,19,3,66,-70,119,-59,-11,-97,20,-75,-64,-32,25,-35,-2,-31,22,-37,-28],[4926804,2000344,35,-42,82,-25,-82,25,-23,20,-29,60,10,171,-15,152,27,181,-7,109,11,194,45,105,-12,62,6,83,-11,37,-43,58,-1,105,10,42,104,28,24,48,34,30,6,18,-6,-18,-34,-30,-24,-48,-81,-15,-28,-22,-7,-61,3,-77,47,-66,7,-36,-6,-85,12,-53,-44,-96,-10,-133],[4926975,2001805,39,35,29,45,102,79,57,15,170,-15,42,14],[4926984,2001769,70,-49,17,-31,9,9,33,-36,51,-27],[4927169,2001630,35,32,172,87,66,76,5,17,-8,16,-54,50,29,70],[4927414,2001978,125,13,115,40,25,32,91,-5,65,-32,14,7,30,-34,80,-51,23,-3,25,-35,39,-8,95,-74,78,-149,48,-58,138,-74,22,-4,26,14,50,-36,54,-56,12,-74,33,-16,100,-116,53,-8,10,-32,-10,-51],[4923376,2008850,42,82,11,150,20,97,-56,114,14,5,37,-25,50,-9,10,13,-8,40,-66,65,-61,103,-11,29,6,48],[4919115,2000493,54,362,-5,77,-31,78,-23,223,64,63,48,115,21,20,67,-13,38,-25,74,-249,22,-33,24,59,43,69,7,-74,22,-70,25,42,5,27,30,40,34,22,21,-12,13,18,11,-18,18,41,11,-25,36,58,13,-20,27,1,36,-44,95,-17,27,13,63,-4,103,-30,39,-34,70,-30,39,-38,56,-24,50,-94,4,-103,48,30,40,4,13,-138],[4921820,2005116,46,63,46,120,22,139,-12,117,47,78,43,190,4,35,-12,132,5,56,61,200,5,59,25,4,8,-31,22,-31,15,-2,29,26,36,122,18,129,30,73,12,57,46,115,47,16,31,45,-5,44,18,46,8,68,38,83,10,114,47,32,24,47,20,76,16,21,15,178,16,46,-11,36,3,52,13,27,29,20,34,72,38,14,19,30,3,59,25,61,10,60,32,66,44,19,18,69,-25,25,13,25,73,28,8,28,34,29,14,28,51,37,5,35,41,18,17,-5,63,31,18,65,142,155,28,-4,57,116],[4921237,2004230,20,81,24,46,33,17,69,9,19,21,-1,26,13,30,15,12,53,20,-11,-37,51,18,48,93,17,-3,31,24,52,106,11,84,23,24,40,109,23,32,33,80,6,57,14,37],[4918606,1981660,57,117,46,164,-4,63,-27,73,18,181,-5,156,8,49,21,78,113,172,44,39,21,2,81,87,202,75,6,22,61,-95,50,-58,139,-80,280,62,16,7,64,135,58,-16,41,15,33,-4,40,27,49,66,94,-7],[4929596,1979381,0,64],[4929725,1974703,13,48,65,118,1,34,-22,98,3,131,-98,148,-325,657],[4929306,1976049,-64,136,-38,119],[4929170,1976417,-23,72],[4929114,1976599,-75,248,-68,98,-99,280,-117,128,-48,82,-156,157,-56,244,-41,98,-13,136,-7,231,-27,215,-45,234,14,250,-16,200,7,142,-19,60,-62,97,-48,451,-80,272,-49,270,-2,52,23,105],[4928142,1980797,54,258],[4928195,1981184,4,157,45,228,12,112,25,54,49,20,26,-14,108,-125,118,-108,49,-180,99,-182],[4928789,1981049,133,-231,28,-132,96,-236,67,-233,-56,-305,-59,-425,-3,-340,13,-214,17,-82],[4929050,1978739,64,-371,89,-259,105,-362,57,-88,74,-83,79,-38],[4929583,1977484,84,-67,57,-16,57,3,31,-40,2,-35,-28,-110,-11,-95,11,-217,104,-161,69,-138,23,-74,24,-33,121,-36,30,3,35,50,16,53,81,61,37,45,32,86,103,160,28,21,15,-4,3,-13,-5,-96,24,-185,-30,-60,-25,-141,-126,-458,-12,-73,-26,-368,17,-92,26,-57,-110,53,-111,32,-94,-21,-91,-60,-127,-139,-55,-90],[4926468,1994208,15,31,-4,16,-75,-6,-29,27,-44,-5,-15,-17,-36,1,-19,74,2,23,-64,155,4,60,-9,61,-23,52,7,30,-40,68,-2,23,40,11,90,58,26,49,42,25,38,51,1,30,-39,76,-2,53,55,-22,65,75,43,20,-61,77,-27,146,4,9,10,2,36,-40,122,-92,56,-21,42,17,54,-6,131,45,43,56,37,80,59,39,13,20,126,-5,137,47,105,20,26,16,31,41,44,-28,44,-9,39,29,42,53,13,3,31,-29,137,17],[4923431,1999369,-25,-19,-51,-11,-59,-85,-111,-50,-50,22,-59,-6,-53,21,-51,-47,-44,4,-110,-30,-51,24,-57,59,-27,-7,-75,17,-61,-21,-28,14],[4926950,1998052,-133,-99,-106,-47,-176,-209,-54,-8,-34,15,-158,-117,-30,-41,-39,-106,-59,-55,-143,-27,-128,83,-188,219,-62,-14,-82,11,-59,25,-14,-8,-3,-47,-31,2,-52,-39,-83,17,-75,108,0,38,-24,80,-81,158,-38,47,-52,25,-93,-61,-22,-55,3,-31,9,-23,44,-45,38,-29,61,-24,39,-197,23,-75,33,-62,-7,-44],[4922346,2002455,-52,62,10,19,-15,55,-40,57,-30,23,-7,140,29,60,11,-2,-2,23,10,-6,31,52,18,-13,5,13,16,-2,19,17,13,-9,3,21,8,-7,7,17,26,-4,1,35,15,4,9,25,17,-14,1,25,-11,25,19,34,2,40,-3,52,-20,34,7,15],[4919037,2007370,-51,-43,-7,-47,6,-13,-14,-23,8,-49,-20,-68,7,-22,-15,-47,-34,-9,-12,-25,15,-45,-9,-9,-80,10,-15,-48,-48,-89,-28,-19,-27,-116,7,-66,-14,-41,-33,-5,-12,26,-9,34,5,35,-22,22,18,66,-20,38,-49,39,-14,-15,2,-27,-34,4,-4,69,-9,9,-4,38,-16,19,-22,3,-58,-32,-20,-51,-6,-118,6,-52,-12,-87,-33,-85,11,-18],[4920564,1980755,39,3,67,-36,156,12,141,-28,113,24,202,-16,88,21,100,-38,69,26,61,-51,123,-72,27,-30,37,-80,86,-82],[4923585,1978963,-52,-79,-56,-46,-57,-82,-64,-159,-104,-94,-129,-62,-250,-30,-91,3,-81,-45,-106,-3,-39,31,-20,-10,0,-31,-30,-95,-54,59,-45,-9,-19,-17,-64,2,-34,-12,-15,-16,-18,-57,-20,-23,-63,-135,-73,-117,-30,-26,-57,-123,-44,-45,-43,-89,-27,-8,-106,-126,-92,-29,-26,-20,-13,-31,-126,-111,-13,-33,-16,-189,-26,-56,-13,-59,17,-46,-1,-26,15,-8,12,-20,1,-22,17,-11,-19,-35,9,-37,-50,-123,-92,-155,-24,-80,-76,-178,-31,-120,-64,-23,-53,23,-9,-50,28,-56,13,-58,10,-7,140,-29,103,-41,184,-47]],"red":[[4936487,1980375,47,368,37,118,33,53],[4936659,1980992,73,129,115,-7,226,100,46,-12,45,-33,9,21,9,132],[4937192,1981517,7,72,-18,79,-24,-4,-18,123,1,117,19,40,67,67,27,62,14,91,3,85,-29,154,-65,75,-66,32,-177,-37,-61,-50,-29,9,-37,41,-103,44,-86,53,-81,103,-40,95,-35,49,-105,38,-124,-9,-17,41,-15,108],[4936185,1983109,-8,96,-24,64,-229,204,-176,249,-17,73,-38,45,-40,113,-59,97,-36,104,-45,68,-117,269,-37,27,-51,4,-39,19,-187,121,-221,229,-89,149,-93,85,-39,61,-71,62,-11,31,-101,88,-38,51,-22,0,-19,17,-63,117,-36,193,-108,219,-35,125,-94,137,-72,67,-46,80],[4933891,1986473,-35,76,-29,117,1,140],[4933819,1986943,-9,138,-18,103,-61,213,-24,58,-54,235,-74,142,-64,42,-59,69,-131,90,-163,139,-198,102,-116,159,-166,295,-24,92,13,231,-9,126,-19,110,8,200,-9,115,62,162,20,182,-35,0,-60,38,-160,146,-122,85,-123,19,-125,39,-134,16,-205,73,-79,1,-80,19],[4931499,1990384,-206,-37,-48,10,-186,137,-136,127,-72,88,-64,53,-59,96,-86,35,-40,34,-75,116,-58,41,-35,50,-64,21,6,395],[4930370,1991676,-1,17],[4930364,1991828,9,133,49,287],[4930456,1992403,6,29],[4930479,1992575,26,151,64,219],[4930609,1993067,53,156,94,340,230,101,49,31,34,45,79,65],[4931302,1993929,230,245,34,12,57,-14,40,16,95,77,49,118,69,108,43,100],[4931983,1994655,41,64,47,137,64,136,85,127,94,111,25,55,-62,39,-73,110,-37,95,-21,92,-33,79,0,172,71,368],[4932233,1996422,81,320,20,191,61,240,27,212,95,241,20,35,77,64,43,56,121,251],[4932835,1998129,34,59,44,33,61,80,28,76,24,132],[4933085,1998702,63,105,49,30,33,47,25,68,169,165,71,-5,58,-31,10,-26,-6,-28,125,-40,1,-17,30,-26,5,-129,11,-3,29,47,56,-36,16,81,89,299,-6,165,19,84,-4,103,16,108,6,129,48,237,6,119,-5,132,-15,-10,-32,22,-29,-11,-54,9,-34,-7,-21,-22,-15,4,-17,67,15,8,-3,29,-7,-24,-2,22,-6,-1,-16,157,17,31,88,28,7,18,28,-1,-53,523,20,127,46,115,-3,61,-50,155,-84,64,-47,217,-69,171],[4933625,2002192,-20,209,17,37,33,31,44,15,5,13,26,168,53,223,-3,138,62,136,24,93,114,155,61,43,124,156,94,44,-12,51,20,60,87,106,168,245,46,24,164,36,25,26,47,86],[4934846,2004397,26,162,25,308,18,112],[4934941,2005125,32,90,4,101,-24,213,-32,117],[4934874,2005739,-14,29],[4934813,2005865,-62,129,-100,145,-124,32,-55,67,-37,75,-80,218,-30,133,-18,184,-2,104,-31,266],[4934238,2007381,-27,123],[4934186,2007627,-31,134,-102,223,-27,133,-78,205],[4933903,2008452,-89,241,-126,222,-93,90,-75,45,-116,31,-166,252,-149,181,-110,194,11,17,22,-8,63,-55,55,-28,50,-6,40,11,220,189,111,73,52,30,97,1,97,38,127,107,101,160,54,122,128,329,151,478,108,217,260,243,127,50,129,33,40,32,42,68],[4935108,2011897,87,208,45,216,95,144,33,27,183,80,33,-6,72,-51,65,-20,30,26,21,42],[4935818,2012696,64,199,9,83,-9,71,-36,65,-140,91,-144,165,-40,30,-20,89,-35,268],[4935442,2013956,-8,31],[4935363,2014170,-30,62],[4935175,2014474,76,133],[4935305,2014692,74,199,56,100,49,150,26,22,79,199,56,74,37,158,34,-24,147,60,64,2,34,49,30,10,81,-79,54,-5,77,127,36,33,59,27,39,65,16,33,0,34,44,140,53,119,31,31,135,17,125,-27,119,116,209,139,125,7,78,41,93,8,98,73],[4937619,2016653,80,-5,64,48,21,-11,41,26,54,-17,64,11,93,76,76,132,34,35,76,45,70,11,64,110,97,56,46,44,41,15,45,65],[4938690,2017613,20,45,35,47,11,55,40,66,70,20,77,71,68,158,6,148,27,148,28,37],[4939195,2018630,26,44,81,84,122,264,14,17,23,-1,6,50,57,-47,34,-16,33,1,45,11,124,74,28,36,218,-17],[4940479,2019084,89,51,73,-6,37,88,37,46,74,9,57,-70],[4940933,2019119,24,-28,50,-142,28,-51,21,1,26,40],[4941135,2019078,7,33,9,-1],[4941231,2019138,48,49,48,-5,5,17,12,89,-7,233],[4941332,2020153,-18,267],[4941322,2020539,18,143,-2,51,-6,18,-67,40,-16,25,23,43,72,0,37,34,14,190,17,36,32,19,20,272,-16,156,22,346,30,35,59,21,80,71,74,7,116,52,-13,237,11,238,16,107,-18,111,-24,490],[4941770,2023566,18,191,-14,83,2,174,-6,15,-18,4,-28,-34,-12,-1,-42,67,3,112,38,78,8,74,-3,165,-19,81,12,88,-9,158,5,12,36,12,29,62,32,6,29,-16,30,4,12,41,-1,52,41,70,0,48,-21,73,-82,78,-72,213,-120,157,12,44,-4,82,-14,10,-33,111,-18,2,-44,66,-22,127],[4941379,2026364,-36,90,-110,147,-15,156,48,109,55,300,65,133,30,41,54,-13,48,27,73,101],[4941642,2027590,4,177],[4941628,2027888,-2,129,30,139,-4,78,26,227,1,254,7,47,-5,66,19,28,20,111,3,191],[4941707,2029281,-27,218,21,171,16,57,21,29],[4941823,2029877,64,115,65,167,47,217],[4942033,2030563,9,60],[4942065,2030733,21,161],[4942075,2031023,-16,58],[4941975,2031384,-36,125,-5,131,26,85,-17,60,3,34,17,14,65,-3,84,-18,47,-28,-7,126,-22,52,-83,57,-42,14,-31,-6,-52,-46,-7,31,20,30,-23,2,-35,-22,-91,8,-78,-31,-72,-84,-20,46,-32,38,-24,18,-52,9],[4941406,2032045,-155,29,-72,55],[4941105,2032210,-46,32,-130,23,-163,156,-45,68,-48,134,-54,225,-75,192,0,75,28,76],[4940623,2033287,75,151,4,84,-48,105,-49,165,-76,93,-61,104,43,19,0,28,28,98,30,70,87,104,43,89,-18,64,35,97,11,98,-6,69,-43,122,22,122,190,200,48,87,-70,196,-19,181,-24,86,-31,61,-78,93],[4940595,2036016,-50,47,-136,82],[4940305,2036190,-44,47,-26,76,-1,82,33,90,37,37,89,52,324,73,94,56,53,81,20,59,-11,175,30,-22,4,29,25,47,72,12,100,64,130,171,25,5,98,-27,29,-30,46,-14,61,-61,31,1,35,83,82,84,-11,78,4,110,15,35,44,15,43,85,32,216,16,32,72,12],[4921873,1980408,36,-40,184,104,30,-4,27,22,141,-27,76,52,133,126,74,9,22,17,179,20,66,60,12,-2,13,44,70,30,19,21,54,-1,28,19,54,-9,42,-50,63,-117,26,-6,30,-41,44,-3,128,42,107,-37,117,7,76,-38,96,29,49,-27,106,1],[4920751,1976311,-36,190,-16,16,-7,32,-36,39,-65,171,12,105,-15,85,1,71,-33,150,9,31,2,89,-54,132,-1,45,-11,33,12,65,-13,83,-18,56,-93,184,-53,74,-13,38,-69,40,-51,47,-18,-9,-46,11,-29,29,-72,36,-25,52,-19,10,-50,134,-16,106,14,178,-34,79,-3,140,16,106,-2,92,-17,81,4,32,-18,68,-2,30,8,17,-11,10,-4,71,-39,108,-1,34],[4919839,1979502,38,22,47,65,31,20,190,302,83,166,64,58,166,229,48,214,58,177],[4919955,1981983,24,-38,-6,-20,9,-16,65,-49,0,-10,28,-4,1,-42,9,0,2,-27,38,-3,-3,-82,61,-24,50,-55,128,-389,34,-133,126,-273,43,-63],[4920112,1982990,52,-42,8,-78,0,-115,-39,-87,14,-59,-3,-59,12,-55,-32,-100,11,-112,-45,-64,-14,-88,-88,-90,-33,-58],[4920112,1982990,-35,75,-26,29,-111,34,-209,155,-34,55,-48,123,-14,81,-6,250,-41,215,-60,-15,-5,15,-17,-5,-9,39,-9,-7,-5,16,-26,11,-72,-3,-17,37,-37,14,-15,19],[4919316,1984128,15,42,58,63,10,35,18,20,24,88,80,207,2,46,26,107,11,127,65,246,-12,148,17,92,-4,278],[4926408,1987004,-45,37,-24,38,-48,-7,-28,50,-26,-35,-40,14,-96,135,-66,14,-13,46,-18,17,-74,139,-43,29,-61,100,-35,33,-11,51,-86,58,-38,90,-43,67,-45,98,-103,115,-62,7,-70,28,-20,-10,-34,6,-48,-57,-31,-2,-64,103,-19,57,23,93,-16,26,-6,50,-43,48,-76,140,-34,37,-40,29,-69,-1,-14,31,-20,11,-62,-32,-19,31,-26,-24,-51,17,-83,-11,-162,189,-46,120,-93,67,-62,6,-52,32,-15,-8,-86,62,0,17,-42,7,-48,47,-37,56,-50,189,-52,87,-33,20],[4923112,1990322,1,-32,28,-69,91,-89,29,0,104,-57,39,-9,120,-85,80,-15,22,-45,3,-66,10,-4,3,-35,32,-27,-1,-14,19,-19,9,-34,83,-118,19,-43],[4919243,2001431,77,135,69,78,31,91,50,68,34,84,43,27,34,86,23,16,10,48,3,126,14,76,-8,142,-31,15,-47,77,-60,16,-27,191,-34,88,-15,12],[4923595,1991914,14,29,-3,21,-25,70,-40,31,32,89,-13,212,-29,118,-7,85,-10,17,11,104,-4,95,14,115,112,242,4,25,-9,25,8,30],[4923595,1991914,-80,-79,-54,-77,-33,-79,-24,-25,-47,-125,-10,-51,-36,-83,-33,-49,-8,-61,-20,-25,2,-41,-11,-7,-2,-26,-17,-8,-21,-55,-12,-92,-25,-37,-15,-62,-10,-157,-11,-19,-5,-57,-24,-39,4,-41,-10,-50,17,-96,15,-14,1,-17,-14,-120],[4923650,1993222,-38,66,-8,33,-84,105,1,27,-28,112,-25,41,-2,109,-21,114,2,51],[4923180,1998156,56,20,1,-10,-73,-73,-17,-4,-60,-204,-15,-174,-59,-361,-12,-166,3,-102,28,-81,12,-129,-4,-141,21,-92,14,-162,14,-64,46,-117,50,-351,2,-77,-7,-29,14,-178,-7,-22,19,-22,26,-87,-8,-67,-25,-36,-26,-96,20,-25,20,-59,22,-162,10,-153,25,-112,19,-30,9,-92,30,-62,53,-70,16,-45,14,-92,7,-106,19,-5,-23,-123,-4,-91,10,-157,27,-67],[4922519,1999254,-14,121,-16,2,-2,21,-31,15,-12,24,-46,132,-30,123,-48,55,-23,77,-71,101,-14,52,-43,85,-16,170,-19,67,-41,79],[4921942,2000931,-11,25,-19,-20,-13,4,7,-42,-15,-47,7,-44,31,37,19,-15,22,-96,22,-17,13,-54,-1,-25,-7,-3,12,-34,-5,-20,15,-13,-7,-13,25,-22,-5,-25,23,-40,-3,-15,12,-18,-4,-20,33,-36],[4921909,2001639,-39,-102,-3,-36,30,-121,-6,-47,21,-25,-35,-30,-14,-59,41,-112,27,-15,-17,-88,28,-73],[4921909,2001639,22,68,8,61,-8,122,-42,122,25,24,62,174,-16,40,25,134,-2,41,-8,40,-14,-4,2,64,-8,7],[4921955,2002532,-38,-18,30,40,10,77,-28,-39,-12,8,-10,21,5,18,-22,38,-9,55,-17,16,6,16,-21,31,-7,57,-10,19],[4921832,2002871,2,67,-7,18,-24,8,-1,93,24,39,21,97,38,33,6,23,22,10,7,28,50,59,28,-3,34,49,27,-2,30,-108],[4922236,1995845,-34,168,32,93,5,69,-10,28,-22,248,-29,102,-16,104,-5,148,-96,224,-19,112,-35,123,-6,70,-21,41,-6,82,-63,187,5,110,-23,74,-15,91,-24,65,-94,173,-49,55,-29,83,-149,147,-105,164,-67,58,-81,115,-45,46,-36,66,-88,101,-59,12,-125,206,-68,50,-18,35,-101,109,-39,102,-43,69,-86,64,-69,-12,-49,51,-25,-8,-23,21],[4920327,1999825,24,31,-56,61,6,11,-17,40,14,17,-19,42,24,41,-21,44,29,179,24,35,25,16,45,75,32,241,30,102,33,48,28,76,74,126,53,52,72,99,62,44,-13,21,18,30],[4922089,2003282,24,-17,25,1,111,40,72,-27,52,18,30,-36,40,-15,48,1,25,17,30,-5,107,58,43,6,8,25],[4922704,2003348,-14,32,7,18,20,4,9,20,-15,29,13,21,-10,14,14,12,-8,14,0,63,31,128,-19,63,2,58,-15,76,-35,55,-2,32,-19,40,-46,73,23,34,-5,25,15,50,22,30,33,19,47,88,-1,68,-22,56,62,82,30,91,32,35,12,50],[4926303,1992970,51,37,217,22,49,45,94,26,148,93,73,-6,118,45,78,-7,100,33,122,78,40,5,47,40,42,14,91,62,61,125,58,50,114,165,65,65],[4925932,1991597,10,41,-8,61,8,12,-3,17,43,15,81,187,2,32,-19,95,-24,29,37,155,-2,60,40,156,84,185,81,140,9,49,37,98,-5,41],[4924861,1993395,37,-35,48,-75,16,-76,-9,-260,-21,-90,-6,-103,-21,-27,4,-38,42,-20,86,-92,32,-145,14,-11,33,15,35,-40,7,-33,29,-33,59,-29,125,43,42,-112,106,-85,27,-55,16,-57,22,-161,38,-96,14,-14,24,-76,22,-30,22,-91,41,30,24,60,32,-42,31,-12,100,-8],[4927879,2001999,80,-51,23,-3,25,-35,39,-8,95,-74,78,-149,48,-58,138,-74,22,-4,22,15,30,-15,78,-78,12,-74,33,-16,100,-116,53,-8,10,-32,-10,-51],[4925535,2006557,47,-50,71,-143,63,-43,29,-38],[4925798,2006192,97,-179],[4925968,2005919,117,-145],[4926140,2005682,49,-66,133,-31,82,12,92,-72,99,-27,25,-80,52,-89,0,-22,-28,-43,-51,-36,-21,-42,-1,-23,56,-94,35,-98,47,-70,23,-72,5,-64,-13,-121,10,-37,27,-32,67,-20,85,0,40,-53,47,-93,9,-76,-4,-48,-46,-129,23,-51,5,-53,-60,-114,-13,-63,4,-35,58,-183],[4926976,2003657,42,-30,68,-15,103,-3,45,-52,78,-59,89,-47,36,-5,15,-71,2,-102,16,-17,54,-4,35,-74,17,-65,17,-20,3,-32,14,-30,110,-92,42,-75,50,-29,26,-38,22,-46,7,-71,-10,-55,-41,-63,16,-62,-22,-100,-5,-95,-23,-80,23,-82,38,-64,6,-46,30,-34],[4924695,2008604,32,-55,40,-35,66,-88,114,-65,45,-1,36,-24,11,-54,21,-47,2,-36,21,-30,14,-45,-7,-82,36,-44,26,-125,46,-80,28,9,15,-11,21,14,21,-10,38,-116,32,-27,26,-44,64,-177,79,-133,32,-133,-6,-37,-33,-69,-7,-59,3,-77,26,-203,-5,-20,3,-143],[4923805,2009202,64,-113,87,-34,90,14,6,-22,-8,-65,47,-31,29,-41,79,41,42,-25,91,-23,54,-78,63,-36,94,1,76,-106,76,-80],[4923134,1998048,-12,18,-23,238,-82,146,-90,242,-109,121,-7,16,9,1,-15,22,-123,101,-48,84,-53,55,-52,87,-10,75],[4923397,2008779,19,-41,31,-9,49,150,44,78,81,49,55,77,69,72,116,86,118,13,140,37,127,54,180,36,155,58,71,53,79,-4,142,36,84,30,97,62,17,23,9,37,-26,120,14,136,13,33,37,35],[4925239,2010107,215,191],[4920118,2007083,23,-2,17,15,25,-31,45,-24,67,-28,23,6,64,84,32,122,111,125,58,30,131,23,80,77,58,78,66,-21,37,21,40,37,65,106,96,54,74,154,94,42,23,33,30,17,69,115,103,84,121,170,51,52,34,70,37,36,51,84,53,196,48,75,25,171,27,90,19,31,3,59,49,80,15,7,22,76,88,179,39,-16,75,16,175,-35,130,49],[4922687,2009600,76,7,94,-45,89,-12,38,-17,134,-105,48,-57,69,-29,43,-37,84,-152,7,-109,-7,-138,43,-152],[4920118,2007083,-32,72,6,110,-18,43,-77,37,-51,52,-35,-3,-29,-37,-71,26,-35,33,-31,-15,-26,-45,-33,-8,-15,-18,-47,-13,-33,12,-39,-6,-30,-54,-43,-22,-42,-64,-64,-22,-9,-23,-2,-82,-10,-18],[4919352,2007038,12,-16,-5,-120,16,-60,28,-59,14,-111,16,-51,23,-32,14,-42,49,-26,90,29,33,40,29,64,76,54,41,14,53,40,116,43,12,19,52,26,2,40,12,30,50,79,23,8,10,76],[4919037,2007370,3,-19,8,-3,2,-43,17,3,4,-34,61,-18,12,-71,-8,-27,17,-14,35,8,-6,-24,18,-16,96,-60,56,-14],[4919037,2007370,2,24,35,83,40,66,11,88,-25,99,-32,38,-17,6,-35,59,-19,4,-60,69,-149,59,-48,-40,-66,-33,-16,11,-67,-7,-27,26,-14,-17,-19,32,-34,-10,-14,28,-17,9,-3,-12,-6,8,-23,-10,-28,-33,-3,10,-15,-4,-31,-39,-31,-17,-8,-25,-28,-1,-28,-28,-73,-9,-8,-11,-2,14,-22,-1,-10,24,-33,8,-30,49,1,47,-13,16,-7,58,26,52,12,6,7,33,-11,5,6,18,53,46,-10,52,12,45,-25,15,-10,24,10,35,-10,23,2,27,10,25,-9,2,-3,27,-82,-41,11,27,-12,18,5,13,-10,9,-6,45,1,61,-8,11,7,26,-10,40,6,12,-7,-1,9,14,-11,9,-1,47,-10,13,-1,68,-21,3,-14,-26,-8,1,-6,19],[4923652,1978853,-5,36,-49,30,-13,44,10,111,38,100,-10,89,17,113,-71,-91,-22,-125,-85,-214,-51,-90,-16,-59,-109,-87,-52,-61,-160,-62,-37,-47,-78,23,-140,-52,-87,5,-55,-28,-66,4,-46,-30,-37,-5,-90,15,-37,33,-59,83,-59,2,-85,59,-99,-2,-82,44,-53,-9,-24,8,-56,92,-70,82,-37,101,-3,55,7,32,48,12,83,-19,9,10,-32,55,-13,56,-33,59,-46,27,-77,166,-98,101,-49,122,-86,161,-29,98,5,34,-9,63,-15,-2,-44,-44,-26,-4,22,79,53,128,34,72,19,19,30,20,11,-8,19,-39,-3,-42,22,-92,21,-25,28,-2,16,24,-3,34,20,20,3,41,37,39,17,44,18,17,34,99,20,25,44,-13,42,21],[4923946,1986382,-3,-28,10,10,30,-13,-25,-46,21,-10,-14,-15,-33,-91,-9,-4,1,-10,17,14,16,-37,21,14,26,55,39,33,13,45,21,2,-7,14,22,6,5,-19,25,-17,-12,51,7,2,-14,45,-35,24,-16,34],[4927672,1988588,-101,-5,-94,-24,-32,8,-51,-51,1,-58],[4927380,1988324,-13,-145,-38,-10,-70,-80,-65,-39,-76,-15],[4927027,1987982,-42,-9,-33,30,-59,252,-52,7,-24,-51,-19,-15,-26,8,-32,66,-38,4,-6,64,-63,144,-47,46,-30,51,7,122,39,52,46,121,-50,129,-94,80,-103,138,-56,-6,-3,19,26,103,-146,6],[4919836,2005459,-75,-38,-30,-54,-23,-15,-45,-90],[4919608,2005175,-71,-79,-51,-76,-37,-87,-50,-48,-1,-27,-8,-1,16,-20,2,-20,-11,-63,-43,-16,-50,-66,-31,-18,1,-11,-22,-2,1,-42,-15,-9,4,-24,-18,-11,5,-14,-53,-42],[4929732,1974647,10,37,-10,28,2,30,50,84,20,54,-22,121,3,131,-98,148,-325,657],[4929306,1976049,-64,136,-38,119],[4929170,1976417,-23,72],[4929114,1976599,-75,248,-68,98,-95,272,-31,45,-33,33,-15,-12,-12,-46,-254,-39],[4928384,1977201,-211,-50],[4928104,1977118,-107,98,-32,54,-72,21,-50,64,-138,-17,-56,-39,-80,-21,-75,-48,-55,-66,-46,-87,-56,-34,-43,-67,-96,-61,-195,-53,-111,-63,-65,-94,2,-29,-45,-180,-23,-56,0,-26,29,-25,132,-277,86,-52,123,-46,17,-32],[4918237,2004825,-44,24,-48,50,-21,-5,-43,65,-44,32,-57,17,-36,-41,-41,32,-10,25,-63,60,-5,34,-82,158]],"yellow":[[4926139,1994809,29,-1,98,62,26,49,42,25,38,51,1,30,-39,76,-2,53,55,-22,65,75,43,20,-61,77,-27,146,4,9,10,2,36,-40,122,-92,56,-21,42,17,54,-6,131,45,43,56,37,80,59,39,13,20,126,-5,137,47,105,20,26,16,31,41,44,-28,44,-9,39,29,42,53,13,3,31,-29,137,17],[4927847,1975688,23,105,-9,116,10,65,-3,91,9,79,-2,30,-32,72,8,187,-26,92,0,95,52,141,106,227,121,130],[4918862,1984259,-55,86,-65,149,-85,114,-91,74,-70,38,-193,156,-167,101,-14,-6,7,-9,-7,-18,-7,4,5,-9,-24,-11,26,-32,-14,0,6,-25,-6,4,0,-25,-24,8,23,-78,-18,-9,6,-9,-18,-18,6,-15,-30,-67,-23,-1,-18,-22,-89,1,-66,-38,-20,1,-31,-59,-218,115,-151,-29,-94,38,-88,-7,-19,15,-66,6,-32,22,-34,5,-19,-12,-42,11,-89,75,-69,22,-106,77,-104,103,-77,35,-20,-6,-35,14,-116,106,-68,16,-24,-20,-36,-6,-110,8,-22,21,-10,47,-22,11,-23,-7,-16,43,-306,-45,-320,31,-81,-13,-145,-48,-74,6,-116,-26,-74,14,-87,60,-29,39,-135,94,-77,118,-117,143,-148,153,-112,29,-96,50,-28,-5,-50,-166,-68,-85,-35,-159,-36,-85,-36,-69,-56,-59,24,23,-183,-19,-121,-61,-11,5,-70,141,-126,100],[4913307,1985462,-107,82,-36,68,-58,51,-67,19,-63,-51,-40,-50,-40,-7,-91,11,-114,-16,-89,11,-60,35,-186,12,-77,43,-12,35,-75,115,-73,41,-48,111],[4914852,1979381,106,103,42,77,46,51,45,116,39,135,96,117,30,93,32,61],[4915360,1980218,103,75,47,53,116,162,58,110,43,21,13,19,209,100,106,79,161,-5,64,68,44,10,61,55,121,12,55,31,43,42,27,7,16,-6,101,-113,42,-11,33,4,44,40,19,58,61,-25,68,7,28,15,24,37,36,-7,75,35,78,11,38,23,42,-20,53,-55,34,-3,124,-56,87,66,161,20,78,43,96,2,60,38,48,82,77,39,22,44,34,38,115,78,57,63,31,-25,39,26,40,38,44,75,18,0,52,42,59,-23,75,0,34,-12,20,-20,88,40,14,-10,36,6,58,-24,36,4,14,-17,0,-30,14,-35,1,-64,34,-68,173,-124,123,-126,51,-19,22,-28,34,24,68,-36,42,-52,88,-42,38,-87,55,-32,62,-16,42,11,41,-22,89,-6,28,16,48,-4,2,44,29,-15,8,57,46,-25,160,25,90,-27,38,-29,41,-43,57,-96],[4914268,1990268,-59,40,-7,17,9,62,-10,72,-31,60,-45,32,-12,42,16,20,49,21,85,9,91,57,28,45,31,84,42,82,45,59],[4914578,1991072,45,57],[4914813,1991255,59,100,12,49,7,137,22,129],[4914939,1991798,36,76,88,100,62,149,91,109,55,146,26,28,36,13],[4915409,1992412,53,5,150,88,52,-2],[4916031,1992375,43,-18],[4916152,1992319,82,-28],[4916456,1992267,29,2],[4916570,1992282,48,-3,118,-65],[4916821,1992197,169,-24,92,-33,109,-3,42,-23,20,-35],[4917335,1991798,40,-70,104,-104,79,-37,67,2,90,63,51,17,77,9,106,-9],[4918082,1991657,25,-6],[4918196,1991618,83,-44,48,-58,139,19,60,-46,108,-48,31,-4,73,23],[4918914,1991481,76,20,88,64,93,33],[4919365,1991761,33,39,27,91,23,37,112,57,95,96,107,47,89,87,109,79],[4920040,1992378,55,125],[4920139,1992659,29,69,26,33],[4920338,1992868,61,18],[4920482,1992891,131,58,60,78,124,128,92,137,35,76,32,27],[4921047,1993427,31,21,40,58,97,22],[4921336,1993608,27,32,64,133,44,58,34,17,73,-27,95,88],[4922064,1994492,47,115,23,141],[4922207,1994975,8,46],[4922235,1995273,-22,152,-4,353,36,83,50,222,52,55,9,42],[4922380,1996300,10,10,56,-58,29,72,6,111,22,86,12,204,-9,66,4,40,-12,25,-24,138,4,90,11,38,-12,130,-24,125,13,88,-34,58,-6,49,9,46,19,27,-12,19,-56,-5,46,101,-41,10,59,89,-33,72,34,-12,48,-40,32,0,71,37,-67,32,96,30,37,32,-101,42,69,28,65,84,-60,-8,-15,42,68,39,-22,25,-5,88,24,-60,-3,72,15,-38,0,72,14,-33,18,-4,32,21,-23,10,-9,42,18,-24,37,3,-26,35,1,73,30,-54,35,-1,-29,28,-10,53,31,-38,34,-1,-32,40,59,-21,189,-210,27,-11],[4929732,1974647,10,37,-10,28,2,30,62,107,9,42,-23,110,3,131,-99,151,3,11,-23,105,19,95],[4929824,1975789,36,59,22,13,6,32,88,96],[4930060,1976127,52,26,25,27,38,69,47,37,31,75,25,34,6,88,-18,40,-60,32,2,16,-28,20,-45,-10,-38,9,-14,19,-7,33,78,284,61,151],[4930272,1977175,39,142,47,61,21,48,69,184,18,24,33,88,2,33,35,14,46,73,33,78,39,344,-20,129,1,112,-9,79,-94,200,36,22,57,-5,17,-15,48,221,18,167,30,128],[4930767,1979413,69,183,-1,39,44,41,193,94,179,127,121,64],[4931442,1979994,55,34,82,80,157,86,104,96,49,23,42,68,78,69,270,50,151,-49,154,-73,160,-111,26,-60,41,-54,54,-15],[4933036,1980092,62,-35,74,-79,183,-91],[4933559,1979838,79,-14,130,-59,95,8,38,33,18,0,26,-8,28,-32,129,-18,114,-71,77,-86],[4934414,1979478,30,-22,65,-20,267,-55],[4934849,1979396,111,-8,151,-38,102,25,121,50,129,26,168,-122,238,-33],[4936059,1979153,172,-98],[4936317,1978996,71,-64,40,-20,170,22,6,114,-5,400,-29,241],[4936497,1980298,-10,77],[4926191,1992998,-61,35,-99,14,-59,-28,-37,11],[4924430,1981162,-31,26,-62,21,-38,-3,-69,80,-43,30,-98,32,-149,92,-73,17,-39,35,-25,41,-41,135,3,91,-17,28,15,59,-9,58,-76,108,-30,-1,-14,14,-33,120,-56,128,-14,153,-9,43,-19,34,-1,41,-30,42,-15,93,20,37,36,202,-35,11,-24,28,-6,57,-33,61,-40,124,-48,72,-88,234,1,33,-25,104],[4922973,1985982,-56,-26,-12,-19,-3,-57,-101,-35,-24,-51,-45,-62,-16,-128,37,-27,38,-73,21,-19,146,-72,66,-289,29,-70,52,-89,9,-36,1,-248,-10,-103,5,-86,-14,-120,14,-64,16,4,2,-14,8,-117,-5,-109,12,-76,35,-53,31,-40,28,-4,21,17,12,-42,-15,-107,-39,-23,-17,-31,16,-71],[4923236,1998176,39,79,-13,8,7,14,-65,-29,-54,11,-35,24,-26,56,-22,102,-1,48,16,96,29,62,56,100,57,74,48,35],[4923317,1998942,70,150,61,210,-17,67,87,97,44,8,85,135,65,51],[4926950,1998052,-16,50,-34,45,-52,-33,-61,4,-60,-28,-122,-28,-60,73,-200,125,-56,93,-30,77,-27,32,-10,44,-101,77,-161,299,-133,184,-32,180,-59,226,-21,-44,-9,-72,-11,-24,-45,12,-69,46,-141,60,-34,30,37,25,52,58,-17,44,-28,7,-17,21,-10,39,0,87,15,129,28,39,5,29,-47,240,32,61,34,24,2,39],[4924327,2000693,-22,-133,-111,-130,-47,-254,-62,-94,-192,-226,-42,-86,-114,-106,-25,-4],[4922865,2004728,19,-55,13,-11,12,-47,-19,-43,20,-21,13,-49,-19,-78,47,-10,19,-45,26,-31,29,-80,1,-44,43,-78,16,-58,13,-10,14,-98,44,-112,59,-39,21,-33,35,-26,86,-15,39,39,39,11,35,48,12,72,19,40,-6,20,15,11,43,17,86,-18,34,28,52,15,41,-19,45,10,56,-27,77,10,54,-61,13,-114,-24,-62,-69,-40,-15,-39,56,-97,19,-63,43,-59,44,-2,34,-19,44,8,49,-30,69,-9,68,-46],[4921263,2003990,29,-6,91,39,56,6,24,-12,37,-99,28,-20,30,-2,67,32,15,-6,57,19,42,30,45,54,76,125,45,48,43,19,25,86,16,-2,9,13,9,60,21,39,1,35,17,22,-4,23,6,19,60,92,113,89,8,75,43,74,18,-9,12,-37,26,7,2,-13,23,-12,3,-24,34,-13,31,4,26,20,74,-3,18,13,11,-14,15,11,62,-10,22,-27,15,-1,25,27,20,-3,8,-16,-11,-69,5,-13,15,11,6,-77,28,4,10,34,17,-10,11,27,67,79],[4922531,2002268,-17,21,-69,-16,-10,44,-22,8,-25,121,-42,9,-42,-24,-68,86,-21,-6,-23,-33,-36,-100,-14,-3,-25,2,-12,46,-35,12,-17,108,-22,6,-19,23,-95,-58],[4920972,2002999,4,-204,10,-36,6,-90,36,-16,33,3,88,-44,20,6,49,-85,19,6,31,-51,40,-34,74,-14,34,29,30,-43,29,-7,36,29,35,9,105,6,37,50,77,2,40,-12,55,-64,40,29,17,46],[4920972,2002999,-54,51,-20,-1,-32,28,-66,-67,-4,-22,-27,-41,-54,-50,-20,28,-12,46,-62,129,-21,18,-24,-3,-40,68,-115,-17,-18,9,-26,25,-5,32,-24,22,-14,-9,-15,41,-38,41,-8,-65,-82,123,-1,29,-41,38,-11,54,-21,26,-30,10,-10,31,-47,8,-15,25,-7,20,13,53,-4,114,-34,74,-10,-6,-2,29,-13,21,11,62,-21,48,3,44,-19,26,-16,1,-24,50,-12,-22,-15,53,-17,-33,-10,43,-13,-20,-25,73,-10,-26,-4,10],[4919786,2004220,-1,15,-37,-53,22,79,-2,68,32,61,-11,60,17,80,7,200,-65,-107,-38,-112,-25,-33,-42,-20,-20,46,53,66,5,176,18,43,-53,-55,-19,-53,1,74,19,93,47,61,56,157,5,55,26,79,10,63,-4,81,49,115],[4919836,2005459,38,49,34,23,19,49,8,41,-22,-31,-29,-15,65,216,2,109,13,50,-24,-14,-39,-59,-72,-36,-93,-82,-76,-47,31,125,-20,185,-3,189,9,72,14,39,43,14,24,41,38,2,34,45,48,6,-8,51,34,49,23,8,57,72,48,42,6,21,29,9,26,53,22,6,11,30,25,6,6,13,-5,41,17,43,19,37,20,9,-43,65,10,90],[4925973,1990439,115,-63,23,-41,75,-60,31,10,69,-12,43,-53,27,-61,63,-63,131,-10,88,-28,32,42,61,15,190,-23,98,-37,52,7,26,17,55,-27,90,8],[4927325,1990080,40,19,47,65,54,21,26,26,61,99,18,93,61,51,28,6],[4924636,1993234,35,-26,3,-28,63,-48,-1,-59,-9,-13,-21,8,-8,-14,-1,-58,-38,-3,8,-10,-7,-8,7,-130,18,-6,20,-35,47,-11,18,-23,-29,-87,-12,-76,-11,-7,-18,-53,-17,-6,6,-48,53,-68,17,-59,51,-74,44,6,3,22,18,-10,18,-35,-14,-11,4,-65,74,-92,29,-88,24,-39,56,-50,122,-196,32,-8,31,-119,27,-43,33,-18,72,-109,36,-93,6,-53,40,-72,12,-79,23,-73,81,-137,147,-199,141,-121,41,-93,63,-78],[4919786,2004220,-52,-142,18,-8,-45,-33,22,-26],[4923650,1993222,19,11,23,-7,53,30,25,29,6,43,10,11,14,-1,51,50,17,-4,35,31,41,14,45,-14,166,6,31,-27,7,-25,32,-13,15,-38,33,-29,79,-28,69,-53,23,3,8,-16,19,-2,23,22,11,-14,37,30,94,3],[4929296,1996545,-111,223],[4929127,1996867,-39,69,-58,60,-9,65,-63,65,-22,58,8,57,39,32,11,25,75,423,87,-42,76,-64,103,-16,154,89,198,90,261,83,142,89,65,69,51,34,100,35],[4930406,1998089,234,7,190,122,122,116,275,140,63,16,68,1,133,-28,168,51],[4931743,1998526,65,18,40,-7,64,31],[4931980,1998613,96,108,44,18,12,-3,10,-24,-6,26],[4930671,1993258,85,305,230,101,49,31,34,45,79,65],[4931302,1993929,230,245,34,12,57,-14,40,16,95,77,49,118,69,108,43,100],[4931983,1994655,41,64,47,137,64,136,85,127,94,111,25,55,-62,39,-73,110,-37,95,-21,92,-33,79,0,172,71,368],[4932233,1996422,81,320,20,191,61,240,27,212,95,241,20,35,77,64,43,56,121,251],[4932835,1998129,34,59,44,33,61,80,28,76,24,132],[4933085,1998702,63,105,49,30,33,47,25,68,169,165,71,-5,58,-31,10,-26,-6,-28,125,-40,1,-17,30,-26,5,-129,11,-3,29,47,51,-36,28,123,78,258,-6,166,20,84,-5,103,17,107,4,116,45,233,10,124,-3,174,-16,20,-28,-19,-103,-7,-87,-21,-114,-31,-8,-37],[4933582,2000128,-25,-37,-92,-68],[4933400,1999943,-118,-143,-28,3,-45,45,-24,-11,-47,-51,-92,-187],[4932984,1999475,-68,-155,-79,-126],[4932761,1999084,-101,-146,-193,-76,-23,-20,-103,-183,-43,-29,20,-75,-28,-87,-94,-64,-112,-157,-97,-178,-130,-185,-36,67,-49,52,9,24,-12,45,44,29,73,99,24,73,5,93,29,17,16,51,43,46,10,42,66,60,64,88],[4929554,1994585,68,-24,1,-19,-28,-136,10,-3,-5,-42,13,-5,-51,-218],[4929502,1993907,-80,-243,-38,-185],[4929364,1993356,-23,-126,-63,-232,64,-137,-14,-173,144,-48,99,23,75,-75,47,-72,53,-16,32,-39,21,-99,3,-69,27,-65,24,-30,73,-34,43,-60,167,-96,63,-160,62,-106,27,49,12,3,38,-45,31,-56,1,-17],[4930376,1991550,-6,-395,64,-21,35,-50,58,-41,46,-81,56,-59,99,-45,71,-110,38,-25,86,-102,193,-173,137,-94,144,-4],[4931495,1990284,108,-60],[4931691,1990175,216,-154],[4932058,1989891,137,-171],[4932264,1989605,16,-28],[4932343,1989468,61,-212,21,-213,-8,-69,-61,-119,-42,-143,10,-213,-13,-151,13,-193],[4932354,1987808,36,-244,87,-110,90,-144],[4932626,1987194,47,-84,181,-108],[4932922,1986953,64,-56],[4933084,1986784,173,-189,53,-179,42,-249],[4933380,1986047,22,-137],[4923652,1978853,-5,36,-49,30,-13,44,10,111,38,100,-10,89,17,113,-71,-91,-22,-125,-85,-214,-51,-90,-16,-59,-109,-87,-52,-61,-160,-62,-37,-47,-78,23,-140,-52,-87,5,-55,-28,-66,4,-58,-36,-104,12,-48,37,-59,83,-59,2,-85,59,-99,-2,-36,66],[4930794,2006694,64,34,91,-49,39,216,76,142,40,42,63,172,20,142,70,144,53,-24,57,-142,17,-79,9,-1,26,50,28,4,48,-91,40,-19,75,181,2,42,19,51,14,172,44,212,9,279,20,47,-92,193,-27,23,-69,98,-79,43,-69,99,-38,19,-82,13,-83,-26,-76,53,-114,55,-61,57,-124,2,-24,10],[4931103,2005007,-37,198,5,108,-6,54,-39,109,-58,289,-35,103,26,94],[4924329,2003369,0,-30,9,-14,-16,-11,67,-39,34,-50,64,-59,-69,-92,-19,-52,1,-50,4,-32,13,-12,-1,-39,-21,-159,-19,-48,18,-101,72,-147,-69,-33,-38,-50,42,-31,48,-147,-73,-170,-24,-79,-6,-136,-17,-37,21,-71,-46,-70,-3,-40,30,-77,-1,-38,-15,-39,24,-98,3,-64,-15,-58,-11,-12,17,-33,-13,-14,6,-39,-29,-119,34,-76,20,-12,25,-56,-40,-56,-9,-86],[4922696,2003323,8,25,5,-26,17,-4,19,-37,-11,-31,12,-46,-13,-44,9,-41,16,-24,-7,-32,10,-49,17,-17,7,-26,42,72,34,-49,9,-28,-1,-66,27,-51,9,-64,22,-55,-9,-9,3,-41,17,-36,41,-46,55,-111,3,-69,19,-62,15,-114,22,-53,-3,-36,-43,-7,2,-59],[4923658,1976678,7,99,-15,75,90,120,10,35,15,14,6,55,18,18,3,23,12,0,5,35,54,103,-14,52,-66,89,-27,10,-6,20],[4923722,1977560,-8,68,-19,57,-56,57,-37,20,147,-5],[4923831,1977737,110,36,93,-14,44,13,34,25,10,20,9,79,-71,136,-55,80,-94,46,-47,64,-12,62,-27,68,-19,35,-44,46,-9,34,15,158,-9,66,-37,119,-70,43],[4924082,1986450,-35,114,-21,31,-33,21,-57,-6,-22,35,-48,30,-48,-11,-30,26,-16,54,-2,24,8,2,19,-8,1,-19,10,-5,14,51,33,11,179,-28,63,-38,50,-102,53,-38,12,-111,-10,-62,17,-37,37,-16],[4926539,1997183,47,-10,7,-86,12,-35,12,0],[4926679,1997132,21,50,14,89,-82,109],[4926583,1997462,-33,17,-94,-40,-6,10],[4927294,1999145,-93,59,-38,90,-91,53,-71,17,-88,97,-53,26,-42,122,-28,54,4,58,-27,91,-50,71,-35,82,-18,105,11,28,15,12,24,64,32,11,35,-8,59,33,32,-12,42,45,7,34],[4925468,1985069,8,18],[4925527,1985220,89,228,23,34,34,21,25,-9,7,-47,43,-86,63,-55,135,-151],[4925995,1985041,124,-235],[4926177,1984690,81,-86,24,-45,18,-84,33,-34,166,-25,144,-98,113,-44,63,-10],[4926901,1984239,103,-1,65,45,178,261],[4927318,1984624,87,92,66,32,77,60,99,123,118,58]]};
+const D2=[[49.23652,19.78853,1148],[49.23653,19.78873,1147],[49.23647,19.78889,1147],[49.23598,19.78919,1145],[49.23588,19.78939,1144],[49.23585,19.78963,1143],[49.23595,19.79074,1140],[49.23633,19.79174,1137],[49.23623,19.79263,1134],[49.23648,19.79439,1129],[49.23706,19.79564,1125],[49.23747,19.79701,1121],[49.23833,19.79881,1115],[49.23849,19.80025,1110],[49.23868,19.80094,1108],[49.23878,19.80165,1106],[49.23924,19.80283,1103],[49.23955,19.80509,1096],[49.23975,19.80609,1093],[49.24013,19.80658,1091],[49.24141,19.80758,1109],[49.24175,19.8083,1116],[49.24217,19.80896,1124],[49.24247,19.80969,1131],[49.2431,19.81065,1142],[49.2443,19.81162,1159],[49.24399,19.81188,1163],[49.2436,19.81195,1168],[49.24337,19.81209,1171],[49.24299,19.81206,1176],[49.2423,19.81286,1187],[49.24187,19.81316,1192],[49.24156,19.8132,1196],[49.24103,19.81348,1203],[49.24089,19.81348,1205],[49.24034,19.81391,1213],[49.2394,19.8144,1225],[49.23907,19.8144,1229],[49.23867,19.81457,1234],[49.23825,19.81499,1241],[49.23803,19.81533,1245],[49.23769,19.8163,1254],[49.23762,19.81668,1257],[49.23765,19.81759,1264],[49.23749,19.81784,1267],[49.23763,19.81846,1272],[49.23754,19.81904,1277],[49.23678,19.82012,1290],[49.23648,19.82011,1294],[49.23634,19.82025,1296],[49.23601,19.82145,1307],[49.23545,19.82273,1319],[49.23532,19.82368,1327],[49.23531,19.82426,1332],[49.23522,19.82469,1336],[49.23503,19.82503,1339],[49.23502,19.82544,1343],[49.23472,19.82586,1348],[49.23457,19.82671,1355],[49.2346,19.8269,1357],[49.23477,19.82716,1360],[49.23496,19.82801,1367],[49.23513,19.82918,1377],[49.23478,19.82929,1381],[49.23454,19.82957,1385],[49.23448,19.83014,1390],[49.23415,19.83075,1396],[49.23375,19.83199,1407],[49.23327,19.83271,1416],[49.23264,19.83454,1433],[49.23239,19.83505,1438],[49.2324,19.83538,1441],[49.23199,19.83713,1456],[49.23216,19.83744,1459],[49.23255,19.83767,1451],[49.2327,19.83874,1437],[49.2326,19.83913,1432],[49.23237,19.83899,1427],[49.23209,19.83903,1422],[49.23143,19.83996,1404],[49.23131,19.84072,1394],[49.23136,19.84181,1381],[49.23128,19.84298,1366],[49.23118,19.84311,1363],[49.2311,19.84308,1362],[49.23096,19.84372,1353],[49.2311,19.84492,1338],[49.23105,19.84578,1327],[49.23115,19.84681,1314],[49.23114,19.84929,1282],[49.23105,19.84965,1277],[49.23053,19.85054,1262],[49.23024,19.85124,1252],[49.22998,19.85225,1238],[49.22988,19.85304,1228],[49.22958,19.85413,1213],[49.22942,19.85427,1210],[49.22812,19.85485,1183],[49.22791,19.85504,1179],[49.22753,19.85577,1167],[49.22716,19.85604,1159],[49.22726,19.85669,1151],[49.22723,19.85699,1147],[49.22731,19.85728,1143],[49.22747,19.8576,1138],[49.22777,19.85794,1131],[49.22799,19.85842,1123],[49.22812,19.85855,1120],[49.22902,19.8588,1103],[49.22904,19.859,1100]];
+const D3=[[49.22904,19.859,1100],[49.22905,19.85937,1099],[49.22917,19.85956,1098],[49.22959,19.85977,1095],[49.22968,19.8599,1095],[49.22973,19.85982,1094],[49.23066,19.85966,1089],[49.23095,19.8594,1087],[49.23141,19.8588,1084],[49.2317,19.85869,1082],[49.23214,19.85864,1079],[49.23313,19.85896,1074],[49.23379,19.85896,1070],[49.2342,19.8596,1067],[49.23604,19.86064,1056],[49.23682,19.86147,1051],[49.23739,19.86182,1047],[49.23767,19.86211,1045],[49.23806,19.86223,1043],[49.23866,19.86259,1039],[49.23906,19.86336,1036],[49.23946,19.86382,1033],[49.23989,19.86397,1030],[49.24027,19.86429,1028],[49.24067,19.86446,1026],[49.241,19.86451,1024],[49.2412,19.86445,1023],[49.24166,19.86406,1020],[49.24248,19.86367,1015],[49.24273,19.86375,1014],[49.24318,19.86412,1012],[49.24393,19.86453,1010],[49.24494,19.86452,1006],[49.24574,19.86502,1003],[49.24657,19.86535,1000],[49.24717,19.86569,998],[49.24816,19.86555,995],[49.24936,19.8651,991],[49.2503,19.86534,988],[49.25162,19.86513,983],[49.25208,19.86583,981],[49.25253,19.8661,979],[49.25291,19.86616,978],[49.25337,19.8664,976],[49.25406,19.86705,973],[49.25487,19.86737,971],[49.25545,19.86744,969],[49.2557,19.86756,968],[49.25604,19.86793,966],[49.25645,19.86814,965],[49.25811,19.86856,959],[49.25848,19.86886,958],[49.25882,19.86937,956],[49.25928,19.86952,955],[49.26027,19.86939,951],[49.25998,19.86906,950],[49.26027,19.86939,953],[49.26094,19.86955,960],[49.26189,19.8693,969],[49.2624,19.86929,974],[49.26366,19.86968,986],[49.26408,19.87004,991],[49.26363,19.87041,995],[49.26341,19.87077,998],[49.26291,19.87072,1003],[49.26274,19.87107,1006],[49.26217,19.87174,1013],[49.26203,19.87233,1017],[49.26184,19.87268,1019],[49.26162,19.87337,1024],[49.26153,19.87434,1030],[49.26109,19.8758,1040],[49.26106,19.87629,1043],[49.26116,19.87711,1049],[49.26131,19.87775,1053],[49.26125,19.87822,1056],[49.26146,19.87916,1062],[49.26147,19.87984,1066],[49.26162,19.88045,1070],[49.26164,19.88082,1072],[49.26159,19.88201,1080],[49.26144,19.88281,1085],[49.26145,19.88376,1091],[49.26122,19.8847,1097],[49.26117,19.88534,1101],[49.26117,19.88561,1103],[49.26133,19.88637,1108],[49.26124,19.88675,1110],[49.26141,19.8882,1120],[49.26122,19.88912,1126],[49.26139,19.88994,1131],[49.26153,19.89019,1133],[49.26212,19.89028,1139],[49.26238,19.89045,1141],[49.26236,19.89091,1144],[49.2621,19.89232,1153],[49.2621,19.89282,1156],[49.26222,19.89343,1160],[49.26179,19.8934,1164],[49.2615,19.8932,1167],[49.26135,19.89321,1169],[49.26107,19.89387,1174],[49.25986,19.89497,1187],[49.26107,19.89387,1186],[49.26135,19.89321,1185],[49.2615,19.8932,1185],[49.26179,19.8934,1185],[49.26222,19.89343,1184],[49.26227,19.89375,1184],[49.26216,19.89437,1184],[49.26193,19.89678,1182],[49.26149,19.8981,1182],[49.26144,19.89841,1181],[49.2615,19.8989,1181],[49.26135,19.89939,1181],[49.26133,19.89969,1181],[49.26149,19.90012,1180],[49.26154,19.90074,1180],[49.26132,19.90115,1180],[49.26124,19.90186,1179],[49.2604,19.90319,1178],[49.26013,19.90377,1178],[49.25982,19.90404,1177],[49.25978,19.90422,1177],[49.2605,19.90437,1177],[49.26068,19.90477,1176],[49.26081,19.90536,1176],[49.26069,19.90616,1175],[49.26086,19.90653,1175],[49.26103,19.90731,1175],[49.26101,19.90749,1175],[49.26083,19.90805,1174],[49.26078,19.90855,1174],[49.26047,19.90913,1173],[49.2602,19.9094,1173],[49.25957,19.91037,1172],[49.25935,19.91085,1172],[49.25904,19.9126,1171],[49.25903,19.91296,1171],[49.25874,19.91404,1170],[49.25856,19.91499,1177],[49.2583,19.91552,1181],[49.25825,19.91591,1184],[49.25837,19.91604,1185],[49.25932,19.91597,1195],[49.25942,19.91638,1198],[49.25935,19.91705,1202],[49.25939,19.91724,1204],[49.25968,19.91731,1207],[49.25982,19.91743,1208],[49.25993,19.91782,1211],[49.26022,19.91842,1216],[49.26041,19.91867,1219],[49.26063,19.9193,1224],[49.26065,19.91962,1226],[49.26052,19.92007,1229],[49.26046,19.92057,1233],[49.26022,19.92086,1236],[49.26031,19.9214,1239],[49.26059,19.92241,1247],[49.26057,19.92301,1251],[49.26097,19.92457,1262],[49.26134,19.92549,1269],[49.26181,19.92642,1277],[49.26246,19.92746,1287],[49.26308,19.92929,1301],[49.26304,19.92966,1303],[49.26289,19.92965,1305],[49.2623,19.92993,1311],[49.26191,19.92998,1298],[49.26195,19.9305,1286],[49.26222,19.9314,1264],[49.2621,19.93211,1247],[49.26212,19.93261,1236],[49.26191,19.93342,1216],[49.26197,19.93484,1184],[49.26217,19.9355,1168],[49.26215,19.9366,1143],[49.26234,19.938,1111],[49.26226,19.9383,1104],[49.26228,19.9385,1099],[49.26263,19.93916,1080],[49.26268,19.94084,1042],[49.26264,19.9411,1043],[49.26282,19.9424,1050],[49.26278,19.94283,1052],[49.26261,19.94329,1055],[49.26259,19.94363,1056],[49.26231,19.94425,1060],[49.26211,19.94491,1064],[49.26199,19.94507,1065],[49.26203,19.94567,1068],[49.26194,19.94628,1071],[49.26171,19.9468,1074],[49.26178,19.9471,1075],[49.2617,19.94733,1077],[49.26138,19.94778,1080],[49.26139,19.94809,1082],[49.26154,19.94834,1083],[49.26158,19.94859,1085],[49.26159,19.94875,1085],[49.26144,19.94896,1087],[49.26155,19.94929,1089],[49.26151,19.94941,1089],[49.26158,19.94968,1091],[49.26156,19.9506,1095],[49.26137,19.95124,1099],[49.26114,19.9515,1101],[49.261,19.95206,1104],[49.26062,19.95236,1107],[49.26031,19.9524,1109],[49.26014,19.95275,1112],[49.25931,19.9528,1118],[49.25908,19.95309,1120],[49.25919,19.9534,1122],[49.25919,19.95369,1123],[49.25933,19.95399,1125],[49.25934,19.95409,1125],[49.25921,19.9543,1127],[49.25923,19.95448,1128],[49.25952,19.95523,1132],[49.25956,19.95567,1134],[49.25939,19.95656,1139],[49.25953,19.9571,1142],[49.25927,19.95805,1147],[49.25951,19.95873,1151],[49.25994,19.95916,1154],[49.26071,19.95929,1160],[49.26092,19.95945,1162],[49.26083,19.9609,1169],[49.26092,19.96128,1171],[49.26128,19.96201,1176],[49.26147,19.96258,1179],[49.26158,19.96334,1183],[49.2616,19.96398,1186],[49.26165,19.96411,1187],[49.26178,19.96415,1188],[49.2624,19.96411,1192],[49.26258,19.96423,1194],[49.26264,19.96445,1195],[49.26242,19.96474,1197],[49.26242,19.96493,1198]];
+const D4=[[49.26242,19.96493,1198],[49.26283,19.96514,1194],[49.26284,19.9653,1193],[49.26271,19.96548,1191],[49.26274,19.96566,1190],[49.26318,19.96596,1185],[49.26328,19.96625,1183],[49.26328,19.96645,1182],[49.2634,19.96684,1179],[49.26317,19.96813,1170],[49.26304,19.9681,1169],[49.26304,19.96777,1167],[49.2629,19.96731,1164],[49.26278,19.96704,1161],[49.2627,19.96702,1161],[49.26252,19.96708,1159],[49.26223,19.9674,1155],[49.26207,19.96745,1154],[49.26217,19.96778,1151],[49.26189,19.9678,1149],[49.26186,19.96791,1148],[49.26207,19.96803,1146],[49.26206,19.96819,1145],[49.26145,19.9681,1139],[49.26106,19.9677,1134],[49.26093,19.96773,1133],[49.26103,19.96802,1131],[49.2616,19.96872,1123],[49.26182,19.96921,1120],[49.26201,19.97061,1110],[49.26224,19.97137,1105],[49.26284,19.97218,1097],[49.26325,19.97302,1090],[49.2641,19.97393,1080],[49.266,19.9767,1054],[49.26694,19.97791,1042],[49.2672,19.97814,1039],[49.2678,19.97834,1033],[49.26795,19.97847,1032],[49.26815,19.97939,1025],[49.26826,19.97963,1023],[49.2695,19.98052,1010],[49.26937,19.98096,1015],[49.26904,19.98139,1023],[49.26899,19.98158,1025],[49.26904,19.9823,1033],[49.26942,19.98324,1045],[49.26951,19.9838,1052],[49.26956,19.98576,1074],[49.26971,19.98605,1078],[49.27007,19.98634,1084],[49.27022,19.98667,1089],[49.26985,19.98671,1095],[49.2689,19.98734,1113],[49.26828,19.98746,1123],[49.26803,19.98733,1128],[49.26791,19.98738,1130],[49.26775,19.98794,1137],[49.26751,19.98841,1143],[49.26737,19.98849,1146],[49.26641,19.98853,1162],[49.26597,19.98843,1170],[49.26562,19.98797,1177],[49.26539,19.98743,1185],[49.26529,19.98672,1193],[49.26528,19.98578,1203],[49.26521,19.98564,1205],[49.2651,19.98575,1207],[49.26482,19.98694,1221],[49.26479,19.98751,1228],[49.26485,19.98814,1235],[49.26475,19.99058,1262],[49.26447,19.99125,1271],[49.26437,19.99166,1276],[49.26432,19.9925,1285],[49.26389,19.99369,1300],[49.26324,19.99405,1312],[49.26291,19.99398,1317],[49.26217,19.99427,1330],[49.26147,19.99544,1348],[49.26049,19.99676,1370],[49.25997,19.99794,1386],[49.25904,19.99956,1410],[49.25872,20.00044,1421],[49.25839,20.00108,1430],[49.25804,20.00149,1437],[49.25717,20.00291,1459],[49.2568,20.00324,1466],[49.25665,20.00333,1469],[49.25629,20.00328,1475],[49.25599,20.00343,1480],[49.25513,20.00339,1495],[49.25492,20.00322,1499],[49.25429,20.00396,1499],[49.25394,20.00462,1499],[49.25366,20.00484,1499],[49.25261,20.00531,1499],[49.25226,20.00566,1499],[49.25159,20.0067,1499],[49.2513,20.00691,1499],[49.25099,20.007,1499],[49.24933,20.00725,1499],[49.24903,20.00739,1499],[49.24875,20.00775,1500],[49.24863,20.00779,1500],[49.24782,20.0078,1500],[49.24719,20.0074,1500],[49.24678,20.00699,1500],[49.24623,20.00666,1500],[49.24578,20.00658,1500],[49.24542,20.00636,1500],[49.24508,20.00628,1500],[49.24491,20.00639,1500],[49.2444,20.00631,1500],[49.2431,20.00559,1500],[49.24305,20.0056,1500],[49.24352,20.00686,1500]];
+
+(function(){
+"use strict";
+const store={get(k,d){try{const v=localStorage.getItem(k);return v==null?d:JSON.parse(v)}catch(e){return d}},set(k,v){try{localStorage.setItem(k,JSON.stringify(v))}catch(e){}},del(k){try{localStorage.removeItem(k)}catch(e){}}};
+const $=s=>document.querySelector(s);
+const esc=s=>String(s).replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
+const uid=()=>Math.random().toString(36).slice(2,9);
+function toast(t){const e=$("#toast");e.textContent=t;e.style.display="block";clearTimeout(toast.t);toast.t=setTimeout(()=>e.style.display="none",2200)}
+const css=()=>getComputedStyle(document.documentElement);
+const cv=n=>css().getPropertyValue(n).trim();
+
+/* ---------- route data ---------- */
+const D1=[[49.276658,19.831387,944],[49.276313,19.830466,941],[49.276042,19.829521,949],[49.275698,19.828126,947],[49.275169,19.827116,946],[49.274915,19.826093,944],[49.274742,19.825458,945],[49.274235,19.82471,953],[49.27266,19.822091,962],[49.271873,19.820753,963],[49.271067,19.819811,969],[49.27053,19.819227,967],[49.269442,19.818028,973],[49.268798,19.81731,974],[49.267982,19.816678,975],[49.26748,19.816297,973],[49.266863,19.816103,970],[49.266163,19.815933,970],[49.26509,19.816076,978],[49.263646,19.816291,982],[49.26205,19.816547,984],[49.261498,19.816462,988],[49.260401,19.815919,982],[49.259531,19.815504,983],[49.258778,19.815144,988],[49.258171,19.815167,997],[49.25725,19.815445,1002],[49.256109,19.815409,999],[49.254171,19.815234,1007],[49.253143,19.815293,1015],[49.252321,19.815224,1009],[49.250834,19.814811,1016],[49.249909,19.814769,1020],[49.249111,19.814462,1029],[49.248089,19.814064,1032],[49.24747,19.813734,1034],[49.246668,19.813096,1044],[49.246128,19.812918,1046],[49.245482,19.812852,1040],[49.245039,19.812346,1044],[49.2447,19.811976,1049],[49.243837,19.811195,1055],[49.243224,19.810793,1060],[49.242732,19.810121,1062],[49.242337,19.809453,1072],[49.241842,19.808463,1075],[49.241567,19.80784,1077],[49.241137,19.807337,1087],[49.240442,19.806826,1091],[49.239877,19.806286,1088],[49.239663,19.805578,1088],[49.2395,19.804611,1087],[49.239323,19.803577,1089],[49.239265,19.803051,1096],[49.238926,19.802055,1096],[49.238735,19.80145,1099],[49.23853,19.800442,1099],[49.238444,19.799702,1103],[49.238332,19.798813,1100],[49.237972,19.798,1096],[49.237465,19.797007,1094],[49.237177,19.795974,1100],[49.236914,19.795323,1103],[49.236532,19.794566,1104],[49.236397,19.793761,1104],[49.236233,19.792634,1111],[49.236315,19.792056,1113],[49.236275,19.791498,1118],[49.236038,19.790949,1121],[49.235922,19.790596,1123],[49.235847,19.78963,1128],[49.235982,19.789191,1133],[49.236471,19.788895,1140],[49.236521,19.788535,1148]];
+const TRAIL_HEX={green:"#1E8C4A",yellow:"#E8B800",black:"#1B1B1B",blue:"#1F5FBF",red:"#D7262E"};
+const DAYS=[
+ {n:1,from:"Siwa Polana",to:"Chochołowska hut",full:"Schronisko PTTK na Polanie Chochołowskiej",time:"2:00 h",trails:["green"],track:D1,eleEst:false,
+  stops:[{name:"Siwa Polana",km:0,t:"0:00"},{name:"Polana Huciska",km:2.4,t:"0:40"},{name:"Dolina Dudowa",km:3.2,t:"0:55"},{name:"Starorobociańska Dolina",km:4.2,t:"1:15"},{name:"Polana Trzydniówka",km:4.9,t:"1:30"},{name:"Polana Chochołowska",km:5.9,t:"1:50"},{name:"Chochołowska hut",km:6.3,t:"2:00",hut:1}],
+  notes:["Wide valley road the whole way, gentle and easy to follow.","Buy the Tatra National Park ticket at the Siwa Polana entrance or online.","The valley trail is closed from dusk until 8 am between 1 March and 15 May."]},
+ {n:2,from:"Chochołowska hut",to:"Ornak hut",full:"Schronisko PTTK na Hali Ornak",time:"≈3:00 h",trails:["green","yellow"],track:D2,eleEst:true,
+  stops:[{name:"Chochołowska hut",km:0,hut:1},{name:"Polana Chochołowska",km:0.3},{name:"Polana Trzydniówka",ll:[49.240442,19.806826]},{name:"Polana Iwanówka",ll:[49.2380,19.8215]},{name:"Iwaniacka Przełęcz, 1459 m",ll:[49.23216,19.83744]},{name:"Ornak hut",end:1,hut:1}],
+  notes:["Back down the valley to Trzydniówka, then the yellow trail over Iwaniacka Przełęcz pass.","A steady forest climb of about 330 m, then a steeper descent into Dolina Kościeliska.","In good weather, strong walkers can go over Ornak ridge via Siwa Przełęcz instead (about 7 h)."]},
+ {n:3,from:"Ornak hut",to:"Kalatówki hotel",full:"Hotel Górski PTTK Kalatówki",time:"≈5:00 h",trails:["green","black"],track:D3,eleEst:true,
+  stops:[{name:"Ornak hut",km:0,hut:1},{name:"Polana Pisana",ll:[49.2425,19.8625]},{name:"Cudakowa Polana",ll:[49.25998,19.86906]},{name:"Przysłop Miętusi",ll:[49.25986,19.89497]},{name:"Wielka Polana Małołącka",ll:[49.2590,19.9140]},{name:"Przełęcz w Grzybowcu",ll:[49.2625,19.9300]},{name:"Polana Strążyska",ll:[49.2650,19.9400]},{name:"Kalatówki hotel",end:1,hut:1}],
+  notes:["Down Dolina Kościeliska on the green trail, then east on the black Ścieżka nad Reglami through the forest.","Lots of short climbs and descents between valleys. Food and drink at Polana Strążyska in season.","In settled weather the high route over Czerwone Wierchy ridge is spectacular but much harder (about 8 h, exposed)."]},
+ {n:4,from:"Kalatówki hotel",to:"Murowaniec hut",full:"Schronisko PTTK Murowaniec",time:"≈2:30 h",trails:["blue"],track:D4,eleEst:true,
+  stops:[{name:"Kalatówki hotel",km:0,hut:1},{name:"Kuźnice",ll:[49.2695,19.98052]},{name:"Boczań",ll:[49.2650,19.9880]},{name:"Przełęcz między Kopami",ll:[49.25492,20.00322]},{name:"Murowaniec hut",end:1,hut:1}],
+  notes:["Down to Kuźnice, then the blue trail up the Boczań ridge to Hala Gąsienicowa.","Short day: in the afternoon, walk on to Czarny Staw Gąsienicowy lake and back (about 2 km each way).","Day 5: walk out to Kuźnice on the same blue trail, about 1 h 45 min."]}
+];
+const PLACES=[{name:"Zakopane",ll:[49.2992,19.9496],kind:"town"},{name:"Giewont 1894",ll:[49.2510,19.9338],kind:"peak"},{name:"Kasprowy Wierch 1987",ll:[49.2318,19.9817],kind:"peak"},{name:"Wołowiec 2064",ll:[49.207514,19.763108],kind:"peak"}];
+
+/* ---------- geometry ---------- */
+const LAT0=49.25,LON0=19.90,KX=111320*Math.cos(LAT0*Math.PI/180),KY=110574;
+const toXY=(lat,lon)=>[(lon-LON0)*KX,(LAT0-lat)*KY];
+const toLL=(x,y)=>[LAT0-y/KY,LON0+x/KX];
+// decode trail network
+const NETL=[];
+for(const col in NET){NET[col].forEach(a=>{let la=0,lo=0;const xy=[];let x0=1e9,y0=1e9,x1=-1e9,y1=-1e9;
+  for(let i=0;i<a.length;i+=2){la+=a[i];lo+=a[i+1];const p=toXY(la/1e5,lo/1e5);xy.push(p);x0=Math.min(x0,p[0]);y0=Math.min(y0,p[1]);x1=Math.max(x1,p[0]);y1=Math.max(y1,p[1])}
+  NETL.push({col,xy,bb:[x0,y0,x1,y1]})})}
+
+function prep(day){
+  const gpx=store.get("tatra.gpx.d"+day.n,null);day.gpx=!!gpx;
+  const pts=gpx||day.track;
+  day.xy=pts.map(p=>toXY(p[0],p[1]));day.ele=pts.map(p=>p[2]==null?0:p[2]);
+  day.cum=[0];for(let i=1;i<day.xy.length;i++){const a=day.xy[i-1],b=day.xy[i];day.cum.push(day.cum[i-1]+Math.hypot(b[0]-a[0],b[1]-a[1]))}
+  day.len=day.cum[day.cum.length-1];
+  const sc=day.n===1&&!day.gpx?6300/day.len:1; // day 1 stop km are official trail-sign distances
+  day.stopsAt=day.stops.map(s=>{let along;
+    if(s.end)along=day.len;else if(s.ll)along=nearest(day,toXY(s.ll[0],s.ll[1])).along;else along=Math.min(day.len,s.km*1000/sc);
+    return {...s,along,xy:pointAt(day,along)}});
+  let up=0,dn=0;for(let i=1;i<day.ele.length;i++){const d=day.ele[i]-day.ele[i-1];if(d>0)up+=d;else dn-=d}day.up=up;day.dn=dn;
+}
+function pointAt(day,d){const c=day.cum;if(d<=0)return day.xy[0];if(d>=day.len)return day.xy[day.xy.length-1];let i=1;while(c[i]<d)i++;const t=(d-c[i-1])/(c[i]-c[i-1]||1),a=day.xy[i-1],b=day.xy[i];return [a[0]+(b[0]-a[0])*t,a[1]+(b[1]-a[1])*t]}
+function nearest(day,p){let best={dist:Infinity,along:0};for(let i=1;i<day.xy.length;i++){const a=day.xy[i-1],b=day.xy[i],dx=b[0]-a[0],dy=b[1]-a[1],L2=dx*dx+dy*dy||1;let t=((p[0]-a[0])*dx+(p[1]-a[1])*dy)/L2;t=Math.max(0,Math.min(1,t));const q=[a[0]+dx*t,a[1]+dy*t],d=Math.hypot(p[0]-q[0],p[1]-q[1]);if(d<best.dist)best={dist:d,along:day.cum[i-1]+Math.sqrt(L2)*t}}return best}
+DAYS.forEach(prep);
+const fmtKm=m=>m<1000?Math.round(m/10)*10+" m":(m/1000).toFixed(1)+" km";
+const kmStr=m=>(m/1000).toFixed(1)+" km";
+
+/* ---------- state ---------- */
+let active=store.get("tatra.day",1);if(!DAYS.find(d=>d.n===active))active=1;
+const view={cx:0,cy:0,mpp:10};let W=0,H=0,DPR=1;
+let me=null,meTime=null,meSim=false,follow=false,watchId=null,simTimer=null,simAlong=0,posAlong=null;
+const mapEl=$("#map"),canvas=$("#cv"),ctx=canvas.getContext("2d");
+
+/* ---------- offline map tiles ---------- */
+const TILE_CACHE="tatra-tiles-v1",TZMIN=11,TZMAX=16;
+let tileCfg=store.get("tatra.tiles",{key:"",custom:""});
+function tileTemplate(){const c=(tileCfg.custom||"").trim();if(c)return c;const k=(tileCfg.key||"").trim();return k?"https://api.maptiler.com/maps/outdoor-v2/256/{z}/{x}/{y}.png?key="+encodeURIComponent(k):""}
+const tileUrl=(z,x,y)=>tileTemplate().replace("{z}",z).replace("{x}",x).replace("{y}",y);
+const lon2x=(lon,z)=>(lon+180)/360*2**z;
+const lat2y=(lat,z)=>{const r=lat*Math.PI/180;return (1-Math.log(Math.tan(r)+1/Math.cos(r))/Math.PI)/2*2**z};
+const x2lon=(x,z)=>x/2**z*360-180;
+const y2lat=(y,z)=>180/Math.PI*Math.atan(Math.sinh(Math.PI-2*Math.PI*y/2**z));
+const TMEM=new Map();
+async function loadTile(z,x,y){
+  const k=z+"/"+x+"/"+y;if(TMEM.has(k))return;TMEM.set(k,{st:"loading"});
+  const url=tileUrl(z,x,y);
+  try{
+    let res=null,c=null;
+    if("caches" in window){c=await caches.open(TILE_CACHE);res=await c.match(url)}
+    if(!res&&navigator.onLine){const r=await fetch(url,{mode:"cors"});if(r.ok){if(c)await c.put(url,r.clone());res=r}}
+    if(!res){TMEM.set(k,{st:"miss"});return}
+    const bmp=await createImageBitmap(await res.blob());TMEM.set(k,{st:"ok",bmp});
+    if(TMEM.size>500){let n=0;for(const [kk,v] of TMEM){if(n++>150)break;if(v.bmp&&v.bmp.close)v.bmp.close();TMEM.delete(kk)}}
+    draw();
+  }catch(e){TMEM.set(k,{st:"miss"})}
+}
+window.addEventListener("online",()=>{for(const [k,v] of TMEM)if(v.st==="miss")TMEM.delete(k);draw()});
+function tileRect(z,x,y){const a=toXY(y2lat(y,z),x2lon(x,z)),b=toXY(y2lat(y+1,z),x2lon(x+1,z));const X=sx(a[0]),Y=sy(a[1]);return [X,Y,sx(b[0])-X,sy(b[1])-Y]}
+function drawTile(z,x,y){
+  const t=TMEM.get(z+"/"+x+"/"+y);if(!t)loadTile(z,x,y);
+  if(t&&t.st==="ok"){const r=tileRect(z,x,y);ctx.drawImage(t.bmp,r[0],r[1],r[2]+.6,r[3]+.6);return}
+  for(let k=1;k<=5;k++){const pt=TMEM.get((z-k)+"/"+(x>>k)+"/"+(y>>k));
+    if(pt&&pt.st==="ok"){const n=1<<k,sz=pt.bmp.width/n,r=tileRect(z,x,y);ctx.drawImage(pt.bmp,(x-(x>>k)*n)*sz,(y-(y>>k)*n)*sz,sz,sz,r[0],r[1],r[2]+.6,r[3]+.6);return}}
+}
+function drawTiles(x0,y0,x1,y1){
+  if(!tileTemplate())return false;
+  const latC=toLL(view.cx,view.cy)[0];
+  const z=Math.max(TZMIN,Math.min(TZMAX,Math.round(Math.log2(156543.03*Math.cos(latC*Math.PI/180)/view.mpp))));
+  const nw=toLL(x0,y0),se=toLL(x1,y1);
+  const tx0=Math.floor(lon2x(nw[1],z)),tx1=Math.floor(lon2x(se[1],z)),ty0=Math.floor(lat2y(nw[0],z)),ty1=Math.floor(lat2y(se[0],z));
+  if((tx1-tx0+1)*(ty1-ty0+1)>120)return false;
+  const dark=matchMedia("(prefers-color-scheme: dark)").matches;ctx.globalAlpha=dark?.78:1;
+  for(let ty=ty0;ty<=ty1;ty++)for(let tx=tx0;tx<=tx1;tx++)drawTile(z,tx,ty);
+  ctx.globalAlpha=1;return true;
+}
+function routeTiles(){
+  let s=90,n=-90,w=180,e=-180;DAYS.forEach(d=>d.xy.forEach(p=>{const ll=toLL(p[0],p[1]);s=Math.min(s,ll[0]);n=Math.max(n,ll[0]);w=Math.min(w,ll[1]);e=Math.max(e,ll[1])}));
+  s-=.0135;n+=.0135;w-=.02;e+=.02;const out=[];
+  for(let z=TZMIN;z<=TZMAX;z++){const x0=Math.floor(lon2x(w,z)),x1=Math.floor(lon2x(e,z)),y0=Math.floor(lat2y(n,z)),y1=Math.floor(lat2y(s,z));for(let x=x0;x<=x1;x++)for(let y=y0;y<=y1;y++)out.push([z,x,y])}
+  return out;
+}
+
+/* ---------- map ---------- */
+const sx=x=>(x-view.cx)/view.mpp+W/2, sy=y=>(y-view.cy)/view.mpp+H/2;
+let raf=0;function draw(){if(!raf)raf=requestAnimationFrame(()=>{raf=0;render()})}
+function line(xy){ctx.beginPath();for(let i=0;i<xy.length;i++){const X=sx(xy[i][0]),Y=sy(xy[i][1]);i?ctx.lineTo(X,Y):ctx.moveTo(X,Y)}}
+function render(){
+  W=mapEl.clientWidth;H=mapEl.clientHeight;if(!W||!H)return;
+  DPR=Math.min(3,window.devicePixelRatio||1);
+  if(canvas.width!==Math.round(W*DPR)||canvas.height!==Math.round(H*DPR)){canvas.width=Math.round(W*DPR);canvas.height=Math.round(H*DPR)}
+  ctx.setTransform(DPR,0,0,DPR,0,0);
+  const C={paper:cv("--paper"),ink:cv("--ink"),ink2:cv("--ink-2"),grid:cv("--grid"),casing:cv("--casing"),gps:cv("--gps"),halo:cv("--halo")};
+  const COND=cv("--cond");
+  ctx.fillStyle=C.paper;ctx.fillRect(0,0,W,H);
+  const step=view.mpp<12?1000:5000,x0=view.cx-W/2*view.mpp,x1=view.cx+W/2*view.mpp,y0=view.cy-H/2*view.mpp,y1=view.cy+H/2*view.mpp;
+  const topo=drawTiles(x0,y0,x1,y1);
+  // grid
+  ctx.strokeStyle=topo?"rgba(0,0,0,0)":C.grid;ctx.lineWidth=1;ctx.beginPath();
+  for(let x=Math.ceil(x0/step)*step;x<x1;x+=step){ctx.moveTo(sx(x),0);ctx.lineTo(sx(x),H)}
+  for(let y=Math.ceil(y0/step)*step;y<y1;y+=step){ctx.moveTo(0,sy(y));ctx.lineTo(W,sy(y))}
+  ctx.stroke();
+  ctx.lineCap="round";ctx.lineJoin="round";
+  // trail network
+  const vis=NETL.filter(l=>l.bb[2]>=x0&&l.bb[0]<=x1&&l.bb[3]>=y0&&l.bb[1]<=y1);
+  const nw=view.mpp<4?2.6:view.mpp<10?2:1.4;
+  if(!topo){ctx.globalAlpha=.9;ctx.strokeStyle=C.paper;ctx.lineWidth=nw+2.4;vis.forEach(l=>{line(l.xy);ctx.stroke()})}
+  ctx.globalAlpha=topo?.5:.6;ctx.lineWidth=nw;vis.forEach(l=>{ctx.strokeStyle=TRAIL_HEX[l.col]||C.ink2;line(l.xy);ctx.stroke()});
+  ctx.globalAlpha=1;
+  // places
+  PLACES.forEach(p=>{const [x,y]=toXY(p.ll[0],p.ll[1]),X=sx(x),Y=sy(y);if(X<-100||X>W+100||Y<-40||Y>H+40)return;
+    if(p.kind==="peak"){ctx.fillStyle=C.ink2;ctx.beginPath();ctx.moveTo(X-7,Y+5);ctx.lineTo(X,Y-7);ctx.lineTo(X+7,Y+5);ctx.closePath();ctx.fill();text(p.name,X,Y+19,13,500,C,"center",COND)}
+    else text(p.name,X,Y,18,700,C,"center",COND,C.ink2)});
+  // route days
+  const order=DAYS.filter(d=>d.n!==active).concat(DAYS.filter(d=>d.n===active));
+  order.forEach(d=>{const act=d.n===active,w=act?1:.7;ctx.globalAlpha=act?1:.6;
+    line(d.xy);ctx.strokeStyle=C.casing;ctx.lineWidth=10*w;ctx.stroke();ctx.strokeStyle="#fff";ctx.lineWidth=7*w;ctx.stroke();
+    ctx.strokeStyle=TRAIL_HEX[d.trails[d.trails.length-1]];ctx.lineWidth=3.6*w;ctx.stroke();ctx.globalAlpha=1});
+  // stops
+  order.forEach(d=>{const act=d.n===active;d.stopsAt.forEach(s=>{const X=sx(s.xy[0]),Y=sy(s.xy[1]);if(X<-80||X>W+80||Y<-60||Y>H+60)return;
+    if(s.hut){ctx.fillStyle=C.ink;ctx.strokeStyle=C.paper;ctx.lineWidth=2;roundRect(X-9,Y-9,18,18,3);ctx.fill();ctx.stroke();
+      ctx.fillStyle=C.paper;ctx.beginPath();ctx.moveTo(X-5,Y+2);ctx.lineTo(X,Y-4);ctx.lineTo(X+5,Y+2);ctx.lineTo(X+5,Y+5);ctx.lineTo(X-5,Y+5);ctx.closePath();ctx.fill();
+      if(act||view.mpp<14)text(s.name,X+14,Y+5,15,700,C,"left",COND)}
+    else if(act){ctx.fillStyle=C.paper;ctx.strokeStyle=C.ink;ctx.lineWidth=2.5;ctx.beginPath();ctx.arc(X,Y,5,0,7);ctx.fill();ctx.stroke();if(view.mpp<9)text(s.name,X+10,Y+4,13,600,C,"left",COND)}})});
+  // me
+  if(me){const X=sx(me.xy[0]),Y=sy(me.xy[1]),r=Math.max(8,me.acc/view.mpp);
+    ctx.fillStyle=C.gps;ctx.globalAlpha=.15;ctx.beginPath();ctx.arc(X,Y,r,0,7);ctx.fill();ctx.globalAlpha=1;
+    if(me.heading!=null&&!isNaN(me.heading)){ctx.save();ctx.translate(X,Y);ctx.rotate(me.heading*Math.PI/180);ctx.beginPath();ctx.moveTo(0,-22);ctx.lineTo(7,-8);ctx.lineTo(-7,-8);ctx.closePath();ctx.fill();ctx.restore()}
+    ctx.beginPath();ctx.arc(X,Y,8,0,7);ctx.fill();ctx.strokeStyle="#fff";ctx.lineWidth=3;ctx.stroke()}
+  // scale + attribution
+  const nice=[100,200,500,1000,2000,5000,10000];let L=nice[0];for(const n of nice){if(n/view.mpp<=130)L=n}
+  const px=L/view.mpp,by=H-(sheetH()+16);
+  ctx.fillStyle=C.ink;ctx.fillRect(12,by-6,px,6);ctx.fillStyle=C.paper;ctx.fillRect(12+px/2,by-5,px/2-1,4);
+  text(L>=1000?L/1000+" km":L+" m",12,by-11,13,600,C,"left",COND);
+  text(topo?((tileCfg.custom||"").trim()?"Map tiles: your provider. Trails © OpenStreetMap contributors":"© MapTiler © OpenStreetMap contributors"):"Trails © OpenStreetMap contributors",W-10,by,11,500,C,"right",cv("--sans"),C.ink2);
+}
+function roundRect(x,y,w,h,r){ctx.beginPath();ctx.moveTo(x+r,y);ctx.arcTo(x+w,y,x+w,y+h,r);ctx.arcTo(x+w,y+h,x,y+h,r);ctx.arcTo(x,y+h,x,y,r);ctx.arcTo(x,y,x+w,y,r);ctx.closePath()}
+function text(t,x,y,size,weight,C,align,fam,fill){ctx.font=`${weight} ${size}px ${fam}`;ctx.textAlign=align;ctx.lineWidth=4;ctx.strokeStyle=C.halo;ctx.lineJoin="round";ctx.strokeText(t,x,y);ctx.fillStyle=fill||C.ink;ctx.fillText(t,x,y)}
+function sheetH(){return $("#sheet").offsetHeight}
+function fitDay(n){
+  const pts=DAYS.find(d=>d.n===n).xy;let a=Infinity,b=Infinity,c=-Infinity,e=-Infinity;pts.forEach(p=>{a=Math.min(a,p[0]);b=Math.min(b,p[1]);c=Math.max(c,p[0]);e=Math.max(e,p[1])});
+  W=mapEl.clientWidth;H=mapEl.clientHeight;const top=74,bot=sheetH()+40;
+  view.mpp=Math.min(60,Math.max(1,Math.max((c-a)/(W-200),(e-b)/Math.max(80,H-top-bot))));
+  view.cx=(a+c)/2+30*view.mpp;view.cy=(b+e)/2+(bot-top)/2*view.mpp;draw();
+}
+function zoomAt(px,py,f){if(follow&&me){px=sx(me.xy[0]);py=sy(me.xy[1])}const wx=view.cx+(px-W/2)*view.mpp,wy=view.cy+(py-H/2)*view.mpp;view.mpp=Math.min(80,Math.max(.6,view.mpp/f));view.cx=wx-(px-W/2)*view.mpp;view.cy=wy-(py-H/2)*view.mpp;draw()}
+const ptrs=new Map();let pinch=null;
+mapEl.addEventListener("pointerdown",e=>{mapEl.setPointerCapture(e.pointerId);ptrs.set(e.pointerId,[e.clientX,e.clientY]);if(ptrs.size===2)pinch=pinchState()});
+mapEl.addEventListener("pointermove",e=>{if(!ptrs.has(e.pointerId))return;const prev=ptrs.get(e.pointerId);ptrs.set(e.pointerId,[e.clientX,e.clientY]);
+  if(ptrs.size===1){view.cx-=(e.clientX-prev[0])*view.mpp;view.cy-=(e.clientY-prev[1])*view.mpp;setFollow(false);draw()}
+  else if(ptrs.size===2&&pinch){const s=pinchState(),r=mapEl.getBoundingClientRect();zoomAt(s.mx-r.left,s.my-r.top,s.d/pinch.d);view.cx-=(s.mx-pinch.mx)*view.mpp;view.cy-=(s.my-pinch.my)*view.mpp;pinch=s;setFollow(false)}});
+const pup=e=>{ptrs.delete(e.pointerId);if(ptrs.size<2)pinch=null};
+mapEl.addEventListener("pointerup",pup);mapEl.addEventListener("pointercancel",pup);
+function pinchState(){const p=[...ptrs.values()];return{d:Math.hypot(p[0][0]-p[1][0],p[0][1]-p[1][1])||1,mx:(p[0][0]+p[1][0])/2,my:(p[0][1]+p[1][1])/2}}
+mapEl.addEventListener("wheel",e=>{e.preventDefault();const r=mapEl.getBoundingClientRect();zoomAt(e.clientX-r.left,e.clientY-r.top,e.deltaY<0?1.25:.8)},{passive:false});
+mapEl.addEventListener("dblclick",e=>{const r=mapEl.getBoundingClientRect();zoomAt(e.clientX-r.left,e.clientY-r.top,2)});
+$("#zin").onclick=()=>zoomAt(W/2,H/2,1.6);$("#zout").onclick=()=>zoomAt(W/2,H/2,1/1.6);
+$("#fit").onclick=()=>{setFollow(false);fitDay(active)};
+window.addEventListener("resize",draw);
+try{matchMedia("(prefers-color-scheme: dark)").addEventListener("change",()=>{draw();renderProfile()})}catch(e){}
+
+/* ---------- sheet ---------- */
+const cap=t=>t[0].toUpperCase()+t.slice(1);
+function blaze(c){return `<span class="blaze" aria-hidden="true"><b></b><b style="background:${TRAIL_HEX[c]}"></b><b></b></span>`}
+function renderChips(){$("#chips").innerHTML=DAYS.map(d=>`<button class="chip" aria-pressed="${d.n===active}" data-n="${d.n}">${blaze(d.trails[d.trails.length-1])}Day ${d.n}</button>`).join("");
+  $("#chips").querySelectorAll(".chip").forEach(b=>b.onclick=()=>selectDay(+b.dataset.n,true))}
+function selectDay(n,fit){if(fit){stopSim();setFollow(false)}active=n;posAlong=null;store.set("tatra.day",n);renderChips();renderSheet();if(fit)fitDay(n);else draw()}
+function renderSheet(){
+  const d=DAYS.find(x=>x.n===active);
+  $("#s-title").textContent=`${d.from} to ${d.to}`;
+  $("#s-sub").textContent=d.trails.map(cap).join(" then ")+" trail";
+  $("#s-stats").innerHTML=[[kmStr(d.n===1&&!d.gpx?6300:d.len),"distance"],[d.time,"walking"],[(d.eleEst&&!d.gpx?"≈":"")+"+"+Math.round(d.up/10)*10+" m","climb"],[(d.eleEst&&!d.gpx?"≈":"")+"−"+Math.round(d.dn/10)*10+" m","descent"]].map(s=>`<div class="stat"><strong>${s[0]}</strong><span>${s[1]}</span></div>`).join("");
+  renderProfile();
+  $("#s-route").innerHTML=`<p class="sub" style="margin:6px 0 0">${esc(d.full)}</p>
+    <ol class="stops">${d.stopsAt.map(s=>`<li class="${s.hut?"hut":""}"><span>${esc(s.name)}</span><span class="km">${kmStr(s.along*(d.n===1&&!d.gpx?6300/d.len:1))}${s.t?", "+s.t:""}</span></li>`).join("")}</ol>
+    <ul class="notes">${d.notes.map(n=>`<li>${esc(n)}</li>`).join("")}</ul>
+    <p class="sub" style="margin-top:10px">${d.gpx?"Using your GPX file for this day.":"Have a GPX file for this day? Load it to replace the line."}</p>
+    <div class="row-btns"><label class="btn filebtn">${d.gpx?"Replace GPX":"Load GPX"}<input type="file" accept=".gpx,application/gpx+xml,text/xml" id="gpxin"></label>${d.gpx?`<button class="btn" id="gpxclr">Remove GPX</button>`:""}</div>`;
+  $("#gpxin").onchange=e=>loadGpx(e.target.files[0],d.n);
+  if($("#gpxclr"))$("#gpxclr").onclick=()=>{store.del("tatra.gpx.d"+d.n);prep(d);renderSheet();draw()};
+  if(me)updateProgress();else updatePill();
+}
+function renderProfile(){
+  const d=DAYS.find(x=>x.n===active),e=d.ele,mn=Math.min(...e)-30,mx=Math.max(...e)+30,X=a=>a/d.len*300,Y=v=>58-(v-mn)/(mx-mn)*54;
+  let p="";d.cum.forEach((c,i)=>p+=(i?"L":"M")+X(c).toFixed(1)+" "+Y(e[i]).toFixed(1));
+  const C={line:cv("--line"),ink:cv("--ink"),gps:cv("--gps")};
+  let s=`<svg viewBox="0 0 300 60" preserveAspectRatio="none"><path d="${p}L300 60L0 60Z" fill="${C.line}" opacity=".75"/><path d="${p}" fill="none" stroke="${C.ink}" stroke-width="2" vector-effect="non-scaling-stroke"/>`;
+  if(posAlong!=null)s+=`<line x1="${X(posAlong)}" x2="${X(posAlong)}" y1="0" y2="60" stroke="${C.gps}" stroke-width="3" vector-effect="non-scaling-stroke"/>`;
+  $("#s-prof").innerHTML=s+`</svg><div class="proflab"><span>${Math.round(Math.min(...e))} m</span><span>High point ${Math.round(Math.max(...e))} m${d.eleEst&&!d.gpx?" (estimated)":""}</span></div>`;
+}
+function loadGpx(f,n){if(!f)return;f.text().then(txt=>{const doc=new DOMParser().parseFromString(txt,"application/xml");let pts=[...doc.getElementsByTagName("trkpt")];if(!pts.length)pts=[...doc.getElementsByTagName("rtept")];
+  const arr=pts.map(p=>{const e=p.getElementsByTagName("ele")[0];return [+p.getAttribute("lat"),+p.getAttribute("lon"),e?+e.textContent:null]}).filter(p=>isFinite(p[0])&&isFinite(p[1]));
+  if(arr.length<2){toast("No track points found in that file");return}
+  const step=Math.max(1,Math.floor(arr.length/1500));store.set("tatra.gpx.d"+n,arr.filter((_,i)=>i%step===0||i===arr.length-1));
+  const d=DAYS.find(x=>x.n===n);prep(d);renderSheet();fitDay(n);toast("GPX loaded for Day "+n)})}
+$("#handle").onclick=()=>{const c=$("#sheet").classList.toggle("collapsed");$("#handle").setAttribute("aria-expanded",!c);draw()};
+
+/* ---------- location ---------- */
+function setFollow(v){follow=v;$("#loc").classList.toggle("active",v)}
+function onFix(lat,lon,acc,heading,sim){
+  me={xy:toXY(lat,lon),lat,lon,acc:acc||15,heading};meTime=new Date();meSim=!!sim;
+  if(follow){view.cx=me.xy[0];view.cy=me.xy[1]+sheetH()/2*view.mpp}
+  updateProgress();draw();if($("#sos-ov").classList.contains("on"))renderSOS();
+}
+function updateProgress(){
+  if(!me)return;const d=DAYS.find(x=>x.n===active),nr=nearest(d,me.xy);
+  let other=null;DAYS.forEach(o=>{if(o.n!==active){const r=nearest(o,me.xy);if(r.dist<60&&(!other||r.dist<other.dist))other={n:o.n,dist:r.dist}}});
+  const off=nr.dist>Math.max(80,me.acc*1.5);posAlong=off?null:nr.along;
+  const next=d.stopsAt.find(s=>s.along>nr.along+20),g=$("#s-gps");
+  if(off)g.innerHTML=`<b>${fmtKm(nr.dist)} from the Day ${d.n} route.</b>`+(other?` You look to be on Day ${other.n}.`:" Head back to the marked trail.");
+  else g.innerHTML=`<b>${fmtKm(nr.along)}</b> walked, <b>${fmtKm(d.len-nr.along)}</b> to ${esc(d.to)}`+(next&&!next.hut?`. Next: ${esc(next.name)} in ${fmtKm(next.along-nr.along)}`:"")+".";
+  updatePill(off?nr.dist:null,other);renderProfile();
+}
+function updatePill(offDist,other){
+  let h="";if(offDist!=null)h+=`<div class="warn" role="alert">Off route by ${fmtKm(offDist)}${other?`. Switch to Day ${other.n}?`:""}</div>`;
+  $("#pill").innerHTML=h;const w=$("#pill .warn");if(w&&other){w.style.cursor="pointer";w.onclick=()=>selectDay(other.n,false)}
+}
+function watchGPS(){
+  if(!("geolocation" in navigator)){$("#s-gps").textContent="This browser can't share location.";return false}
+  if(watchId!=null)return true;
+  watchId=navigator.geolocation.watchPosition(p=>{if(!simTimer)onFix(p.coords.latitude,p.coords.longitude,p.coords.accuracy,p.coords.heading,false)},
+    err=>{const m=err.code===1?"Location is blocked. Allow location for this page in your browser settings.":"No GPS fix yet. Move into the open and wait a minute.";$("#s-gps").textContent=m;if($("#sos-ov").classList.contains("on"))renderSOS(m);watchId=null},
+    {enableHighAccuracy:true,maximumAge:5000,timeout:60000});
+  return true;
+}
+function startGPS(){stopSim();setFollow(true);if(watchGPS()&&!me)$("#s-gps").textContent="Finding your position. GPS works without phone signal, but give it a minute in the open.";if(me){view.cx=me.xy[0];view.cy=me.xy[1];draw()}}
+$("#loc").onclick=()=>{if(follow&&me)setFollow(false);else startGPS()};
+$("#b-loc").onclick=startGPS;
+function stopSim(){if(simTimer){clearInterval(simTimer);simTimer=null;$("#b-sim").textContent="Simulate a walk";if(meSim){me=null;posAlong=null}setFollow(false);$("#s-gps").textContent="Simulation stopped.";updatePill();renderProfile();draw()}}
+$("#b-sim").onclick=()=>{if(simTimer){stopSim();return}
+  const d=DAYS.find(x=>x.n===active);simAlong=0;setFollow(true);view.mpp=Math.min(view.mpp,4);$("#b-sim").textContent="Stop simulation";
+  simTimer=setInterval(()=>{simAlong+=30;if(simAlong>d.len){stopSim();return}
+    const p=pointAt(d,simAlong),q=pointAt(d,simAlong+20),hd=Math.atan2(q[0]-p[0],-(q[1]-p[1]))*180/Math.PI;
+    const drift=(simAlong>d.len*.45&&simAlong<d.len*.5)?140:0,ll=toLL(p[0]+drift,p[1]);onFix(ll[0],ll[1],12,hd,true)},250)};
+
+/* ---------- SOS ---------- */
+const dms=(v,pos,neg)=>{const a=Math.abs(v),d=Math.floor(a),m=Math.floor((a-d)*60),s=((a-d)*60-m)*60;return `${d}°${String(m).padStart(2,"0")}′${s.toFixed(1).padStart(4,"0")}″${v>=0?pos:neg}`};
+function placeText(){
+  if(!me)return "";let best=null;
+  DAYS.forEach(d=>d.stopsAt.forEach(s=>{const dist=Math.hypot(s.xy[0]-me.xy[0],s.xy[1]-me.xy[1]);if(!best||dist<best.dist)best={dist,name:s.name,day:d.n}}));
+  return best&&best.dist<3000?`${fmtKm(best.dist)} from ${best.name} (Day ${best.day} route)`:"";
+}
+function sosMessage(){
+  const lat=me.lat.toFixed(5),lon=me.lon.toFixed(5),t=meTime.toLocaleTimeString([],{hour:"2-digit",minute:"2-digit"}),pl=placeText();
+  return `SOS - hiker needs help in the Western Tatras, Poland. Position ${lat}, ${lon} (accuracy ${Math.round(me.acc)} m) at ${t}.${pl?" About "+pl+".":""} Map: https://maps.google.com/?q=${lat},${lon}`;
+}
+function renderSOS(errMsg){
+  const box=$("#sos-coords");
+  if(!me){box.innerHTML=`<div class="big" style="font-size:22px">Finding your position…</div><div class="small">${errMsg?esc(errMsg):"Stay in the open if you can. GPS works without phone signal."}</div>`;$("#sos-sms").setAttribute("href","#");return}
+  const age=Math.round((Date.now()-meTime)/1000),pl=placeText();
+  box.innerHTML=`<div class="big">${me.lat.toFixed(5)}, ${me.lon.toFixed(5)}</div>
+    <div class="small">${dms(me.lat,"N","S")} ${dms(me.lon,"E","W")}</div>
+    <div class="small">Accurate to ${Math.round(me.acc)} m, ${age<60?"updated just now":"updated "+Math.round(age/60)+" min ago"}${meSim?". Simulated position":""}</div>
+    ${pl?`<div class="small" style="color:var(--ink);font-weight:600">About ${esc(pl)}</div>`:""}`;
+  const phone=(store.get("tatra.ec",{}).phone||"").replace(/[^\d+]/g,"");
+  $("#sos-sms").setAttribute("href",`sms:${phone}?&body=${encodeURIComponent(sosMessage())}`);
+}
+$("#sos").onclick=()=>{$("#sos-ov").classList.add("on");const ec=store.get("tatra.ec",{});$("#ec-name").value=ec.name||"";$("#ec-phone").value=ec.phone||"";if(!me&&!simTimer)watchGPS();renderSOS();$("#sos-close").focus()};
+$("#sos-close").onclick=()=>$("#sos-ov").classList.remove("on");
+$("#sos-ov").addEventListener("click",e=>{if(e.target.id==="sos-ov")$("#sos-ov").classList.remove("on")});
+document.addEventListener("keydown",e=>{if(e.key==="Escape")$("#sos-ov").classList.remove("on")});
+["#ec-name","#ec-phone"].forEach(s=>$(s).oninput=()=>{store.set("tatra.ec",{name:$("#ec-name").value,phone:$("#ec-phone").value});renderSOS()});
+$("#sos-sms").addEventListener("click",e=>{if(!me){e.preventDefault();toast("Waiting for a GPS position")}});
+$("#sos-share").onclick=()=>{if(!me){toast("Waiting for a GPS position");return}const m=sosMessage();
+  if(navigator.share)navigator.share({text:m}).catch(()=>{});else copy(m)};
+function copy(t){(navigator.clipboard?navigator.clipboard.writeText(t):Promise.reject()).then(()=>toast("Copied")).catch(()=>{const a=document.createElement("textarea");a.value=t;document.body.appendChild(a);a.select();try{document.execCommand("copy");toast("Copied")}catch(e){}a.remove()})}
+
+/* ---------- people (shared by packing + costs) ---------- */
+let people=store.get("tatra.people.v2",null)||[{id:uid(),name:"Me"}];
+const savePeople=()=>store.set("tatra.people.v2",people);
+const pname=id=>(people.find(p=>p.id===id)||{name:"Unknown"}).name;
+
+/* ---------- packing ---------- */
+const PK_CATS=["Clothing","Sleeping","Food and water","First aid and safety","Navigation and electronics","Toiletries","Documents and money","Other"];
+let pack=store.get("tatra.pack",[]);
+const savePack=()=>store.set("tatra.pack",pack);
+$("#pk-cat").innerHTML=PK_CATS.map(c=>`<option>${c}</option>`).join("");
+$("#pk-cat").value=store.get("tatra.pk.lastcat","Clothing");
+function addPack(){const name=$("#pk-name").value.trim();if(!name){$("#pk-name").focus();return}
+  pack.push({id:uid(),name,cat:$("#pk-cat").value,qty:1,g:null,who:"",packed:false});store.set("tatra.pk.lastcat",$("#pk-cat").value);
+  savePack();$("#pk-name").value="";renderPack();$("#pk-name").focus()}
+$("#pk-add").onclick=addPack;$("#pk-name").addEventListener("keydown",e=>{if(e.key==="Enter")addPack()});
+function renderPackSum(){
+  const total=pack.length,done=pack.filter(i=>i.packed).length;
+  const grams=pack.reduce((s,i)=>s+(i.g||0)*(i.qty||1),0);
+  const byWho={};pack.forEach(i=>{if(i.who&&i.g){byWho[i.who]=(byWho[i.who]||0)+i.g*(i.qty||1)}});
+  const kg=g=>(g/1000).toFixed(1)+" kg";
+  $("#pk-summary").innerHTML=total?`<div class="summary"><div><strong>${done} of ${total}</strong><span>packed</span></div>${grams?`<div><strong>${kg(grams)}</strong><span>total weight</span></div>`:""}${Object.keys(byWho).map(w=>`<div><strong>${kg(byWho[w])}</strong><span>carried by ${esc(pname(w))}</span></div>`).join("")}</div><div class="progress"><i style="width:${total?done/total*100:0}%"></i></div>`:"";
+}
+function renderPack(){
+  renderPackSum();const total=pack.length;
+  if(!total){$("#pk-list").innerHTML=`<div class="empty">Your list is empty. Type an item above and press Add.</div>`;$("#pk-tools").innerHTML="";return}
+  const cats=PK_CATS.filter(c=>pack.some(i=>i.cat===c));
+  const whoOpts=w=>`<option value="">Anyone</option>`+people.map(p=>`<option value="${p.id}" ${p.id===w?"selected":""}>${esc(p.name)}</option>`).join("");
+  $("#pk-list").innerHTML=cats.map(c=>{const items=pack.filter(i=>i.cat===c);return `<section class="cat"><h3>${esc(c)}<span>${items.filter(i=>i.packed).length}/${items.length}</span></h3>
+    ${items.map(i=>`<div class="pitem ${i.packed?"packed":""}" data-id="${i.id}">
+      <input type="checkbox" ${i.packed?"checked":""} aria-label="Packed: ${esc(i.name)}" data-f="packed">
+      <input class="name" value="${esc(i.name)}" aria-label="Item name" data-f="name">
+      <button class="del" aria-label="Remove ${esc(i.name)}" data-act="del">×</button>
+      <div class="pdetail"><label>Qty <input type="number" min="1" step="1" inputmode="numeric" value="${i.qty||1}" data-f="qty"></label>
+        <label><input type="number" min="0" step="10" inputmode="numeric" placeholder="–" value="${i.g??""}" data-f="g"> g</label>
+        ${people.length>1?`<label>Carried by <select data-f="who">${whoOpts(i.who)}</select></label>`:""}</div></div>`).join("")}</section>`}).join("");
+  $("#pk-tools").innerHTML=`<button class="btn" id="pk-untick">Untick everything</button><button class="btn" id="pk-share">Share list</button>`;
+  $("#pk-list").querySelectorAll(".pitem").forEach(row=>{const it=pack.find(i=>i.id===row.dataset.id);
+    row.querySelectorAll("[data-f]").forEach(el=>{const f=el.dataset.f;
+      el.addEventListener(f==="packed"?"change":"input",()=>{if(f==="packed"){it.packed=el.checked;savePack();renderPack();return}
+        if(f==="name")it.name=el.value;else if(f==="who")it.who=el.value;else{const v=parseFloat(el.value);it[f]=isFinite(v)?v:(f==="qty"?1:null)}savePack();if(f!=="name")renderPackSum()})});
+    row.querySelector("[data-act=del]").onclick=()=>{pack=pack.filter(i=>i!==it);savePack();renderPack()}});
+  $("#pk-untick").onclick=()=>{pack.forEach(i=>i.packed=false);savePack();renderPack()};
+  $("#pk-share").onclick=()=>{const t=PK_CATS.filter(c=>pack.some(i=>i.cat===c)).map(c=>c+"\n"+pack.filter(i=>i.cat===c).map(i=>`${i.packed?"[x]":"[ ]"} ${i.name}${i.qty>1?" x"+i.qty:""}${i.who?" ("+pname(i.who)+")":""}`).join("\n")).join("\n\n");
+    if(navigator.share)navigator.share({text:"Packing list\n\n"+t}).catch(()=>{});else copy(t)};
+}
+
+/* ---------- costs ---------- */
+const EX_CATS=["Huts","Food","Transport","Park fees","Gear","Other"];
+const CAT_COL={"Huts":"#23503D","Food":"#C08A1E","Transport":"#1F5FBF","Park fees":"#7A9B3A","Gear":"#7A6F9B","Other":"#8A8F8C"};
+let exps=store.get("tatra.exps",[]),rate=store.get("tatra.rate",5.0),showCur=store.get("tatra.showcur","PLN");
+let editId=null,formCur="PLN",formSplit=null;
+const saveExps=()=>store.set("tatra.exps",exps);
+const toPLN=e=>e.cur==="GBP"?e.amt*rate:e.amt;
+const money=v=>showCur==="GBP"?"£"+(v/rate).toLocaleString("en-GB",{minimumFractionDigits:2,maximumFractionDigits:2}):v.toLocaleString("en-GB",{minimumFractionDigits:2,maximumFractionDigits:2})+" zł";
+$("#e-cat").innerHTML=EX_CATS.map(c=>`<option>${c}</option>`).join("");
+$("#c-rate").value=rate;
+$("#c-rate").oninput=e=>{const v=parseFloat(e.target.value);if(v>0){rate=v;store.set("tatra.rate",rate);renderCostSummary()}};
+function setFormCur(c){formCur=c;$("#e-pln").setAttribute("aria-pressed",c==="PLN");$("#e-gbp").setAttribute("aria-pressed",c==="GBP")}
+$("#e-pln").onclick=()=>setFormCur("PLN");$("#e-gbp").onclick=()=>setFormCur("GBP");
+function renderPeople(){
+  $("#c-people").innerHTML=people.map(p=>`<span class="person"><input value="${esc(p.name)}" aria-label="Name" data-id="${p.id}"><button aria-label="Remove ${esc(p.name)}" data-rm="${p.id}">×</button></span>`).join("");
+  $("#c-people").querySelectorAll("input").forEach(i=>i.oninput=()=>{people.find(p=>p.id===i.dataset.id).name=i.value||"?";savePeople();renderForm(true);renderCostSummary();renderExpList()});
+  $("#c-people").querySelectorAll("[data-rm]").forEach(b=>b.onclick=()=>{const id=b.dataset.rm;
+    if(people.length===1){toast("Keep at least one person");return}
+    if(exps.some(e=>e.paid===id||e.split.includes(id))){toast("This person is in some costs. Remove or edit those first.");return}
+    people=people.filter(p=>p.id!==id);pack.forEach(i=>{if(i.who===id)i.who=""});savePack();savePeople();renderAllCosts();renderPack()});
+}
+$("#c-addp").onclick=()=>{people.push({id:uid(),name:"Person "+(people.length+1)});if(!editId)formSplit=people.map(p=>p.id);savePeople();renderAllCosts();renderPack();const ins=$("#c-people").querySelectorAll("input");const l=ins[ins.length-1];l.focus();l.select()};
+function renderForm(keep){
+  const paid=$("#e-paid").value;
+  $("#e-paid").innerHTML=people.map(p=>`<option value="${p.id}">${esc(p.name)}</option>`).join("");
+  if(keep&&people.some(p=>p.id===paid))$("#e-paid").value=paid;
+  if(!formSplit)formSplit=people.map(p=>p.id);formSplit=formSplit.filter(id=>people.some(p=>p.id===id));
+  $("#e-split").innerHTML=people.map(p=>`<button aria-pressed="${formSplit.includes(p.id)}" data-id="${p.id}">${esc(p.name)}</button>`).join("")+(people.length>1?`<button data-all="1">Everyone</button>`:"");
+  $("#e-split").querySelectorAll("button").forEach(b=>b.onclick=()=>{if(b.dataset.all)formSplit=people.map(p=>p.id);else{const id=b.dataset.id;formSplit=formSplit.includes(id)?formSplit.filter(x=>x!==id):[...formSplit,id]}renderForm(true)});
+}
+function resetForm(){editId=null;$("#e-desc").value="";$("#e-amt").value="";setFormCur("PLN");formSplit=people.map(p=>p.id);$("#e-cat").value="Other";$("#e-save").textContent="Add cost";$("#e-cancel").hidden=true;$("#e-del").hidden=true;renderForm(true)}
+$("#e-save").onclick=()=>{
+  const desc=$("#e-desc").value.trim()||"Untitled cost",amt=parseFloat($("#e-amt").value);
+  if(!(amt>0)){toast("Enter an amount");$("#e-amt").focus();return}
+  if(!formSplit.length){toast("Choose who this cost is for");return}
+  const rec={id:editId||uid(),desc,amt,cur:formCur,paid:$("#e-paid").value,split:[...formSplit],cat:$("#e-cat").value,ts:editId?(exps.find(e=>e.id===editId)||{}).ts:Date.now()};
+  if(editId)exps=exps.map(e=>e.id===editId?rec:e);else exps.push(rec);
+  saveExps();toast(editId?"Cost updated":"Cost added");resetForm();renderCostSummary();renderExpList();
+};
+$("#e-cancel").onclick=resetForm;
+$("#e-del").onclick=()=>{exps=exps.filter(e=>e.id!==editId);saveExps();toast("Cost deleted");resetForm();renderCostSummary();renderExpList()};
+function editExp(id){const e=exps.find(x=>x.id===id);if(!e)return;editId=id;$("#e-desc").value=e.desc;$("#e-amt").value=e.amt;setFormCur(e.cur);formSplit=[...e.split];renderForm(false);$("#e-paid").value=e.paid;$("#e-cat").value=e.cat;
+  $("#e-save").textContent="Save changes";$("#e-cancel").hidden=false;$("#e-del").hidden=false;$("#c-form").scrollIntoView({behavior:"smooth",block:"start"});$("#e-desc").focus()}
+function balances(){const b={};people.forEach(p=>b[p.id]={paid:0,share:0});
+  exps.forEach(e=>{const v=toPLN(e);if(b[e.paid])b[e.paid].paid+=v;const each=v/e.split.length;e.split.forEach(id=>{if(b[id])b[id].share+=each})});return b}
+function settle(b){const cr=[],db=[];Object.entries(b).forEach(([id,v])=>{const n=Math.round((v.paid-v.share)*100)/100;if(n>0.005)cr.push([id,n]);else if(n<-0.005)db.push([id,-n])});
+  cr.sort((a,c)=>c[1]-a[1]);db.sort((a,c)=>c[1]-a[1]);const out=[];let i=0,j=0;
+  while(i<db.length&&j<cr.length){const x=Math.min(db[i][1],cr[j][1]);out.push([db[i][0],cr[j][0],x]);db[i][1]-=x;cr[j][1]-=x;if(db[i][1]<0.005)i++;if(cr[j][1]<0.005)j++}return out}
+function renderCostSummary(){
+  if(!exps.length){$("#c-summary").innerHTML="";$("#c-tools").innerHTML="";return}
+  const total=exps.reduce((s,e)=>s+toPLN(e),0),b=balances(),moves=settle(b);
+  const byCat=EX_CATS.map(c=>exps.filter(e=>e.cat===c).reduce((s,e)=>s+toPLN(e),0));
+  $("#c-summary").innerHTML=`<div class="total">
+    <div style="display:flex;justify-content:space-between;align-items:flex-start;gap:8px"><div class="big">${money(total)}</div>
+    <div class="seg" role="group" aria-label="Show totals in"><button data-cur="PLN" aria-pressed="${showCur==="PLN"}">zł</button><button data-cur="GBP" aria-pressed="${showCur==="GBP"}">£</button></div></div>
+    <div class="small">Total for the trip${people.length>1?`, ${money(total/people.length)} each if split evenly`:""}</div>
+    <div class="bar">${EX_CATS.map((c,i)=>byCat[i]?`<i style="width:${byCat[i]/total*100}%;background:${CAT_COL[c]}"></i>`:"").join("")}</div>
+    <div class="keys">${EX_CATS.map((c,i)=>byCat[i]?`<span><b style="background:${CAT_COL[c]}"></b>${c} ${money(byCat[i])}</span>`:"").join("")}</div></div>
+    ${people.length>1?`<h3 class="pagehead" style="font-size:22px">Who owes whom</h3>
+    ${moves.length?`<ul class="settle">${moves.map(m=>`<li>${esc(pname(m[0]))} pays ${esc(pname(m[1]))} ${money(m[2])}</li>`).join("")}</ul>`:`<p class="sub">Everyone is square.</p>`}
+    <table class="table"><thead><tr><th>Person</th><th class="num">Paid</th><th class="num">Share</th><th class="num">Balance</th></tr></thead><tbody>
+    ${people.map(p=>{const v=b[p.id],bal=v.paid-v.share;return `<tr><td>${esc(p.name)}</td><td class="num">${money(v.paid)}</td><td class="num">${money(v.share)}</td><td class="num ${bal>0.005?"pos":bal<-0.005?"neg":""}">${bal>0.005?"+":""}${money(bal)}</td></tr>`}).join("")}</tbody></table>`:""}`;
+  $("#c-summary").querySelectorAll("[data-cur]").forEach(x=>x.onclick=()=>{showCur=x.dataset.cur;store.set("tatra.showcur",showCur);renderCostSummary();renderExpList()});
+  $("#c-tools").innerHTML=`<button class="btn" id="c-share">Share summary</button><button class="btn" id="c-clear">Clear all costs</button>`;
+  $("#c-share").onclick=()=>{const t=`Tatra trip costs\nTotal: ${money(total)}\n\n`+(moves.length?moves.map(m=>`${pname(m[0])} pays ${pname(m[1])} ${money(m[2])}`).join("\n"):"Everyone is square.")+"\n\n"+exps.map(e=>`${e.desc}: ${e.cur==="GBP"?"£"+e.amt.toFixed(2):e.amt.toFixed(2)+" zł"}, paid by ${pname(e.paid)}`).join("\n");
+    if(navigator.share)navigator.share({text:t}).catch(()=>{});else copy(t)};
+  $("#c-clear").onclick=()=>{if(confirm("Delete every cost? This can't be undone.")){exps=[];saveExps();resetForm();renderCostSummary();renderExpList()}};
+}
+function renderExpList(){
+  if(!exps.length){$("#c-list").innerHTML=`<div class="empty">No costs yet. Add the first one above, for example a hut booking or bus tickets.</div>`;return}
+  const list=[...exps].sort((a,b)=>(b.ts||0)-(a.ts||0));
+  $("#c-list").innerHTML=`<h3 class="pagehead" style="font-size:22px;margin-top:18px">All costs</h3>`+list.map(e=>`<div class="exp" tabindex="0" role="button" data-id="${e.id}" aria-label="Edit ${esc(e.desc)}">
+    <div class="d">${esc(e.desc)}</div><div class="a">${e.cur==="GBP"?"£"+e.amt.toFixed(2):e.amt.toFixed(2)+" zł"}</div>
+    <div class="m">${esc(e.cat)}. Paid by ${esc(pname(e.paid))}, split ${e.split.length===people.length&&people.length>1?"between everyone":"with "+e.split.map(pname).map(esc).join(", ")}</div></div>`).join("");
+  $("#c-list").querySelectorAll(".exp").forEach(el=>{el.onclick=()=>editExp(el.dataset.id);el.onkeydown=k=>{if(k.key==="Enter"||k.key===" "){k.preventDefault();editExp(el.dataset.id)}}});
+}
+function renderAllCosts(){renderPeople();renderForm(true);renderCostSummary();renderExpList()}
+
+/* ---------- settings: offline map, backup, install ---------- */
+const setOv=$("#set-ov");
+$("#setb").onclick=()=>{$("#t-key").value=tileCfg.key||"";$("#t-custom").value=tileCfg.custom||"";setOv.classList.add("on");tileStatus();installText()};
+$("#set-close").onclick=()=>setOv.classList.remove("on");
+setOv.addEventListener("click",e=>{if(e.target===setOv)setOv.classList.remove("on")});
+document.addEventListener("keydown",e=>{if(e.key==="Escape")setOv.classList.remove("on")});
+function saveTileCfg(){tileCfg={key:$("#t-key").value.trim(),custom:$("#t-custom").value.trim()};store.set("tatra.tiles",tileCfg);TMEM.clear();draw();tileStatus()}
+$("#t-key").onchange=saveTileCfg;$("#t-custom").onchange=saveTileCfg;
+const mb=b=>b>1e9?(b/1e9).toFixed(1)+" GB":Math.round(b/1e6)+" MB";
+async function tileStatus(msg){
+  const el=$("#t-status");if(msg){el.innerHTML=msg;return}
+  const info=store.get("tatra.tiles.done",null),tot=routeTiles().length;
+  let used="";try{if(navigator.storage&&navigator.storage.estimate){const e=await navigator.storage.estimate();used=` This app is using ${mb(e.usage||0)} of storage.`}}catch(e){}
+  if(!tileTemplate())el.textContent="Add a MapTiler key to download the map. The route needs about "+tot.toLocaleString("en-GB")+" map images.";
+  else if(info&&info.tpl===tileTemplate())el.textContent=`Map saved for the whole route: ${info.n.toLocaleString("en-GB")} of ${tot.toLocaleString("en-GB")} images, on ${new Date(info.when).toLocaleDateString("en-GB")}.${info.n<tot?" Some failed. Tap Download again to fill the gaps.":""}${used}`;
+  else el.textContent=`Ready to download about ${tot.toLocaleString("en-GB")} map images (roughly ${Math.round(tot*22/1000)*1} MB).${used}`;
+}
+let dl=null;
+$("#t-dl").onclick=async()=>{
+  if(dl){dl.stop=true;return}
+  saveTileCfg();
+  if(!tileTemplate()){toast("Add a MapTiler key first");$("#t-key").focus();return}
+  if(!navigator.onLine){toast("Connect to the internet to download");return}
+  if(!("caches" in window)){toast("This browser can't save maps offline");return}
+  try{if(navigator.storage&&navigator.storage.persist)await navigator.storage.persist()}catch(e){}
+  const list=routeTiles(),c=await caches.open(TILE_CACHE),tpl=tileTemplate();
+  let i=0,done=0,fail=0,authFail=0;dl={stop:false};$("#t-dl").textContent="Stop download";
+  const paint=()=>tileStatus(`Downloading map: ${done.toLocaleString("en-GB")} of ${list.length.toLocaleString("en-GB")}${fail?`, ${fail} failed`:""}<div class="meter"><i style="width:${done/list.length*100}%"></i></div>`);
+  paint();
+  const worker=async()=>{while(i<list.length&&!dl.stop){const [z,x,y]=list[i++],url=tileUrl(z,x,y);
+    try{if(!(await c.match(url))){const r=await fetch(url,{mode:"cors"});if(!r.ok){if(r.status===401||r.status===403)authFail++;throw 0}await c.put(url,r)}}catch(e){fail++}
+    done++;if(authFail>=5&&authFail===fail){dl.stop=true}if(done%8===0)paint()}};
+  await Promise.all(Array.from({length:6},worker));
+  const stopped=dl.stop;dl=null;$("#t-dl").textContent="Download map for the route";
+  if(authFail>=5&&authFail===fail){tileStatus("The map provider rejected the key. Check it was copied in full, then try again.");return}
+  store.set("tatra.tiles.done",{n:done-fail,when:Date.now(),tpl});TMEM.clear();draw();
+  if(stopped)tileStatus(`Download stopped after ${done.toLocaleString("en-GB")} images. Tap Download to carry on.`);else{tileStatus();toast("Map saved for offline use")}
+};
+$("#t-del").onclick=async()=>{if(!confirm("Delete the saved map from this phone?"))return;try{await caches.delete(TILE_CACHE)}catch(e){}store.del("tatra.tiles.done");TMEM.clear();draw();tileStatus();toast("Saved map deleted")};
+// backup
+$("#bk-exp").onclick=async()=>{
+  const data={};for(let i=0;i<localStorage.length;i++){const k=localStorage.key(i);if(k&&k.startsWith("tatra."))data[k]=localStorage.getItem(k)}
+  const blob=new Blob([JSON.stringify({app:"tatra-trek",version:1,saved:new Date().toISOString(),data},null,1)],{type:"application/json"});
+  const name="tatra-trek-backup-"+new Date().toISOString().slice(0,10)+".json",file=new File([blob],name,{type:"application/json"});
+  if(navigator.canShare&&navigator.canShare({files:[file]})){try{await navigator.share({files:[file],title:"Tatra trek backup"});return}catch(e){if(e.name==="AbortError")return}}
+  const a=document.createElement("a");a.href=URL.createObjectURL(blob);a.download=name;document.body.appendChild(a);a.click();setTimeout(()=>{URL.revokeObjectURL(a.href);a.remove()},1000);
+};
+$("#bk-imp").onchange=e=>{const f=e.target.files[0];if(!f)return;f.text().then(t=>{let j;try{j=JSON.parse(t)}catch(x){toast("That isn't a backup file");return}
+  if(!j||j.app!=="tatra-trek"||!j.data){toast("That isn't a Tatra trek backup");return}
+  if(!confirm("Replace the packing list, costs and settings on this phone with the backup?"))return;
+  Object.keys(localStorage).filter(k=>k.startsWith("tatra.")&&k!=="tatra.tiles.done").forEach(k=>localStorage.removeItem(k));
+  Object.entries(j.data).forEach(([k,v])=>{if(k.startsWith("tatra.")&&k!=="tatra.tiles.done")try{localStorage.setItem(k,v)}catch(x){}});
+  location.reload()})};
+// install
+let installEvt=null;
+window.addEventListener("beforeinstallprompt",e=>{e.preventDefault();installEvt=e;$("#inst-btn").hidden=false});
+$("#inst-btn").onclick=async()=>{if(!installEvt)return;installEvt.prompt();await installEvt.userChoice.catch(()=>{});installEvt=null;$("#inst-btn").hidden=true};
+function installText(){
+  const standalone=matchMedia("(display-mode: standalone)").matches||navigator.standalone;
+  const ios=/iphone|ipad|ipod/i.test(navigator.userAgent)||(navigator.platform==="MacIntel"&&navigator.maxTouchPoints>1);
+  $("#inst").textContent=standalone?"Installed. You're using the app from your home screen, so it opens without signal.":
+    ios?"In Safari, tap the Share button, then Add to Home Screen. Open it from there so it works offline.":
+    "In Chrome, open the ⋮ menu and tap Install app or Add to Home screen. Open it from there so it works offline.";
+}
+
+/* ---------- tabs ---------- */
+function showTab(id){document.querySelectorAll(".tabs button").forEach(b=>b.setAttribute("aria-selected",b.dataset.p===id));document.querySelectorAll(".panel").forEach(p=>p.classList.toggle("on",p.id===id));if(id==="p-map")draw();if(id==="p-pack")renderPack()}
+document.querySelectorAll(".tabs button").forEach(b=>b.onclick=()=>showTab(b.dataset.p));
+
+/* ---------- start ---------- */
+if(innerHeight<900){$("#sheet").classList.add("collapsed");$("#handle").setAttribute("aria-expanded","false")}
+renderChips();renderSheet();renderPack();renderAllCosts();resetForm();
+requestAnimationFrame(()=>fitDay(active));
+if("serviceWorker" in navigator&&/^https?:$/.test(location.protocol))navigator.serviceWorker.register("sw.js").catch(()=>{});
+if(document.fonts&&document.fonts.ready)document.fonts.ready.then(draw);
+})();
+</script>
+</body>
+</html>
