@@ -1,4 +1,4 @@
-# Tatra Hut Trek
+# Hut to Hut Trek
 
 An offline web app for the four-day hut-to-hut trek from Siwa Polana to Murowaniec: trail map with GPS, SOS screen, packing list and shared trip costs. It installs to a phone's home screen and works with no signal.
 
