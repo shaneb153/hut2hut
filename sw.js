@@ -1,6 +1,6 @@
 // Tatra Hut Trek service worker: keeps the app working with no signal.
 // When you change any file, bump VERSION so phones pick up the update.
-const VERSION = "tatra-app-v1";
+const VERSION = "tatra-app-v4";
 const SHELL = [
   "./", "./index.html", "./manifest.webmanifest",
   "./icons/icon-192.png", "./icons/icon-512.png", "./icons/icon-maskable-512.png", "./icons/apple-touch-icon.png",

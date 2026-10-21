@@ -146,8 +146,9 @@ details.route summary{font-weight:600;cursor:pointer;min-height:36px;display:fle
 .cat{margin-top:16px}
 .cat h3{display:flex;justify-content:space-between;align-items:baseline;font-family:var(--cond);font-size:21px;margin:0 0 4px;border-bottom:2px solid var(--ink);padding-bottom:3px}
 .cat h3 span{font-size:16px;color:var(--ink-2);font-weight:600}
-.pitem{display:grid;grid-template-columns:32px 1fr 36px;gap:2px 6px;align-items:center;padding:6px 0;border-bottom:1px solid var(--line)}
-.pitem input[type=checkbox]{width:24px;height:24px;accent-color:var(--accent);margin:0 4px}
+.pitem{display:grid;grid-template-columns:34px 1fr 36px;gap:2px 6px;align-items:center;padding:6px 0;border-bottom:1px solid var(--line)}
+#pk-list{border-top:2px solid var(--ink)}
+.pitem input[type=checkbox]{width:26px;height:26px;accent-color:var(--accent);margin:0 4px}
 .pitem .name{width:100%;padding:7px 8px;border:1px solid transparent;border-radius:8px;background:transparent;font-size:16px;font-weight:600;min-width:0}
 .pitem.packed .name{text-decoration:line-through;color:var(--ink-2);font-weight:500}
 .pitem .name:hover,.pitem .name:focus{border-color:var(--line);background:var(--panel)}
@@ -236,12 +237,9 @@ details.route summary{font-weight:600;cursor:pointer;min-height:36px;display:fle
       <div class="scroll"><div class="wrap">
         <h1 class="pagehead">Packing list</h1>
         <p class="lede">Add what you're taking and tick things off as they go in the bag. Everything is saved on this phone.</p>
-        <div class="addbox">
-          <input class="inp" id="pk-name" placeholder="Add an item, e.g. waterproof jacket" aria-label="Item name" enterkeyhint="done">
+        <div class="addbox" style="grid-template-columns:1fr auto">
+          <input class="inp" id="pk-name" placeholder="Add an item, e.g. head torch" aria-label="Item name" enterkeyhint="done">
           <button class="btn primary" id="pk-add">Add</button>
-          <label class="full">Category
-            <select class="inp" id="pk-cat"></select>
-          </label>
         </div>
         <div id="pk-summary"></div>
         <div id="pk-list"></div>
@@ -262,7 +260,7 @@ details.route summary{font-weight:600;cursor:pointer;min-height:36px;display:fle
         <div class="addbox" style="margin-top:16px" id="c-form">
           <input class="inp" id="e-desc" placeholder="What was it, e.g. Ornak hut" aria-label="Description">
           <div class="seg" role="group" aria-label="Currency of this cost"><button id="e-pln" aria-pressed="true">zł</button><button id="e-gbp" aria-pressed="false">£</button></div>
-          <input class="inp full" id="e-amt" type="number" inputmode="decimal" min="0" step="0.01" placeholder="Amount" aria-label="Amount">
+          <input class="inp full" id="e-amt" type="number" inputmode="decimal" min="0" step="0.01" placeholder="Amount (leave empty if still TBC)" aria-label="Amount">
           <label class="full">Paid by<select class="inp" id="e-paid"></select></label>
           <label class="full">Category<select class="inp" id="e-cat"></select></label>
           <div class="full"><div style="font-size:14px;color:var(--ink-2);margin-bottom:4px">Split between</div><div class="splitchips" id="e-split"></div></div>
@@ -397,7 +395,11 @@ const mapEl=$("#map"),canvas=$("#cv"),ctx=canvas.getContext("2d");
 
 /* ---------- offline map tiles ---------- */
 const TILE_CACHE="tatra-tiles-v1",TZMIN=11,TZMAX=16;
-let tileCfg=store.get("tatra.tiles",{key:"",custom:""});
+// Paste your MapTiler key between the quote marks on the next line, so everyone who opens the app gets the map without typing it.
+const DEFAULT_KEY="XX7mSH6evVDq5GOcwcVO";
+let dl=null;
+let tileCfg=Object.assign({key:"",custom:""},store.get("tatra.tiles",{}));
+if(!tileCfg.key&&DEFAULT_KEY&&!/^PASTE_/.test(DEFAULT_KEY))tileCfg.key=DEFAULT_KEY;
 function tileTemplate(){const c=(tileCfg.custom||"").trim();if(c)return c;const k=(tileCfg.key||"").trim();return k?"https://api.maptiler.com/maps/outdoor-v2/256/{z}/{x}/{y}.png?key="+encodeURIComponent(k):""}
 const tileUrl=(z,x,y)=>tileTemplate().replace("{z}",z).replace("{x}",x).replace("{y}",y);
 const lon2x=(lon,z)=>(lon+180)/360*2**z;
@@ -575,8 +577,9 @@ function updateProgress(){
   updatePill(off?nr.dist:null,other);renderProfile();
 }
 function updatePill(offDist,other){
-  let h="";if(offDist!=null)h+=`<div class="warn" role="alert">Off route by ${fmtKm(offDist)}${other?`. Switch to Day ${other.n}?`:""}</div>`;
-  $("#pill").innerHTML=h;const w=$("#pill .warn");if(w&&other){w.style.cursor="pointer";w.onclick=()=>selectDay(other.n,false)}
+  let h="";
+  if(tileTemplate()&&!store.get("tatra.tiles.done",null)&&navigator.onLine&&!dl)h+=`<div id="dlprompt" style="cursor:pointer"><b>Save the topo map for offline use.</b> Tap here, then Download.</div>`;if(offDist!=null)h+=`<div class="warn" role="alert">Off route by ${fmtKm(offDist)}${other?`. Switch to Day ${other.n}?`:""}</div>`;
+  $("#pill").innerHTML=h;const dp=$("#dlprompt");if(dp)dp.onclick=()=>$("#setb").click();const w=$("#pill .warn");if(w&&other){w.style.cursor="pointer";w.onclick=()=>selectDay(other.n,false)}
 }
 function watchGPS(){
   if(!("geolocation" in navigator)){$("#s-gps").textContent="This browser can't share location.";return false}
@@ -634,53 +637,55 @@ const savePeople=()=>store.set("tatra.people.v2",people);
 const pname=id=>(people.find(p=>p.id===id)||{name:"Unknown"}).name;
 
 /* ---------- packing ---------- */
-const PK_CATS=["Clothing","Sleeping","Food and water","First aid and safety","Navigation and electronics","Toiletries","Documents and money","Other"];
 let pack=store.get("tatra.pack",[]);
 const savePack=()=>store.set("tatra.pack",pack);
-$("#pk-cat").innerHTML=PK_CATS.map(c=>`<option>${c}</option>`).join("");
-$("#pk-cat").value=store.get("tatra.pk.lastcat","Clothing");
+// Starter list: added once on a phone's first run. Delete or change anything you like; it won't come back.
+if(!store.get("tatra.seed.pack.v1",false)){
+  ["Backpack","Water bladder","Fleece","Warm trousers","Slippers","Cash","Sleeping bag","Toothbrush","Toiletries","Snacks","Sunglasses","Sunscreen","Good boots (don't want them falling apart)","Thermals","Rain jacket","Rain cover"]
+  .forEach(name=>pack.push({id:uid(),name,packed:false}));
+  savePack();store.set("tatra.seed.pack.v1",true);
+}
+if(pack.some(i=>i.name==="Good boots (check soles and stitching)")){pack.forEach(i=>{if(i.name==="Good boots (check soles and stitching)")i.name="Good boots (don't want them falling apart)"});savePack()}
 function addPack(){const name=$("#pk-name").value.trim();if(!name){$("#pk-name").focus();return}
-  pack.push({id:uid(),name,cat:$("#pk-cat").value,qty:1,g:null,who:"",packed:false});store.set("tatra.pk.lastcat",$("#pk-cat").value);
+  pack.push({id:uid(),name,packed:false});
   savePack();$("#pk-name").value="";renderPack();$("#pk-name").focus()}
 $("#pk-add").onclick=addPack;$("#pk-name").addEventListener("keydown",e=>{if(e.key==="Enter")addPack()});
 function renderPackSum(){
   const total=pack.length,done=pack.filter(i=>i.packed).length;
-  const grams=pack.reduce((s,i)=>s+(i.g||0)*(i.qty||1),0);
-  const byWho={};pack.forEach(i=>{if(i.who&&i.g){byWho[i.who]=(byWho[i.who]||0)+i.g*(i.qty||1)}});
-  const kg=g=>(g/1000).toFixed(1)+" kg";
-  $("#pk-summary").innerHTML=total?`<div class="summary"><div><strong>${done} of ${total}</strong><span>packed</span></div>${grams?`<div><strong>${kg(grams)}</strong><span>total weight</span></div>`:""}${Object.keys(byWho).map(w=>`<div><strong>${kg(byWho[w])}</strong><span>carried by ${esc(pname(w))}</span></div>`).join("")}</div><div class="progress"><i style="width:${total?done/total*100:0}%"></i></div>`:"";
+  $("#pk-summary").innerHTML=total?`<div class="summary"><div><strong>${done} of ${total}</strong><span>${done===total?"all packed":"packed"}</span></div></div><div class="progress"><i style="width:${done/total*100}%"></i></div>`:"";
 }
 function renderPack(){
   renderPackSum();const total=pack.length;
   if(!total){$("#pk-list").innerHTML=`<div class="empty">Your list is empty. Type an item above and press Add.</div>`;$("#pk-tools").innerHTML="";return}
-  const cats=PK_CATS.filter(c=>pack.some(i=>i.cat===c));
-  const whoOpts=w=>`<option value="">Anyone</option>`+people.map(p=>`<option value="${p.id}" ${p.id===w?"selected":""}>${esc(p.name)}</option>`).join("");
-  $("#pk-list").innerHTML=cats.map(c=>{const items=pack.filter(i=>i.cat===c);return `<section class="cat"><h3>${esc(c)}<span>${items.filter(i=>i.packed).length}/${items.length}</span></h3>
-    ${items.map(i=>`<div class="pitem ${i.packed?"packed":""}" data-id="${i.id}">
+  $("#pk-list").innerHTML=pack.map(i=>`<div class="pitem ${i.packed?"packed":""}" data-id="${i.id}">
       <input type="checkbox" ${i.packed?"checked":""} aria-label="Packed: ${esc(i.name)}" data-f="packed">
       <input class="name" value="${esc(i.name)}" aria-label="Item name" data-f="name">
-      <button class="del" aria-label="Remove ${esc(i.name)}" data-act="del">×</button>
-      <div class="pdetail"><label>Qty <input type="number" min="1" step="1" inputmode="numeric" value="${i.qty||1}" data-f="qty"></label>
-        <label><input type="number" min="0" step="10" inputmode="numeric" placeholder="–" value="${i.g??""}" data-f="g"> g</label>
-        ${people.length>1?`<label>Carried by <select data-f="who">${whoOpts(i.who)}</select></label>`:""}</div></div>`).join("")}</section>`}).join("");
+      <button class="del" aria-label="Remove ${esc(i.name)}" data-act="del">×</button></div>`).join("");
   $("#pk-tools").innerHTML=`<button class="btn" id="pk-untick">Untick everything</button><button class="btn" id="pk-share">Share list</button>`;
   $("#pk-list").querySelectorAll(".pitem").forEach(row=>{const it=pack.find(i=>i.id===row.dataset.id);
     row.querySelectorAll("[data-f]").forEach(el=>{const f=el.dataset.f;
-      el.addEventListener(f==="packed"?"change":"input",()=>{if(f==="packed"){it.packed=el.checked;savePack();renderPack();return}
-        if(f==="name")it.name=el.value;else if(f==="who")it.who=el.value;else{const v=parseFloat(el.value);it[f]=isFinite(v)?v:(f==="qty"?1:null)}savePack();if(f!=="name")renderPackSum()})});
+      el.addEventListener(f==="packed"?"change":"input",()=>{if(f==="packed"){it.packed=el.checked;savePack();renderPack();return}it.name=el.value;savePack()})});
     row.querySelector("[data-act=del]").onclick=()=>{pack=pack.filter(i=>i!==it);savePack();renderPack()}});
   $("#pk-untick").onclick=()=>{pack.forEach(i=>i.packed=false);savePack();renderPack()};
-  $("#pk-share").onclick=()=>{const t=PK_CATS.filter(c=>pack.some(i=>i.cat===c)).map(c=>c+"\n"+pack.filter(i=>i.cat===c).map(i=>`${i.packed?"[x]":"[ ]"} ${i.name}${i.qty>1?" x"+i.qty:""}${i.who?" ("+pname(i.who)+")":""}`).join("\n")).join("\n\n");
+  $("#pk-share").onclick=()=>{const t=pack.map(i=>`${i.packed?"[x]":"[ ]"} ${i.name}`).join("\n");
     if(navigator.share)navigator.share({text:"Packing list\n\n"+t}).catch(()=>{});else copy(t)};
 }
 
 /* ---------- costs ---------- */
-const EX_CATS=["Huts","Food","Transport","Park fees","Gear","Other"];
-const CAT_COL={"Huts":"#23503D","Food":"#C08A1E","Transport":"#1F5FBF","Park fees":"#7A9B3A","Gear":"#7A6F9B","Other":"#8A8F8C"};
+const EX_CATS=["Flights","Accommodation","Huts","Food","Transport","Park fees","Gear","Other"];
+const CAT_COL={"Flights":"#B5533C","Accommodation":"#2E8B8B","Huts":"#23503D","Food":"#C08A1E","Transport":"#1F5FBF","Park fees":"#7A9B3A","Gear":"#7A6F9B","Other":"#8A8F8C"};
 let exps=store.get("tatra.exps",[]),rate=store.get("tatra.rate",5.0),showCur=store.get("tatra.showcur","PLN");
 let editId=null,formCur="PLN",formSplit=null;
 const saveExps=()=>store.set("tatra.exps",exps);
-const toPLN=e=>e.cur==="GBP"?e.amt*rate:e.amt;
+// Starter costs with amounts still to be confirmed. Tap one to fill in the amount and who paid.
+if(!store.get("tatra.seed.cost.v1",false)){
+  const base=Date.now();
+  [["Flights","Flights"],["Hostels","Accommodation"],["Transport","Transport"],["Hotel","Accommodation"]].forEach(([desc,cat],i)=>exps.push({id:uid(),desc,amt:null,cur:"PLN",paid:"",split:[],all:true,cat,ts:base-i}));
+  saveExps();store.set("tatra.seed.cost.v1",true);
+}
+const toPLN=e=>e.amt==null?0:(e.cur==="GBP"?e.amt*rate:e.amt);
+const splitOf=e=>e.all?people.map(p=>p.id):e.split.filter(id=>people.some(p=>p.id===id));
+const amtStr=e=>e.amt==null?"TBC":(e.cur==="GBP"?"£"+e.amt.toFixed(2):e.amt.toFixed(2)+" zł");
 const money=v=>showCur==="GBP"?"£"+(v/rate).toLocaleString("en-GB",{minimumFractionDigits:2,maximumFractionDigits:2}):v.toLocaleString("en-GB",{minimumFractionDigits:2,maximumFractionDigits:2})+" zł";
 $("#e-cat").innerHTML=EX_CATS.map(c=>`<option>${c}</option>`).join("");
 $("#c-rate").value=rate;
@@ -692,7 +697,7 @@ function renderPeople(){
   $("#c-people").querySelectorAll("input").forEach(i=>i.oninput=()=>{people.find(p=>p.id===i.dataset.id).name=i.value||"?";savePeople();renderForm(true);renderCostSummary();renderExpList()});
   $("#c-people").querySelectorAll("[data-rm]").forEach(b=>b.onclick=()=>{const id=b.dataset.rm;
     if(people.length===1){toast("Keep at least one person");return}
-    if(exps.some(e=>e.paid===id||e.split.includes(id))){toast("This person is in some costs. Remove or edit those first.");return}
+    if(exps.some(e=>e.paid===id||(!e.all&&e.split.includes(id)))){toast("This person is in some costs. Remove or edit those first.");return}
     people=people.filter(p=>p.id!==id);pack.forEach(i=>{if(i.who===id)i.who=""});savePack();savePeople();renderAllCosts();renderPack()});
 }
 $("#c-addp").onclick=()=>{people.push({id:uid(),name:"Person "+(people.length+1)});if(!editId)formSplit=people.map(p=>p.id);savePeople();renderAllCosts();renderPack();const ins=$("#c-people").querySelectorAll("input");const l=ins[ins.length-1];l.focus();l.select()};
@@ -706,39 +711,39 @@ function renderForm(keep){
 }
 function resetForm(){editId=null;$("#e-desc").value="";$("#e-amt").value="";setFormCur("PLN");formSplit=people.map(p=>p.id);$("#e-cat").value="Other";$("#e-save").textContent="Add cost";$("#e-cancel").hidden=true;$("#e-del").hidden=true;renderForm(true)}
 $("#e-save").onclick=()=>{
-  const desc=$("#e-desc").value.trim()||"Untitled cost",amt=parseFloat($("#e-amt").value);
-  if(!(amt>0)){toast("Enter an amount");$("#e-amt").focus();return}
+  const desc=$("#e-desc").value.trim()||"Untitled cost",raw=$("#e-amt").value.trim(),amt=raw===""?null:parseFloat(raw);
+  if(amt!==null&&!(amt>0)){toast("Enter an amount, or leave it empty if it's still TBC");$("#e-amt").focus();return}
   if(!formSplit.length){toast("Choose who this cost is for");return}
-  const rec={id:editId||uid(),desc,amt,cur:formCur,paid:$("#e-paid").value,split:[...formSplit],cat:$("#e-cat").value,ts:editId?(exps.find(e=>e.id===editId)||{}).ts:Date.now()};
+  const rec={id:editId||uid(),desc,amt,cur:formCur,paid:amt===null?"":$("#e-paid").value,split:[...formSplit],all:amt===null&&formSplit.length===people.length,cat:$("#e-cat").value,ts:editId?(exps.find(e=>e.id===editId)||{}).ts:Date.now()};
   if(editId)exps=exps.map(e=>e.id===editId?rec:e);else exps.push(rec);
-  saveExps();toast(editId?"Cost updated":"Cost added");resetForm();renderCostSummary();renderExpList();
+  saveExps();toast(amt===null?"Saved as TBC":editId?"Cost updated":"Cost added");resetForm();renderCostSummary();renderExpList();
 };
 $("#e-cancel").onclick=resetForm;
 $("#e-del").onclick=()=>{exps=exps.filter(e=>e.id!==editId);saveExps();toast("Cost deleted");resetForm();renderCostSummary();renderExpList()};
-function editExp(id){const e=exps.find(x=>x.id===id);if(!e)return;editId=id;$("#e-desc").value=e.desc;$("#e-amt").value=e.amt;setFormCur(e.cur);formSplit=[...e.split];renderForm(false);$("#e-paid").value=e.paid;$("#e-cat").value=e.cat;
+function editExp(id){const e=exps.find(x=>x.id===id);if(!e)return;editId=id;$("#e-desc").value=e.desc;$("#e-amt").value=e.amt==null?"":e.amt;setFormCur(e.cur);formSplit=splitOf(e);renderForm(false);$("#e-paid").value=people.some(p=>p.id===e.paid)?e.paid:people[0].id;$("#e-cat").value=e.cat;
   $("#e-save").textContent="Save changes";$("#e-cancel").hidden=false;$("#e-del").hidden=false;$("#c-form").scrollIntoView({behavior:"smooth",block:"start"});$("#e-desc").focus()}
 function balances(){const b={};people.forEach(p=>b[p.id]={paid:0,share:0});
-  exps.forEach(e=>{const v=toPLN(e);if(b[e.paid])b[e.paid].paid+=v;const each=v/e.split.length;e.split.forEach(id=>{if(b[id])b[id].share+=each})});return b}
+  exps.forEach(e=>{if(e.amt==null)return;const v=toPLN(e),sp=splitOf(e);if(b[e.paid])b[e.paid].paid+=v;if(!sp.length)return;const each=v/sp.length;sp.forEach(id=>{if(b[id])b[id].share+=each})});return b}
 function settle(b){const cr=[],db=[];Object.entries(b).forEach(([id,v])=>{const n=Math.round((v.paid-v.share)*100)/100;if(n>0.005)cr.push([id,n]);else if(n<-0.005)db.push([id,-n])});
   cr.sort((a,c)=>c[1]-a[1]);db.sort((a,c)=>c[1]-a[1]);const out=[];let i=0,j=0;
   while(i<db.length&&j<cr.length){const x=Math.min(db[i][1],cr[j][1]);out.push([db[i][0],cr[j][0],x]);db[i][1]-=x;cr[j][1]-=x;if(db[i][1]<0.005)i++;if(cr[j][1]<0.005)j++}return out}
 function renderCostSummary(){
   if(!exps.length){$("#c-summary").innerHTML="";$("#c-tools").innerHTML="";return}
-  const total=exps.reduce((s,e)=>s+toPLN(e),0),b=balances(),moves=settle(b);
+  const total=exps.reduce((s,e)=>s+toPLN(e),0),b=balances(),moves=settle(b),tbc=exps.filter(e=>e.amt==null).length;
   const byCat=EX_CATS.map(c=>exps.filter(e=>e.cat===c).reduce((s,e)=>s+toPLN(e),0));
   $("#c-summary").innerHTML=`<div class="total">
     <div style="display:flex;justify-content:space-between;align-items:flex-start;gap:8px"><div class="big">${money(total)}</div>
     <div class="seg" role="group" aria-label="Show totals in"><button data-cur="PLN" aria-pressed="${showCur==="PLN"}">zł</button><button data-cur="GBP" aria-pressed="${showCur==="GBP"}">£</button></div></div>
-    <div class="small">Total for the trip${people.length>1?`, ${money(total/people.length)} each if split evenly`:""}</div>
-    <div class="bar">${EX_CATS.map((c,i)=>byCat[i]?`<i style="width:${byCat[i]/total*100}%;background:${CAT_COL[c]}"></i>`:"").join("")}</div>
-    <div class="keys">${EX_CATS.map((c,i)=>byCat[i]?`<span><b style="background:${CAT_COL[c]}"></b>${c} ${money(byCat[i])}</span>`:"").join("")}</div></div>
-    ${people.length>1?`<h3 class="pagehead" style="font-size:22px">Who owes whom</h3>
+    <div class="small">${tbc?`Confirmed so far. ${tbc} ${tbc===1?"cost is":"costs are"} still TBC.`:`Total for the trip${people.length>1?`, ${money(total/people.length)} each if split evenly`:""}`}</div>
+    ${total>0?`<div class="bar">${EX_CATS.map((c,i)=>byCat[i]?`<i style="width:${byCat[i]/total*100}%;background:${CAT_COL[c]}"></i>`:"").join("")}</div>
+    <div class="keys">${EX_CATS.map((c,i)=>byCat[i]?`<span><b style="background:${CAT_COL[c]}"></b>${c} ${money(byCat[i])}</span>`:"").join("")}</div>`:""}</div>
+    ${people.length>1&&total>0?`<h3 class="pagehead" style="font-size:22px">Who owes whom</h3>
     ${moves.length?`<ul class="settle">${moves.map(m=>`<li>${esc(pname(m[0]))} pays ${esc(pname(m[1]))} ${money(m[2])}</li>`).join("")}</ul>`:`<p class="sub">Everyone is square.</p>`}
     <table class="table"><thead><tr><th>Person</th><th class="num">Paid</th><th class="num">Share</th><th class="num">Balance</th></tr></thead><tbody>
     ${people.map(p=>{const v=b[p.id],bal=v.paid-v.share;return `<tr><td>${esc(p.name)}</td><td class="num">${money(v.paid)}</td><td class="num">${money(v.share)}</td><td class="num ${bal>0.005?"pos":bal<-0.005?"neg":""}">${bal>0.005?"+":""}${money(bal)}</td></tr>`}).join("")}</tbody></table>`:""}`;
   $("#c-summary").querySelectorAll("[data-cur]").forEach(x=>x.onclick=()=>{showCur=x.dataset.cur;store.set("tatra.showcur",showCur);renderCostSummary();renderExpList()});
   $("#c-tools").innerHTML=`<button class="btn" id="c-share">Share summary</button><button class="btn" id="c-clear">Clear all costs</button>`;
-  $("#c-share").onclick=()=>{const t=`Tatra trip costs\nTotal: ${money(total)}\n\n`+(moves.length?moves.map(m=>`${pname(m[0])} pays ${pname(m[1])} ${money(m[2])}`).join("\n"):"Everyone is square.")+"\n\n"+exps.map(e=>`${e.desc}: ${e.cur==="GBP"?"£"+e.amt.toFixed(2):e.amt.toFixed(2)+" zł"}, paid by ${pname(e.paid)}`).join("\n");
+  $("#c-share").onclick=()=>{const t=`Tatra trip costs\nTotal: ${money(total)}\n\n`+(moves.length?moves.map(m=>`${pname(m[0])} pays ${pname(m[1])} ${money(m[2])}`).join("\n"):"Everyone is square.")+"\n\n"+exps.map(e=>e.amt==null?`${e.desc}: TBC`:`${e.desc}: ${amtStr(e)}, paid by ${pname(e.paid)}`).join("\n");
     if(navigator.share)navigator.share({text:t}).catch(()=>{});else copy(t)};
   $("#c-clear").onclick=()=>{if(confirm("Delete every cost? This can't be undone.")){exps=[];saveExps();resetForm();renderCostSummary();renderExpList()}};
 }
@@ -746,8 +751,8 @@ function renderExpList(){
   if(!exps.length){$("#c-list").innerHTML=`<div class="empty">No costs yet. Add the first one above, for example a hut booking or bus tickets.</div>`;return}
   const list=[...exps].sort((a,b)=>(b.ts||0)-(a.ts||0));
   $("#c-list").innerHTML=`<h3 class="pagehead" style="font-size:22px;margin-top:18px">All costs</h3>`+list.map(e=>`<div class="exp" tabindex="0" role="button" data-id="${e.id}" aria-label="Edit ${esc(e.desc)}">
-    <div class="d">${esc(e.desc)}</div><div class="a">${e.cur==="GBP"?"£"+e.amt.toFixed(2):e.amt.toFixed(2)+" zł"}</div>
-    <div class="m">${esc(e.cat)}. Paid by ${esc(pname(e.paid))}, split ${e.split.length===people.length&&people.length>1?"between everyone":"with "+e.split.map(pname).map(esc).join(", ")}</div></div>`).join("");
+    <div class="d">${esc(e.desc)}</div><div class="a"${e.amt==null?' style="color:var(--ink-2)"':""}>${amtStr(e)}</div>
+    <div class="m">${e.amt==null?`${esc(e.cat)}. Amount to be confirmed. Tap to add it.`:`${esc(e.cat)}. Paid by ${esc(pname(e.paid))}, split ${splitOf(e).length===people.length&&people.length>1?"between everyone":"with "+splitOf(e).map(pname).map(esc).join(", ")}`}</div></div>`).join("");
   $("#c-list").querySelectorAll(".exp").forEach(el=>{el.onclick=()=>editExp(el.dataset.id);el.onkeydown=k=>{if(k.key==="Enter"||k.key===" "){k.preventDefault();editExp(el.dataset.id)}}});
 }
 function renderAllCosts(){renderPeople();renderForm(true);renderCostSummary();renderExpList()}
@@ -758,7 +763,7 @@ $("#setb").onclick=()=>{$("#t-key").value=tileCfg.key||"";$("#t-custom").value=t
 $("#set-close").onclick=()=>setOv.classList.remove("on");
 setOv.addEventListener("click",e=>{if(e.target===setOv)setOv.classList.remove("on")});
 document.addEventListener("keydown",e=>{if(e.key==="Escape")setOv.classList.remove("on")});
-function saveTileCfg(){tileCfg={key:$("#t-key").value.trim(),custom:$("#t-custom").value.trim()};store.set("tatra.tiles",tileCfg);TMEM.clear();draw();tileStatus()}
+function saveTileCfg(){const k=$("#t-key").value.trim();tileCfg={key:k||(/^PASTE_/.test(DEFAULT_KEY)?"":DEFAULT_KEY),custom:$("#t-custom").value.trim()};store.set("tatra.tiles",tileCfg);TMEM.clear();draw();tileStatus()}
 $("#t-key").onchange=saveTileCfg;$("#t-custom").onchange=saveTileCfg;
 const mb=b=>b>1e9?(b/1e9).toFixed(1)+" GB":Math.round(b/1e6)+" MB";
 async function tileStatus(msg){
@@ -769,7 +774,7 @@ async function tileStatus(msg){
   else if(info&&info.tpl===tileTemplate())el.textContent=`Map saved for the whole route: ${info.n.toLocaleString("en-GB")} of ${tot.toLocaleString("en-GB")} images, on ${new Date(info.when).toLocaleDateString("en-GB")}.${info.n<tot?" Some failed. Tap Download again to fill the gaps.":""}${used}`;
   else el.textContent=`Ready to download about ${tot.toLocaleString("en-GB")} map images (roughly ${Math.round(tot*22/1000)*1} MB).${used}`;
 }
-let dl=null;
+/*dl declared earlier*/
 $("#t-dl").onclick=async()=>{
   if(dl){dl.stop=true;return}
   saveTileCfg();
@@ -788,9 +793,9 @@ $("#t-dl").onclick=async()=>{
   const stopped=dl.stop;dl=null;$("#t-dl").textContent="Download map for the route";
   if(authFail>=5&&authFail===fail){tileStatus("The map provider rejected the key. Check it was copied in full, then try again.");return}
   store.set("tatra.tiles.done",{n:done-fail,when:Date.now(),tpl});TMEM.clear();draw();
-  if(stopped)tileStatus(`Download stopped after ${done.toLocaleString("en-GB")} images. Tap Download to carry on.`);else{tileStatus();toast("Map saved for offline use")}
+  updatePill();if(stopped)tileStatus(`Download stopped after ${done.toLocaleString("en-GB")} images. Tap Download to carry on.`);else{tileStatus();toast("Map saved for offline use")}
 };
-$("#t-del").onclick=async()=>{if(!confirm("Delete the saved map from this phone?"))return;try{await caches.delete(TILE_CACHE)}catch(e){}store.del("tatra.tiles.done");TMEM.clear();draw();tileStatus();toast("Saved map deleted")};
+$("#t-del").onclick=async()=>{if(!confirm("Delete the saved map from this phone?"))return;try{await caches.delete(TILE_CACHE)}catch(e){}store.del("tatra.tiles.done");TMEM.clear();draw();tileStatus();updatePill();toast("Saved map deleted")};
 // backup
 $("#bk-exp").onclick=async()=>{
   const data={};for(let i=0;i<localStorage.length;i++){const k=localStorage.key(i);if(k&&k.startsWith("tatra."))data[k]=localStorage.getItem(k)}
