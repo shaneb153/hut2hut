@@ -235,7 +235,7 @@ details.route summary{font-weight:600;cursor:pointer;min-height:36px;display:fle
     <section class="panel" id="p-pack" aria-label="Packing list">
       <div class="scroll"><div class="wrap">
         <h1 class="pagehead">Packing list</h1>
-        <p class="lede">Add what you're taking and tick things off as they go in the bag. Everything is saved on this phone.</p>
+        <p class="lede">You can add additional items to the list</p>
         <div class="addbox" style="grid-template-columns:1fr auto">
           <input class="inp" id="pk-name" placeholder="Add an item" aria-label="Item name" enterkeyhint="done">
           <button class="btn primary" id="pk-add">Add</button>
@@ -250,7 +250,7 @@ details.route summary{font-weight:600;cursor:pointer;min-height:36px;display:fle
     <section class="panel" id="p-cost" aria-label="Costs">
       <div class="scroll"><div class="wrap">
         <h1 class="pagehead">Trip costs</h1>
-        <p class="lede">Log each cost, who paid it and who it's for. The app works out who owes whom. One phone keeps the record.</p>
+        <p class="lede">Log each cost, who paid it and who it's for. The app works out who owes who. One person keeps the record.</p>
 
         <h3 class="pagehead" style="font-size:22px;margin-top:4px">People</h3>
         <div class="people" id="c-people"></div>
@@ -269,7 +269,7 @@ details.route summary{font-weight:600;cursor:pointer;min-height:36px;display:fle
         <div id="c-summary"></div>
         <div id="c-list"></div>
         <div class="row-btns" id="c-tools"></div>
-        <p class="fine">Costs entered in pounds are converted with the rate below, so balances always add up in one currency.</p>
+        <p class="fine">Costs entered in pounds are converted with the rate below, so balances add up in one currency (hopefully).</p>
         <label style="display:flex;align-items:center;gap:8px;font-size:15px">zł per £1 <input class="inp" id="c-rate" type="number" inputmode="decimal" min="0.1" step="0.01" style="width:96px"></label>
       </div></div>
     </section>
@@ -736,7 +736,7 @@ function renderCostSummary(){
     <div class="small">${tbc?`Confirmed so far. ${tbc} ${tbc===1?"cost is":"costs are"} still TBC.`:`Total for the trip${people.length>1?`, ${money(total/people.length)} each if split evenly`:""}`}</div>
     ${total>0?`<div class="bar">${EX_CATS.map((c,i)=>byCat[i]?`<i style="width:${byCat[i]/total*100}%;background:${CAT_COL[c]}"></i>`:"").join("")}</div>
     <div class="keys">${EX_CATS.map((c,i)=>byCat[i]?`<span><b style="background:${CAT_COL[c]}"></b>${c} ${money(byCat[i])}</span>`:"").join("")}</div>`:""}</div>
-    ${people.length>1&&total>0?`<h3 class="pagehead" style="font-size:22px">Who owes whom</h3>
+    ${people.length>1&&total>0?`<h3 class="pagehead" style="font-size:22px">Who owes whoo</h3>
     ${moves.length?`<ul class="settle">${moves.map(m=>`<li>${esc(pname(m[0]))} pays ${esc(pname(m[1]))} ${money(m[2])}</li>`).join("")}</ul>`:`<p class="sub">Everyone is square.</p>`}
     <table class="table"><thead><tr><th>Person</th><th class="num">Paid</th><th class="num">Share</th><th class="num">Balance</th></tr></thead><tbody>
     ${people.map(p=>{const v=b[p.id],bal=v.paid-v.share;return `<tr><td>${esc(p.name)}</td><td class="num">${money(v.paid)}</td><td class="num">${money(v.share)}</td><td class="num ${bal>0.005?"pos":bal<-0.005?"neg":""}">${bal>0.005?"+":""}${money(bal)}</td></tr>`}).join("")}</tbody></table>`:""}`;
